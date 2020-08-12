@@ -1,0 +1,30 @@
+{
+  "name": "dkargoapis",
+  "version": "1.0.0",
+  "description": "dkargo api server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dkargo",
+    "api",
+    "logistics",
+    "blockchain"
+  ],
+  "author": "jhhong",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "callsites": "^3.1.0",
+    "dotenv": "^8.2.0",
+    "ethereumjs-common": "^1.5.1",
+    "ethereumjs-tx": "^2.1.2",
+    "mongoose": "^5.9.27",
+    "web3": "^1.2.9",
+    "web3-utils": "^1.2.9",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0",
+    "xlsx": "^0.16.3"
+  }
+}
