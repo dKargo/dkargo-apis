@@ -27,6 +27,10 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
         if(params.operation != 'procSubmitOrder') {
             throw new Error('params: Invalid Operation');
         }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to SubmitOrder!`);
+            return true;
+        }
         let orders = params.data.orders;
         let count = params.data.count;
         if(orders.length != count) {
@@ -75,6 +79,10 @@ module.exports.procDeployOrder = async function(keystore, passwd, params) {
     try {
         if(params.operation != 'procDeployOrder') {
             throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to DeployOrder!`);
+            return true;
         }
         let service = params.data.service; // 서비스 컨트랙트 주소
         let orders = params.data.orders; // 주문 리스트

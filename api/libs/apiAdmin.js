@@ -9,15 +9,19 @@
  * @author jhhong
  */
 
+//// COMMON
 const colors = require('colors/safe'); // 콘솔 Color 출력
-const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
-const millisleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
-const Log = require('../../libs/libLog.js').Log; // 로그 출력
-const register = require('../../libs/libDkargoService.js').register; // register: 물류사 등록 함수
-const unregister = require('../../libs/libDkargoService.js').unregister; // unregister: 물류사 등록해제 함수
+
+//// LIBs
+const Log            = require('../../libs/libLog.js').Log; // 로그 출력
+const millisleep     = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+const register       = require('../../libs/libDkargoService.js').register; // register: 물류사 등록 함수
+const unregister     = require('../../libs/libDkargoService.js').unregister; // unregister: 물류사 등록해제 함수
 const markOrderPayed = require('../../libs/libDkargoService.js').markOrderPayed; // markOrderPayed: 주문 결제확인 표시 함수
-const settle = require('../../libs/libDkargoService.js').settle; // settle: 인센티브 정산 함수
-const deployService = require('../../libs/libDkargoService.js').deployService; // deployService: 서비스 컨트랙트 deploy 함수
+const deployService  = require('../../libs/libDkargoService.js').deployService; // deployService: 서비스 컨트랙트 deploy 함수
+
+//// WEB3
+const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
 
 /**
  * @notice 물류사를 등록한다.
@@ -31,6 +35,10 @@ module.exports.procRegister = async function(keystore, passwd, params) {
     try {
         if(params.operation != 'procRegister') {
             throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to Register!`);
+            return true;
         }
         let service = params.data.service;
         let companies = params.data.companies;
@@ -82,6 +90,10 @@ module.exports.procUnregister = async function(keystore, passwd, params) {
         if(params.operation != 'procUnregister') {
             throw new Error('params: Invalid Operation');
         }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to Unregister!`);
+            return true;
+        }
         let service = params.data.service;
         let companies = params.data.companies;
         let count = params.data.count;
@@ -122,6 +134,10 @@ module.exports.procMarkOrderPayed = async function(keystore, passwd, params) {
     try {
         if(params.operation != 'procMarkOrderPayed') {
             throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to MarkOrderPayed!`);
+            return true;
         }
         let service = params.data.service;
         let orders = params.data.orders;

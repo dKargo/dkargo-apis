@@ -4,11 +4,14 @@
  * @author jhhong
  */
 
+//// COMMON
 const colors = require('colors/safe'); // 콘솔 Color 출력
 const Log = require('../libs/libLog.js').Log; // 로그 출력
+
+//// DBs
 require('./db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
-const Work = mongoose.model('Work'); // Work schema
+const Work = mongoose.model('ApiWork'); // Work schema
 
 /**
  * @notice 물류사가 배송해야 할 배송업무 리스트를 획득한다.

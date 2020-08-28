@@ -1,6 +1,6 @@
 /**
  * @file server.js
- * @notice Express Server 메인 파일
+ * @notice Api Server Backend 메인파일 (express)
  * @author jhhong
  */
 const colors = require('colors/safe'); // 콘솔 Color 출력
@@ -31,7 +31,7 @@ let RunProc = async function() {
         }
         let port = process.argv[2];
         await app.listen(port);
-        console.log(colors.gray(`Express server has started on port [${colors.cyan(port)}]`));
+        console.log(colors.gray(`API EXPRESS SERVER HAS STARTED ON PORT [${colors.cyan(port)}]`));
         app.use(express.json());
         app.use(express.urlencoded({extended: true}));
         app.use(cors());

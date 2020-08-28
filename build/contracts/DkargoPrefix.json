@@ -15,27 +15,27 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getDkargoPrefix\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"jhhong\",\"kind\":\"dev\",\"methods\":{\"getDkargoPrefix()\":{\"returns\":{\"_0\":\"\\ub514\\uce74\\ub974\\uace0 \\ud504\\ub9ac\\ud53d\\uc2a4 (string)\"}}},\"stateVariables\":{\"_dkargoPrefix\":{\"details\":\"\\ubcc0\\uc218 \\uc120\\uc5b8\"}},\"title\":\"DkargoPrefix\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getDkargoPrefix()\":{\"notice\":\"\\ub514\\uce74\\ub974\\uace0 \\ud504\\ub9ac\\ud53d\\uc2a4\\ub97c \\ubc18\\ud658\\ud55c\\ub2e4.\"}},\"notice\":\"\\ub514\\uce74\\ub974\\uace0 \\ucee8\\ud2b8\\ub799\\ud2b8 \\uc5ec\\ubd80 \\uc2dd\\ubcc4\\uc6a9 prefix \\ucee8\\ud2b8\\ub799\\ud2b8 \\uc815\\uc758\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/temp/dkargo-scm/dkargo-scm/contracts/DkargoPrefix.sol\":\"DkargoPrefix\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/temp/dkargo-scm/dkargo-scm/contracts/DkargoPrefix.sol\":{\"keccak256\":\"0xcf26c32d98e1d06e099081cf649fe0af7ae3b4bfdcb6bee1e458a4058a063970\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9d49d3f05e530dae213890cae3d3190c0013a6b27017e1c36aadfb5c236073cd\",\"dweb:/ipfs/Qmd5Soep3Gpssr3S4hYqPzJpeMaGzsgJzgzxufhJkCnbYk\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610179806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063946edbed14610030575b600080fd5b6100386100ad565b6040805160208082528351818301528351919283929083019185019080838360005b8381101561007257818101518382015260200161005a565b50505050905090810190601f16801561009f5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60008054604080516020601f60026000196101006001881615020190951694909404938401819004810282018101909252828152606093909290918301828280156101395780601f1061010e57610100808354040283529160200191610139565b820191906000526020600020905b81548152906001019060200180831161011c57829003601f168201915b505050505090509056fea264697066735822122098c92ae9b3c480be296ac9e98860ab34cfa3fca5e5241420751bf89ae9ff8e6164736f6c63430007000033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c8063946edbed14610030575b600080fd5b6100386100ad565b6040805160208082528351818301528351919283929083019185019080838360005b8381101561007257818101518382015260200161005a565b50505050905090810190601f16801561009f5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60008054604080516020601f60026000196101006001881615020190951694909404938401819004810282018101909252828152606093909290918301828280156101395780601f1061010e57610100808354040283529160200191610139565b820191906000526020600020905b81548152906001019060200180831161011c57829003601f168201915b505050505090509056fea264697066735822122098c92ae9b3c480be296ac9e98860ab34cfa3fca5e5241420751bf89ae9ff8e6164736f6c63430007000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getDkargoPrefix\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"jhhong\",\"kind\":\"dev\",\"methods\":{\"getDkargoPrefix()\":{\"returns\":{\"_0\":\"\\ub514\\uce74\\ub974\\uace0 \\ud504\\ub9ac\\ud53d\\uc2a4 (string)\"}}},\"stateVariables\":{\"_dkargoPrefix\":{\"details\":\"\\ubcc0\\uc218 \\uc120\\uc5b8\"}},\"title\":\"DkargoPrefix\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"getDkargoPrefix()\":{\"notice\":\"\\ub514\\uce74\\ub974\\uace0 \\ud504\\ub9ac\\ud53d\\uc2a4\\ub97c \\ubc18\\ud658\\ud55c\\ub2e4.\"}},\"notice\":\"\\ub514\\uce74\\ub974\\uace0 \\ucee8\\ud2b8\\ub799\\ud2b8 \\uc5ec\\ubd80 \\uc2dd\\ubcc4\\uc6a9 prefix \\ucee8\\ud2b8\\ub799\\ud2b8 \\uc815\\uc758\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/dkargo-scm/contracts/DkargoPrefix.sol\":\"DkargoPrefix\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/dkargo-scm/contracts/DkargoPrefix.sol\":{\"keccak256\":\"0xcf26c32d98e1d06e099081cf649fe0af7ae3b4bfdcb6bee1e458a4058a063970\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9d49d3f05e530dae213890cae3d3190c0013a6b27017e1c36aadfb5c236073cd\",\"dweb:/ipfs/Qmd5Soep3Gpssr3S4hYqPzJpeMaGzsgJzgzxufhJkCnbYk\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610179806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063946edbed14610030575b600080fd5b6100386100ad565b6040805160208082528351818301528351919283929083019185019080838360005b8381101561007257818101518382015260200161005a565b50505050905090810190601f16801561009f5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60008054604080516020601f60026000196101006001881615020190951694909404938401819004810282018101909252828152606093909290918301828280156101395780601f1061010e57610100808354040283529160200191610139565b820191906000526020600020905b81548152906001019060200180831161011c57829003601f168201915b505050505090509056fea2646970667358221220a70cec18700dbf9c29c4abdd955fed9ba452fbf505493bfcf9ee8060d005444464736f6c63430007000033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c8063946edbed14610030575b600080fd5b6100386100ad565b6040805160208082528351818301528351919283929083019185019080838360005b8381101561007257818101518382015260200161005a565b50505050905090810190601f16801561009f5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60008054604080516020601f60026000196101006001881615020190951694909404938401819004810282018101909252828152606093909290918301828280156101395780601f1061010e57610100808354040283529160200191610139565b820191906000526020600020905b81548152906001019060200180831161011c57829003601f168201915b505050505090509056fea2646970667358221220a70cec18700dbf9c29c4abdd955fed9ba452fbf505493bfcf9ee8060d005444464736f6c63430007000033",
   "immutableReferences": {},
   "sourceMap": "183:538:3:-:0;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "183:538:3:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;414:99;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;493:13;486:20;;;;;;;;-1:-1:-1;;486:20:3;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;461:13;;486:20;;493:13;;486:20;;493:13;486:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;414:99;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.0;\n\n/// @title DkargoPrefix\n/// @notice 디카르고 컨트랙트 여부 식별용 prefix 컨트랙트 정의\n/// @author jhhong\ncontract DkargoPrefix {\n\n    /// @dev 변수 선언\n    string internal _dkargoPrefix; // 디카르고-프리픽스\n\n    /// @notice 디카르고 프리픽스를 반환한다.\n    /// @return 디카르고 프리픽스 (string)\n    function getDkargoPrefix() public view returns(string memory) {\n        return _dkargoPrefix;\n    }\n\n    /// @notice 디카르고 프리픽스를 설정한다.\n    /// @param prefix 설정할 프리픽스\n    function _setDkargoPrefix(string memory prefix) internal {\n        _dkargoPrefix = prefix;\n    }\n}",
-  "sourcePath": "/home/jhhong/work/temp/dkargo-scm/dkargo-scm/contracts/DkargoPrefix.sol",
+  "sourcePath": "/home/jhhong/work/dkargo-scm/contracts/DkargoPrefix.sol",
   "ast": {
-    "absolutePath": "/home/jhhong/work/temp/dkargo-scm/dkargo-scm/contracts/DkargoPrefix.sol",
+    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/DkargoPrefix.sol",
     "exportedSymbols": {
       "DkargoPrefix": [
-        1570
+        1578
       ]
     },
-    "id": 1571,
+    "id": 1579,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1545,
+        "id": 1553,
         "literals": [
           "solidity",
           ">=",
@@ -51,15 +51,15 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 1546,
+          "id": 1554,
           "nodeType": "StructuredDocumentation",
           "src": "58:125:3",
           "text": "@title DkargoPrefix\n @notice 디카르고 컨트랙트 여부 식별용 prefix 컨트랙트 정의\n @author jhhong"
         },
         "fullyImplemented": true,
-        "id": 1570,
+        "id": 1578,
         "linearizedBaseContracts": [
-          1570
+          1578
         ],
         "name": "DkargoPrefix",
         "nodeType": "ContractDefinition",
@@ -67,17 +67,17 @@
           {
             "constant": false,
             "documentation": {
-              "id": 1547,
+              "id": 1555,
               "nodeType": "StructuredDocumentation",
               "src": "212:22:3",
               "text": "@dev 변수 선언"
             },
-            "id": 1549,
+            "id": 1557,
             "mutability": "mutable",
             "name": "_dkargoPrefix",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 1570,
+            "scope": 1578,
             "src": "239:29:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -86,7 +86,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 1548,
+              "id": 1556,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "239:6:3",
@@ -100,39 +100,39 @@
           },
           {
             "body": {
-              "id": 1557,
+              "id": 1565,
               "nodeType": "Block",
               "src": "476:37:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1555,
+                    "id": 1563,
                     "name": "_dkargoPrefix",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1549,
+                    "referencedDeclaration": 1557,
                     "src": "493:13:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "functionReturnParameters": 1554,
-                  "id": 1556,
+                  "functionReturnParameters": 1562,
+                  "id": 1564,
                   "nodeType": "Return",
                   "src": "486:20:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1550,
+              "id": 1558,
               "nodeType": "StructuredDocumentation",
               "src": "304:105:3",
               "text": "@notice 디카르고 프리픽스를 반환한다.\n @return 디카르고 프리픽스 (string)"
             },
             "functionSelector": "946edbed",
-            "id": 1558,
+            "id": 1566,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -140,23 +140,23 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1551,
+              "id": 1559,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "438:2:3"
             },
             "returnParameters": {
-              "id": 1554,
+              "id": 1562,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1553,
+                  "id": 1561,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1558,
+                  "scope": 1566,
                   "src": "461:13:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -165,7 +165,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1552,
+                    "id": 1560,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "461:6:3",
@@ -180,7 +180,7 @@
               ],
               "src": "460:15:3"
             },
-            "scope": 1570,
+            "scope": 1578,
             "src": "414:99:3",
             "stateMutability": "view",
             "virtual": false,
@@ -188,25 +188,25 @@
           },
           {
             "body": {
-              "id": 1568,
+              "id": 1576,
               "nodeType": "Block",
               "src": "680:39:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1566,
+                    "id": 1574,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1564,
+                      "id": 1572,
                       "name": "_dkargoPrefix",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1549,
+                      "referencedDeclaration": 1557,
                       "src": "690:13:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
@@ -217,11 +217,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 1565,
+                      "id": 1573,
                       "name": "prefix",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1561,
+                      "referencedDeclaration": 1569,
                       "src": "706:6:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
@@ -234,19 +234,19 @@
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 1567,
+                  "id": 1575,
                   "nodeType": "ExpressionStatement",
                   "src": "690:22:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1559,
+              "id": 1567,
               "nodeType": "StructuredDocumentation",
               "src": "519:99:3",
               "text": "@notice 디카르고 프리픽스를 설정한다.\n @param prefix 설정할 프리픽스"
             },
-            "id": 1569,
+            "id": 1577,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -254,17 +254,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1562,
+              "id": 1570,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1561,
+                  "id": 1569,
                   "mutability": "mutable",
                   "name": "prefix",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1569,
+                  "scope": 1577,
                   "src": "649:20:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -273,7 +273,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1560,
+                    "id": 1568,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "649:6:3",
@@ -289,37 +289,37 @@
               "src": "648:22:3"
             },
             "returnParameters": {
-              "id": 1563,
+              "id": 1571,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "680:0:3"
             },
-            "scope": 1570,
+            "scope": 1578,
             "src": "623:96:3",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           }
         ],
-        "scope": 1571,
+        "scope": 1579,
         "src": "183:538:3"
       }
     ],
     "src": "32:689:3"
   },
   "legacyAST": {
-    "absolutePath": "/home/jhhong/work/temp/dkargo-scm/dkargo-scm/contracts/DkargoPrefix.sol",
+    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/DkargoPrefix.sol",
     "exportedSymbols": {
       "DkargoPrefix": [
-        1570
+        1578
       ]
     },
-    "id": 1571,
+    "id": 1579,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1545,
+        "id": 1553,
         "literals": [
           "solidity",
           ">=",
@@ -335,15 +335,15 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 1546,
+          "id": 1554,
           "nodeType": "StructuredDocumentation",
           "src": "58:125:3",
           "text": "@title DkargoPrefix\n @notice 디카르고 컨트랙트 여부 식별용 prefix 컨트랙트 정의\n @author jhhong"
         },
         "fullyImplemented": true,
-        "id": 1570,
+        "id": 1578,
         "linearizedBaseContracts": [
-          1570
+          1578
         ],
         "name": "DkargoPrefix",
         "nodeType": "ContractDefinition",
@@ -351,17 +351,17 @@
           {
             "constant": false,
             "documentation": {
-              "id": 1547,
+              "id": 1555,
               "nodeType": "StructuredDocumentation",
               "src": "212:22:3",
               "text": "@dev 변수 선언"
             },
-            "id": 1549,
+            "id": 1557,
             "mutability": "mutable",
             "name": "_dkargoPrefix",
             "nodeType": "VariableDeclaration",
             "overrides": null,
-            "scope": 1570,
+            "scope": 1578,
             "src": "239:29:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -370,7 +370,7 @@
               "typeString": "string"
             },
             "typeName": {
-              "id": 1548,
+              "id": 1556,
               "name": "string",
               "nodeType": "ElementaryTypeName",
               "src": "239:6:3",
@@ -384,39 +384,39 @@
           },
           {
             "body": {
-              "id": 1557,
+              "id": 1565,
               "nodeType": "Block",
               "src": "476:37:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1555,
+                    "id": 1563,
                     "name": "_dkargoPrefix",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1549,
+                    "referencedDeclaration": 1557,
                     "src": "493:13:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_string_storage",
                       "typeString": "string storage ref"
                     }
                   },
-                  "functionReturnParameters": 1554,
-                  "id": 1556,
+                  "functionReturnParameters": 1562,
+                  "id": 1564,
                   "nodeType": "Return",
                   "src": "486:20:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1550,
+              "id": 1558,
               "nodeType": "StructuredDocumentation",
               "src": "304:105:3",
               "text": "@notice 디카르고 프리픽스를 반환한다.\n @return 디카르고 프리픽스 (string)"
             },
             "functionSelector": "946edbed",
-            "id": 1558,
+            "id": 1566,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -424,23 +424,23 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1551,
+              "id": 1559,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "438:2:3"
             },
             "returnParameters": {
-              "id": 1554,
+              "id": 1562,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1553,
+                  "id": 1561,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1558,
+                  "scope": 1566,
                   "src": "461:13:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -449,7 +449,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1552,
+                    "id": 1560,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "461:6:3",
@@ -464,7 +464,7 @@
               ],
               "src": "460:15:3"
             },
-            "scope": 1570,
+            "scope": 1578,
             "src": "414:99:3",
             "stateMutability": "view",
             "virtual": false,
@@ -472,25 +472,25 @@
           },
           {
             "body": {
-              "id": 1568,
+              "id": 1576,
               "nodeType": "Block",
               "src": "680:39:3",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 1566,
+                    "id": 1574,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 1564,
+                      "id": 1572,
                       "name": "_dkargoPrefix",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1549,
+                      "referencedDeclaration": 1557,
                       "src": "690:13:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_storage",
@@ -501,11 +501,11 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 1565,
+                      "id": 1573,
                       "name": "prefix",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1561,
+                      "referencedDeclaration": 1569,
                       "src": "706:6:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_string_memory_ptr",
@@ -518,19 +518,19 @@
                       "typeString": "string storage ref"
                     }
                   },
-                  "id": 1567,
+                  "id": 1575,
                   "nodeType": "ExpressionStatement",
                   "src": "690:22:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1559,
+              "id": 1567,
               "nodeType": "StructuredDocumentation",
               "src": "519:99:3",
               "text": "@notice 디카르고 프리픽스를 설정한다.\n @param prefix 설정할 프리픽스"
             },
-            "id": 1569,
+            "id": 1577,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -538,17 +538,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 1562,
+              "id": 1570,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1561,
+                  "id": 1569,
                   "mutability": "mutable",
                   "name": "prefix",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 1569,
+                  "scope": 1577,
                   "src": "649:20:3",
                   "stateVariable": false,
                   "storageLocation": "memory",
@@ -557,7 +557,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 1560,
+                    "id": 1568,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "649:6:3",
@@ -573,19 +573,19 @@
               "src": "648:22:3"
             },
             "returnParameters": {
-              "id": 1563,
+              "id": 1571,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "680:0:3"
             },
-            "scope": 1570,
+            "scope": 1578,
             "src": "623:96:3",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "internal"
           }
         ],
-        "scope": 1571,
+        "scope": 1579,
         "src": "183:538:3"
       }
     ],
@@ -596,8 +596,8 @@
     "version": "0.7.0+commit.9e61f92b.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.3",
-  "updatedAt": "2020-08-11T09:28:47.281Z",
+  "schemaVersion": "3.2.2",
+  "updatedAt": "2020-08-21T02:35:18.790Z",
   "devdoc": {
     "author": "jhhong",
     "kind": "dev",

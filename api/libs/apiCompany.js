@@ -33,6 +33,10 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
         if(params.operation != 'procLaunch') {
             throw new Error('params: Invalid Operation');
         }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to Launch!`);
+            return true;
+        }
         let company = params.data.company;
         let orders = params.data.orders;
         let count = params.data.count;
@@ -83,6 +87,10 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
     try {
         if(params.operation != 'procUpdateOrder') {
             throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to UpdateOrder!`);
+            return true;
         }
         let company = params.data.company;
         let orders = params.data.orders;
@@ -159,6 +167,10 @@ module.exports.procDeployCompany = async function(keystore, passwd, params) {
     try {
         if(params.operation != 'procDeployCompany') {
             throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to DeployCompany!`);
+            return true;
         }
         let service = params.data.service;
         let name = params.data.name;
