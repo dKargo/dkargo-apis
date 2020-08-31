@@ -1,7 +1,5 @@
 .env
 package-lock.json
-api/demo
-api/docs
 libs/exams
 log
 node_modules
