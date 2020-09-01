@@ -1,0 +1,23 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:        dkargo api server
+# Required-Start:  $network
+# Required-Stop:   $network
+# Default-Start:   2 3 4 5
+# Default-Stop:    0 1 6
+# Short-Description: Start/Stop dkargo api server
+### END INIT INFO
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+case "$1" in
+        start)
+                sh /home/dkargo/dkargo-apis/services/start.sh
+        ;;
+        stop)
+                sh /home/dkargo/dkargo-apis/services/stop.sh
+        ;;
+        *)
+                echo "Usage {start|stop}"
+        exit 1
+        ;;
+esac
+exit 0
