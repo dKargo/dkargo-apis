@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "description": "dkargo api server",
   "main": "index.js",
+  "config": {
+    "apiport": "10001",
+    "service": "0x75Bcc537fe91bfEdacFf68ab4bFF4924CcF24AAf",
+    "servicestart": "13401"
+  },
   "scripts": {
+    "start-apis": "node api/server.js $npm_package_config_apiport",
+    "start-mon": "node api/eventMonitor.js $npm_package_config_service $npm_package_config_servicestart",
+    "start": "npx concurrently \"npm run start-apis\" \"npm run start-mon\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,6 +25,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "callsites": "^3.1.0",
+    "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "ethereumjs-common": "^1.5.1",
     "ethereumjs-tx": "^2.1.2",
