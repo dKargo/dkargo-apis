@@ -1,5 +1,5 @@
 /**
- * @file apiToken.js
+ * @file libApiToken.js
  * @notice 토큰 API 정의
  * @dev 토큰 Action
  * - 송금 (transfer)
@@ -24,7 +24,7 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 토큰을 송금한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procTransfer.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procTransfer.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -79,7 +79,7 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
  * @notice 토큰 컨트랙트 디플로이를 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procDeployToken.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procDeployToken.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */

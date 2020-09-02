@@ -1,5 +1,5 @@
 /**
- * @file apiOrder.js
+ * @file libApiOrder.js
  * @notice 주문 API 정의
  * @dev 화주 Action
  * - 주문 생성 (주문 컨트랙트 deploy)
@@ -18,7 +18,7 @@ const deployOrder = require('../../libs/libDkargoOrder.js').deployOrder; // depl
  * @notice 주문을 요청한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procSubmitOrder.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procSubmitOrder.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -71,7 +71,7 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
  * @notice 주문 컨트랙트 디플로이를 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procDeployOrder.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procDeployOrder.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */

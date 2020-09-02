@@ -1,5 +1,5 @@
 /**
- * @file apiAdmin.js
+ * @file libApiAdmin.js
  * @notice 관리자 API 정의
  * @dev 관리자 Action
  * - 물류사 등록 (staking 시나리오에 따라 없어질 수 있음)
@@ -27,7 +27,7 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 물류사를 등록한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procRegister.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procRegister.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -81,7 +81,7 @@ module.exports.procRegister = async function(keystore, passwd, params) {
  * @notice 물류사를 등록해제한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procUnregister.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procUnregister.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -126,7 +126,7 @@ module.exports.procUnregister = async function(keystore, passwd, params) {
  * @notice 결제된 주문리스트들을 "결제됨"으로 표시한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procMarkOrderPayed.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procMarkOrderPayed.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -180,7 +180,7 @@ module.exports.procMarkOrderPayed = async function(keystore, passwd, params) {
  * @notice 인센티브를 정산한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procSettlement.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procSettlement.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */

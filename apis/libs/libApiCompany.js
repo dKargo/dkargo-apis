@@ -1,5 +1,5 @@
 /**
- * @file apiCompany.js
+ * @file libApiCompany.js
  * @notice 물류사 API 정의
  * @dev 물류사 Action
  * - 주문 접수
@@ -24,7 +24,7 @@ const deployCompany = require('../../libs/libDkargoCompany.js').deployCompany; /
  * @notice 주문을 접수한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procLaunch.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procLaunch.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -79,7 +79,7 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
  * @notice 주문 상태갱신을 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procUpdateOrder.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procUpdateOrder.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -135,7 +135,7 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
  * @notice 관리자를 추가한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procAddOperator.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procAddOperator.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -147,7 +147,7 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
  * @notice 관리자에서 제거한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procRemoveOperator.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procRemoveOperator.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -159,7 +159,7 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
  * @notice 물류사 컨트랙트 deploy를 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/api/docs/protocols/procDeployCompany.json )
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procDeployCompany.json )
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
