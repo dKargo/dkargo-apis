@@ -368,7 +368,7 @@ module.exports.setUrl = async function(ca, cmder, privkey, url, nonce) {
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.setRecipient = async function(ca, privkey, recipient, nonce) {
+module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonce) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.setRecipient(recipient).estimateGas({from: cmder});
