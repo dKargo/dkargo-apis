@@ -33,7 +33,7 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
         if(params.operation != 'procTransfer') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to Transfer!`);
             return true;
         }
@@ -61,7 +61,7 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -85,7 +85,7 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
  */
 module.exports.procDeployToken = async function(keystore, passwd, params) {
     try {
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to DeployToken!`);
             return true;
         }

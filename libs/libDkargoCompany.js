@@ -319,8 +319,7 @@ module.exports.setName = async function(ca, cmder, privkey, name, nonce) {
         let action = `Action: setName
         - [CA]:    [${ca}],
         - [cmder]: [${cmder}],
-        - [order]: [${order}],
-        - [code]:  [${code}],
+        - [order]: [${name}],
         - [nonce]: [${nonce}]`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return null;
@@ -350,8 +349,7 @@ module.exports.setUrl = async function(ca, cmder, privkey, url, nonce) {
         let action = `Action: setUrl
         - [CA]:    [${ca}],
         - [cmder]: [${cmder}],
-        - [order]: [${order}],
-        - [code]:  [${code}],
+        - [order]: [${url}],
         - [nonce]: [${nonce}]`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return null;
@@ -381,8 +379,7 @@ module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonc
         let action = `Action: setRecipient
         - [CA]:    [${ca}],
         - [cmder]: [${cmder}],
-        - [order]: [${order}],
-        - [code]:  [${code}],
+        - [order]: [${recipient}],
         - [nonce]: [${nonce}]`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return null;

@@ -32,7 +32,7 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
         if(params.operation != 'procSubmitOrder') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to SubmitOrder!`);
             return true;
         }
@@ -58,7 +58,7 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -85,7 +85,7 @@ module.exports.procDeployOrder = async function(keystore, passwd, params) {
         if(params.operation != 'procDeployOrder') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to DeployOrder!`);
             return true;
         }
@@ -127,7 +127,7 @@ module.exports.procDeployOrder = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {

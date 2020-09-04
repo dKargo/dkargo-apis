@@ -36,7 +36,7 @@ module.exports.procRegister = async function(keystore, passwd, params) {
         if(params.operation != 'procRegister') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to Register!`);
             return true;
         }
@@ -63,7 +63,7 @@ module.exports.procRegister = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -90,7 +90,7 @@ module.exports.procUnregister = async function(keystore, passwd, params) {
         if(params.operation != 'procUnregister') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to Unregister!`);
             return true;
         }
@@ -135,7 +135,7 @@ module.exports.procMarkOrderPayed = async function(keystore, passwd, params) {
         if(params.operation != 'procMarkOrderPayed') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to MarkOrderPayed!`);
             return true;
         }
@@ -162,7 +162,7 @@ module.exports.procMarkOrderPayed = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {

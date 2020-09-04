@@ -20,6 +20,9 @@ const launch         = require('../../libs/libDkargoCompany.js').launch; // laun
 const updateOrder    = require('../../libs/libDkargoCompany.js').updateOrderCode; // updateOrder: 주문 상태갱신 함수
 const addOperator    = require('../../libs/libDkargoCompany.js').addOperator; // addOperator: 관리자 등록 함수
 const removeOperator = require('../../libs/libDkargoCompany.js').removeOperator; // removeOperator: 관리자 등록해제 함수
+const setName        = require('../../libs/libDkargoCompany.js').setName; // setName: 물류사 이름 설정 함수
+const setUrl         = require('../../libs/libDkargoCompany.js').setUrl; // setUrl: 물류사 URL 설정 함수
+const setRecipient   = require('../../libs/libDkargoCompany.js').setRecipient; // setRecipient: 물류사 수취인주소 설정 함수
 const deployCompany  = require('../../libs/libDkargoCompany.js').deployCompany; // deployCompany: 물류사 컨트랙트 deploy 함수
 
 //// WEB3
@@ -38,7 +41,7 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
         if(params.operation != 'procLaunch') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to Launch!`);
             return true;
         }
@@ -66,7 +69,7 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -93,7 +96,7 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
         if(params.operation != 'procUpdateOrder') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to UpdateOrder!`);
             return true;
         }
@@ -122,7 +125,7 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -149,7 +152,7 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
         if(params.operation != 'procAddOperator') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to AddOperator!`);
             return true;
         }
@@ -176,7 +179,7 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -203,7 +206,7 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
         if(params.operation != 'procRemoveOperator') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to RemoveOperator!`);
             return true;
         }
@@ -230,7 +233,7 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
             });
             promises.push(promise);
         }
-        Promise.all(promises).then(async (data) => {
+        Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
@@ -239,6 +242,83 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
         return true;
     } catch(error) {
         let action = `Action: procRemoveOperator`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        return false;
+    }
+}
+
+/**
+ * @notice 물류사의 부가정보들을 설정한다.
+ * @dev 부가정보: 물류사 이름 / 물류사 URL / 물류사 수취인주소
+ * @param {string} keystore keystore object(json format)
+ * @param {string} passwd keystore password
+ * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procSetCompanyName.json )
+ * @return bool (true: 정상처리 / false: 비정상수행)
+ * @author jhhong
+ */
+module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
+    try {
+        if(params.operation != 'procSetCompanyInfo') {
+            throw new Error('params: Invalid Operation');
+        }
+        if(params.data == undefined || params.data == null || params.data == 'none') {
+            Log('WARN', `Not found Data to procSetCompanyInfo!`);
+            return true;
+        }
+        let company = params.data.company;
+        let name = params.data.name;
+        let url = params.data.url;
+        let recipient = params.data.recipient;
+        let account = await web3.eth.accounts.decrypt(keystore, passwd);
+        let cmder = account.address;
+        let privkey = account.privateKey.split('0x')[1];
+        let nonce = await web3.eth.getTransactionCount(cmder);
+        let promises = new Array();
+        let alldone = false;
+        if(name != undefined) {
+            let promise = setName(company, cmder, privkey, name, nonce).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == transaction hash
+                    let action = `SET-NAME done!\n` +
+                    `- [NAME]:   [${colors.blue(name)}],\n` +
+                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+            nonce++;
+        }
+        if(url != undefined) {
+            let promise = setUrl(company, cmder, privkey, url, nonce).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == transaction hash
+                    let action = `SET-URL done!\n` +
+                    `- [URL]:    [${colors.blue(url)}],\n` +
+                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+            nonce++;
+        }
+        if(recipient != undefined) {
+            let promise = setRecipient(company, cmder, privkey, recipient, nonce).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == transaction hash
+                    let action = `SET-RECIPIENT done!\n` +
+                    `- [RECIPIENT]: [${colors.blue(recipient)}],\n` +
+                    `=>[TXHASH]:    [${colors.green(ret)}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+        }
+        Promise.all(promises).then(async () => {
+            alldone = true;
+        });
+        while(alldone == false) {
+            await millisleep(100);
+        }
+        return true;
+    } catch(error) {
+        let action = `Action: procSetCompanyInfo`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -257,7 +337,7 @@ module.exports.procDeployCompany = async function(keystore, passwd, params) {
         if(params.operation != 'procDeployCompany') {
             throw new Error('params: Invalid Operation');
         }
-        if(params.data == 'none') {
+        if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to DeployCompany!`);
             return true;
         }
