@@ -7,12 +7,17 @@
  * @author jhhong
  */
 
+//// COMMON
 const colors = require('colors/safe'); // 콘솔 Color 출력
-const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
-const millisleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
-const Log = require('../../libs/libLog.js').Log; // 로그 출력
+
+//// LIBs
+const Log         = require('../../libs/libLog.js').Log; // 로그 출력
+const millisleep  = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 const submitOrder = require('../../libs/libDkargoOrder.js').submitOrderCreate; // launch: 주문 요청 함수
 const deployOrder = require('../../libs/libDkargoOrder.js').deployOrder; // deployOrder: 주문 컨트랙트 deploy 함수
+
+//// WEB3
+const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
 
 /**
  * @notice 주문을 요청한다.

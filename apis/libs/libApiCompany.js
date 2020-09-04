@@ -10,15 +10,20 @@
  * @author jhhong
  */
 
+//// COMMON
 const colors = require('colors/safe'); // 콘솔 Color 출력
-const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
-const millisleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
-const Log = require('../../libs/libLog.js').Log; // 로그 출력
-const launch = require('../../libs/libDkargoCompany.js').launch; // launch: 주문 접수 함수
-const updateOrder = require('../../libs/libDkargoCompany.js').updateOrderCode; // updateOrder: 주문 상태갱신 함수
-const addOperator = require('../../libs/libDkargoCompany.js').addOperator; // addOperator: 관리자 등록 함수
+
+//// LIBs
+const Log            = require('../../libs/libLog.js').Log; // 로그 출력
+const millisleep     = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+const launch         = require('../../libs/libDkargoCompany.js').launch; // launch: 주문 접수 함수
+const updateOrder    = require('../../libs/libDkargoCompany.js').updateOrderCode; // updateOrder: 주문 상태갱신 함수
+const addOperator    = require('../../libs/libDkargoCompany.js').addOperator; // addOperator: 관리자 등록 함수
 const removeOperator = require('../../libs/libDkargoCompany.js').removeOperator; // removeOperator: 관리자 등록해제 함수
-const deployCompany = require('../../libs/libDkargoCompany.js').deployCompany; // deployCompany: 물류사 컨트랙트 deploy 함수
+const deployCompany  = require('../../libs/libDkargoCompany.js').deployCompany; // deployCompany: 물류사 컨트랙트 deploy 함수
+
+//// WEB3
+const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
 
 /**
  * @notice 주문을 접수한다.
@@ -140,7 +145,49 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
  * @author jhhong
  */
 module.exports.procAddOperator = async function(keystore, passwd, params) {
-    /* not implement */
+    try {
+        if(params.operation != 'procAddOperator') {
+            throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to AddOperator!`);
+            return true;
+        }
+        let company = params.data.company;
+        let operators = params.data.operators;
+        let count = params.data.count;
+        if(operators.length != count) {
+            throw new Error('params: Invalid Data: Count');
+        }
+        let account = await web3.eth.accounts.decrypt(keystore, passwd);
+        let cmder = account.address;
+        let privkey = account.privateKey.split('0x')[1];
+        let nonce = await web3.eth.getTransactionCount(cmder);
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
+        let alldone = false;
+        for(let i = 0; i < count; i++, nonce++) {
+            let promise = addOperator(company, cmder, privkey, operators[i].addr, nonce).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == transaction hash
+                    let action = `ADD-OPERATOR done!\n` +
+                    `- [ADDRESS]: [${colors.blue(operators[i].addr)}],\n` +
+                    `=>[TXHASH]:  [${colors.green(ret)}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+        }
+        Promise.all(promises).then(async (data) => {
+            alldone = true;
+        });
+        while(alldone == false) {
+            await millisleep(100);
+        }
+        return true;
+    } catch(error) {
+        let action = `Action: procAddOperator`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        return false;
+    }
 }
 
 /**
@@ -152,7 +199,49 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
  * @author jhhong
  */
 module.exports.procRemoveOperator = async function(keystore, passwd, params) {
-    /* not implement */
+    try {
+        if(params.operation != 'procRemoveOperator') {
+            throw new Error('params: Invalid Operation');
+        }
+        if(params.data == 'none') {
+            Log('WARN', `Not found Data to RemoveOperator!`);
+            return true;
+        }
+        let company = params.data.company;
+        let operators = params.data.operators;
+        let count = params.data.count;
+        if(operators.length != count) {
+            throw new Error('params: Invalid Data: Count');
+        }
+        let account = await web3.eth.accounts.decrypt(keystore, passwd);
+        let cmder = account.address;
+        let privkey = account.privateKey.split('0x')[1];
+        let nonce = await web3.eth.getTransactionCount(cmder);
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
+        let alldone = false;
+        for(let i = 0; i < count; i++, nonce++) {
+            let promise = removeOperator(company, cmder, privkey, operators[i].addr, nonce).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == transaction hash
+                    let action = `REMOVE-OPERATOR done!\n` +
+                    `- [ADDRESS]: [${colors.blue(operators[i].addr)}],\n` +
+                    `=>[TXHASH]:  [${colors.green(ret)}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+        }
+        Promise.all(promises).then(async (data) => {
+            alldone = true;
+        });
+        while(alldone == false) {
+            await millisleep(100);
+        }
+        return true;
+    } catch(error) {
+        let action = `Action: procRemoveOperator`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        return false;
+    }
 }
 
 /**
