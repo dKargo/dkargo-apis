@@ -1,0 +1,9 @@
+{
+    "operation": "procDeployCompany",
+    "data": {
+        "name": "Deleo Korea",
+        "url": "https://dkargo.io/companies/Deleo",
+        "recipient": "0xad06ccc595454e0896c55a44bf6ae558eb00553e",
+        "service": "0x245FDCbCaA8dDaf8Dc859f61Bba0D93Fd605f69b"
+    }
+}

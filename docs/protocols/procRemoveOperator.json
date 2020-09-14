@@ -1,0 +1,24 @@
+{
+    "operation": "procRemoveOperator",
+    "data": {
+        "company": "0x245FDCbCaA8dDaf8Dc859f61Bba0D93Fd605f69b",
+        "count": "5",
+        "operators": [
+            {
+                "addr": "0x319ED1060C4fD3F67705F5466A5EC6ad076e0A8b"
+            },
+            {
+                "addr": "0x3f6900D6e1FeAaa1a19C6cb3c72c919D88E9c1FE"
+            },
+            {
+                "addr": "0xE5F4D57bE55fE1F03c76Cf1d7cbC38b4516967C8"
+            },
+            {
+                "addr": "0xfE585332581Df55BFA6f5640FE175F83aB79d003"
+            },
+            {
+                "addr": "0x014a797BAa9Cebf3836858E57a0613243014E646"
+            }
+        ]
+    }
+}

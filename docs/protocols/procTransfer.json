@@ -1,0 +1,21 @@
+{
+    "operation": "procTransfer",
+    "data": {
+        "token": "0x245FDCbCaA8dDaf8Dc859f61Bba0D93Fd605f69b",
+        "count": "3",
+        "remittances": [
+            {
+                "addr": "0x319ED1060C4fD3F67705F5466A5EC6ad076e0A8b",
+                "amount": "1000000000000000000"
+            },
+            {
+                "addr": "0x3f6900D6e1FeAaa1a19C6cb3c72c919D88E9c1FE",
+                "amount": "1000000000000000000"
+            },
+            {
+                "addr": "0xad06ccc595454e0896c55a44bf6ae558eb00553e",
+                "amount": "1000000000000000000"
+            }
+        ]
+    }
+}

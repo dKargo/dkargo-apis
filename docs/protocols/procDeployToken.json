@@ -1,0 +1,8 @@
+{
+    "operation": "procDeployToken",
+    "data": {
+        "name": "dKargo",
+        "symbol": "DKA",
+        "supply": "5000000000000000000000000000"
+    }
+}

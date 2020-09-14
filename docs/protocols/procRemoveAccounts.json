@@ -1,0 +1,52 @@
+{
+    "operation": "procRemoveAccounts",
+    "data": {
+        "count": "11",
+        "accounts": [
+            {
+                "addr": "0xad06ccc595454e0896c55a44bf6ae558eb00553e",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0xbf8d8d68d4417722cc3e3fc002aead9854f2d8bd",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0x90dc788b9ead75c1375918a64643c3bc0189fd03",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0x1cf195c03602540666179d7ed7315a85b520c5ea",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0xc9ac3dd4b87176e4566423def249bdfd9f17c043",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0x35023bf223c4cfd383c1bd61068fe92ef78a6720",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0x2e66656f0c6e1b78d98ffa49232117476b1efd70",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0x5a750fde3a2bc7559d8926c532642866a0f7e267",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0x7d2a5a31a35d49a25b684a00d68fd84eef837bef",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0xb29c798c2126d04c2ce02b95e8ed8760e3724409",
+                "passwd": "dkargo123!"
+            },
+            {
+                "addr": "0xde4e3c3164386845c40050fa7a0d9ee4a0ca81c7",
+                "passwd": "dkargo123!"
+            }
+        ]
+    }
+}
