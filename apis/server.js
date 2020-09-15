@@ -3,10 +3,15 @@
  * @notice Api Server Backend 메인파일 (express)
  * @author jhhong
  */
-const colors = require('colors/safe'); // 콘솔 Color 출력
+
+//// COMMON
+const colors  = require('colors/safe'); // 콘솔 Color 출력
 const express = require('express'); // express 패키지
-const app = express(); // express Object
-const cors = require('cors'); // CORS 관리 패키지
+const app     = express(); // express Object
+const cors    = require('cors'); // CORS 관리 패키지
+
+//// LOGs
+const initLog = require('../libs/libLog.js').initLog; // 로그 초기화 함수 (winston)
 
 /**
  * @notice 사용법 출력함수이다.
@@ -26,6 +31,7 @@ function usage() {
  */
 let RunProc = async function() {
     try {
+        initLog();
         if(process.argv.length != 3) {
             throw new Error("invalid paramters!");
         }

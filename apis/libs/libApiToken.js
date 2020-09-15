@@ -13,7 +13,7 @@ const colors = require('colors/safe'); // 콘솔 Color 출력
 
 //// LIBs
 const Log          = require('../../libs/libLog.js').Log; // 로그 출력
-const millisleep   = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+const msleep       = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 const transfer     = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 송금 함수
 const deployToken  = require('../../libs/libDkargoToken.js').deployToken; // deployToken: 토큰 컨트랙트 deploy 함수
 
@@ -24,11 +24,13 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 토큰을 송금한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procTransfer.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTransfer.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procTransfer = async function(keystore, passwd, params) {
+module.exports.procTransfer = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procTransfer') {
             throw new Error('params: Invalid Operation');
@@ -50,7 +52,7 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false;
         for(let i = 0; i < count; i++, nonce++) {
-            let promise = transfer(token, cmder, privkey, remittances[i].addr, remittances[i].amount, nonce).then(async (ret) => {
+            let promise = transfer(token, cmder, privkey, remittances[i].addr, remittances[i].amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `TRANSFER done!\n` +
                     `- [TO]:     [${colors.blue(remittances[i].addr)}],\n` +
@@ -63,9 +65,12 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -79,11 +84,13 @@ module.exports.procTransfer = async function(keystore, passwd, params) {
  * @notice 토큰 컨트랙트 디플로이를 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procDeployToken.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployToken.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procDeployToken = async function(keystore, passwd, params) {
+module.exports.procDeployToken = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.data == undefined || params.data == null || params.data == 'none') {
             Log('WARN', `Not found Data to DeployToken!`);
@@ -96,15 +103,29 @@ module.exports.procDeployToken = async function(keystore, passwd, params) {
         let symbol = params.data.symbol;
         let supply = params.data.supply;
         let nonce = await web3.eth.getTransactionCount(cmder);
-        return deployToken(cmder, privkey, name, symbol, supply, nonce).then(async (ret) => {
-            if(ret != null) { // 정상수행: ret == contract address
-                let action = `TOKEN DEPLOY done!\n` +
-                `=>[ADDRESS]:     [${colors.green(ret[0])}]\n` +
-                `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
-                Log('DEBUG', `${action}`);
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
+        let alldone = false;
+        for(let i = 0; i < 1; i++, nonce++) {
+            let promise = deployToken(cmder, privkey, name, symbol, supply, nonce, gasprice).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == contract address
+                    let action = `TOKEN DEPLOY done!\n` +
+                    `=>[ADDRESS]:     [${colors.green(ret[0])}]\n` +
+                    `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+        }
+        Promise.all(promises).then(async () => {
+            alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
             }
-            return true;
         });
+        while(alldone == false) {
+            await msleep(100);
+        }
+        return true;
     } catch(error) {
         let action = `Action: procDeployToken`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);

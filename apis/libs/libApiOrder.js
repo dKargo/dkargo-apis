@@ -12,8 +12,9 @@ const colors = require('colors/safe'); // 콘솔 Color 출력
 
 //// LIBs
 const Log         = require('../../libs/libLog.js').Log; // 로그 출력
-const millisleep  = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
-const submitOrder = require('../../libs/libDkargoOrder.js').submitOrderCreate; // launch: 주문 요청 함수
+const msleep      = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+const submitOrder = require('../../libs/libDkargoOrder.js').submitOrderCreate; // submitOrderCreate: 주문 요청 함수
+const setUrl      = require('../../libs/libDkargoOrder.js').setUrl; // setUrl: 주문 상세정보가 저장된 URL 설정 함수
 const deployOrder = require('../../libs/libDkargoOrder.js').deployOrder; // deployOrder: 주문 컨트랙트 deploy 함수
 
 //// WEB3
@@ -23,11 +24,13 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 주문을 요청한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procSubmitOrder.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSubmitOrder.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procSubmitOrder = async function(keystore, passwd, params) {
+module.exports.procSubmitOrder = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procSubmitOrder') {
             throw new Error('params: Invalid Operation');
@@ -48,7 +51,7 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false;
         for(let i = 0; i < count; i++, nonce++) {
-            let promise = submitOrder(orders[i].addr, cmder, privkey, nonce).then(async (ret) => {
+            let promise = submitOrder(orders[i].addr, cmder, privkey, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SUBMIT-ORDER done!\n` +
                     `- [ORDER]:  [${colors.blue(orders[i].addr)}],\n` +
@@ -60,9 +63,12 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -73,14 +79,73 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params) {
 }
 
 /**
- * @notice 주문 컨트랙트 디플로이를 수행한다.
+ * @notice 주문의 부가정보들을 설정한다.
+ * @dev 부가정보: 주문 상세 URL
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procDeployOrder.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetOrderInfo.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procDeployOrder = async function(keystore, passwd, params) {
+module.exports.procSetOrderInfo = async function(keystore, passwd, params, funcptr, gasprice = 0) {
+    try {
+        if(params.operation != 'procSetOrderInfo') {
+            throw new Error('params: Invalid Operation');
+        }
+        if(params.data == undefined || params.data == null || params.data == 'none') {
+            Log('WARN', `Not found Data to procSetOrderInfo!`);
+            return true;
+        }
+        let order = params.data.order;
+        let url = params.data.url;
+        let account = await web3.eth.accounts.decrypt(keystore, passwd);
+        let cmder = account.address;
+        let privkey = account.privateKey.split('0x')[1];
+        let nonce = await web3.eth.getTransactionCount(cmder);
+        let promises = new Array();
+        let alldone = false;
+        if(url != undefined) {
+            let promise = setUrl(order, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == transaction hash
+                    let action = `SET-URL done!\n` +
+                    `- [URL]:    [${colors.blue(url)}],\n` +
+                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+            nonce++;
+        }
+        Promise.all(promises).then(async () => {
+            alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
+        });
+        while(alldone == false) {
+            await msleep(100);
+        }
+        return true;
+    } catch(error) {
+        let action = `Action: procSetOrderInfo`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        return false;
+    }
+}
+
+/**
+ * @notice 주문 컨트랙트 디플로이를 수행한다.
+ * @param {string} keystore keystore object(json format)
+ * @param {string} passwd keystore password
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployOrder.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @return bool (true: 정상처리 / false: 비정상수행)
+ * @author jhhong
+ */
+module.exports.procDeployOrder = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procDeployOrder') {
             throw new Error('params: Invalid Operation');
@@ -116,7 +181,7 @@ module.exports.procDeployOrder = async function(keystore, passwd, params) {
                 codes[j]      = sections[j].code;
                 incentives[j] = sections[j].incentive;
             }
-            let promise = deployOrder(cmder, privkey, url, service, members, codes, incentives, nonce).then(async (ret) => {
+            let promise = deployOrder(cmder, privkey, url, service, members, codes, incentives, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
                     let action = `ORDER DEPLOY done!\n` +
                     `- [URL]:         [${colors.blue(url)}],\n` +
@@ -129,9 +194,12 @@ module.exports.procDeployOrder = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {

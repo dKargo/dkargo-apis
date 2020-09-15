@@ -25,12 +25,25 @@ const ApiWork = new mongoose.Schema({
   'executed':    Boolean, // 배송 수행여부
   }, {collection: 'ApiWork'},);
 
+/**
+ * @notice Account Schema, 계정 정보
+ * @author jhhong
+ */
+const ApiAccount = new mongoose.Schema({
+  'account': {type: String, index: {unique: true}, lowercase: true}, // 계정주소, 유일값
+  'passwd':   String, // 계정 비밀번호
+  'cmdid':    String, // 가장 최근에 처리된 혹은 처리중인 COMMAND ID
+  'status':   String, // 현재 상태 (IDLE: 대기 / PROCEEDING: 처리중)
+}, {collection: 'ApiAccount'},);
+
 mongoose.set('useCreateIndex', true); // warning 제거:DeprecationWarning: collection.ensureIndex is deprecated. ...
 mongoose.set('useFindAndModify', false); // warning 제거:DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` ...
 mongoose.model('ApiBlock', ApiBlock); // 스키마 등록 (ApiLogisticsBlock)
-mongoose.model('ApiWork', ApiWork); // 스키마 등록 (Work)
-module.exports.ApiBlock = mongoose.model('ApiBlock'); // module.exports
-module.exports.ApiWork  = mongoose.model('ApiWork'); // module.exports
+mongoose.model('ApiWork', ApiWork); // 스키마 등록 (ApiWork)
+mongoose.model('ApiAccount', ApiAccount); // 스키마 등록 (ApiAccount)
+module.exports.ApiBlock   = mongoose.model('ApiBlock'); // module.exports
+module.exports.ApiWork    = mongoose.model('ApiWork'); // module.exports
+module.exports.ApiAccount = mongoose.model('ApiAccount'); // module.exports
 mongoose.Promise = global.Promise; // nodejs의 기본 프로미스 (global.Promise)를 사용
 
 /**

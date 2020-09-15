@@ -15,7 +15,7 @@ const colors = require('colors/safe'); // 콘솔 Color 출력
 
 //// LIBs
 const Log            = require('../../libs/libLog.js').Log; // 로그 출력
-const millisleep     = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+const msleep         = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 const launch         = require('../../libs/libDkargoCompany.js').launch; // launch: 주문 접수 함수
 const updateOrder    = require('../../libs/libDkargoCompany.js').updateOrderCode; // updateOrder: 주문 상태갱신 함수
 const addOperator    = require('../../libs/libDkargoCompany.js').addOperator; // addOperator: 관리자 등록 함수
@@ -32,11 +32,13 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 주문을 접수한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procLaunch.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procLaunch.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procLaunch = async function(keystore, passwd, params) {
+module.exports.procLaunch = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procLaunch') {
             throw new Error('params: Invalid Operation');
@@ -58,7 +60,7 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false;
         for(let i = 0; i < count; i++, nonce++) {
-            let promise = launch(company, cmder, privkey, orders[i].addr, orders[i].transportid, nonce).then(async (ret) => {
+            let promise = launch(company, cmder, privkey, orders[i].addr, orders[i].transportid, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `LAUNCH done!\n` +
                     `- [ORDER]:  [${colors.blue(orders[i].addr)}],\n` +
@@ -71,9 +73,12 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -87,11 +92,13 @@ module.exports.procLaunch = async function(keystore, passwd, params) {
  * @notice 주문 상태갱신을 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procUpdateOrder.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procUpdateOrder.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procUpdateOrder = async function(keystore, passwd, params) {
+module.exports.procUpdateOrder = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procUpdateOrder') {
             throw new Error('params: Invalid Operation');
@@ -113,12 +120,15 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false;
         for(let i = 0; i < count; i++, nonce++) {
-            let promise = updateOrder(company, cmder, privkey, orders[i].addr, orders[i].transportid, orders[i].code, nonce).then(async (ret) => {
+            let addr = orders[i].addr;
+            let transportid = orders[i].transportid;
+            let code = orders[i].code
+            let promise = updateOrder(company, cmder, privkey, addr, transportid, code, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `UPDATE done!\n` +
-                    `- [ORDER]:  [${colors.blue(orders[i].addr)}],\n` +
-                    `- [TID]:    [${colors.blue(orders[i].transportid)}],\n` +
-                    `- [CODE]:   [${colors.blue(orders[i].code)}],\n` +
+                    `- [ORDER]:  [${colors.blue(addr)}],\n` +
+                    `- [TID]:    [${colors.blue(transportid)}],\n` +
+                    `- [CODE]:   [${colors.blue(code)}],\n` +
                     `=>[TXHASH]: [${colors.green(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
@@ -127,9 +137,12 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -143,11 +156,13 @@ module.exports.procUpdateOrder = async function(keystore, passwd, params) {
  * @notice 관리자를 추가한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procAddOperator.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAddOperator.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procAddOperator = async function(keystore, passwd, params) {
+module.exports.procAddOperator = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procAddOperator') {
             throw new Error('params: Invalid Operation');
@@ -169,7 +184,7 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false;
         for(let i = 0; i < count; i++, nonce++) {
-            let promise = addOperator(company, cmder, privkey, operators[i].addr, nonce).then(async (ret) => {
+            let promise = addOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `ADD-OPERATOR done!\n` +
                     `- [ADDRESS]: [${colors.blue(operators[i].addr)}],\n` +
@@ -181,9 +196,12 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -197,11 +215,13 @@ module.exports.procAddOperator = async function(keystore, passwd, params) {
  * @notice 관리자에서 제거한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procRemoveOperator.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRemoveOperator.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procRemoveOperator = async function(keystore, passwd, params) {
+module.exports.procRemoveOperator = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procRemoveOperator') {
             throw new Error('params: Invalid Operation');
@@ -223,7 +243,7 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false;
         for(let i = 0; i < count; i++, nonce++) {
-            let promise = removeOperator(company, cmder, privkey, operators[i].addr, nonce).then(async (ret) => {
+            let promise = removeOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `REMOVE-OPERATOR done!\n` +
                     `- [ADDRESS]: [${colors.blue(operators[i].addr)}],\n` +
@@ -235,9 +255,12 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -252,11 +275,13 @@ module.exports.procRemoveOperator = async function(keystore, passwd, params) {
  * @dev 부가정보: 물류사 이름 / 물류사 URL / 물류사 수취인주소
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procSetCompanyName.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetCompanyInfo.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
+module.exports.procSetCompanyInfo = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procSetCompanyInfo') {
             throw new Error('params: Invalid Operation');
@@ -276,7 +301,7 @@ module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
         let promises = new Array();
         let alldone = false;
         if(name != undefined) {
-            let promise = setName(company, cmder, privkey, name, nonce).then(async (ret) => {
+            let promise = setName(company, cmder, privkey, name, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-NAME done!\n` +
                     `- [NAME]:   [${colors.blue(name)}],\n` +
@@ -288,7 +313,7 @@ module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
             nonce++;
         }
         if(url != undefined) {
-            let promise = setUrl(company, cmder, privkey, url, nonce).then(async (ret) => {
+            let promise = setUrl(company, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-URL done!\n` +
                     `- [URL]:    [${colors.blue(url)}],\n` +
@@ -300,7 +325,7 @@ module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
             nonce++;
         }
         if(recipient != undefined) {
-            let promise = setRecipient(company, cmder, privkey, recipient, nonce).then(async (ret) => {
+            let promise = setRecipient(company, cmder, privkey, recipient, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-RECIPIENT done!\n` +
                     `- [RECIPIENT]: [${colors.blue(recipient)}],\n` +
@@ -312,9 +337,12 @@ module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
         }
         Promise.all(promises).then(async () => {
             alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
+            }
         });
         while(alldone == false) {
-            await millisleep(100);
+            await msleep(100);
         }
         return true;
     } catch(error) {
@@ -328,11 +356,13 @@ module.exports.procSetCompanyInfo = async function(keystore, passwd, params) {
  * @notice 물류사 컨트랙트 deploy를 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/hlib-master/dkargo-scm/tree/master/apis/docs/protocols/procDeployCompany.json )
+ * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployCompany.json )
+ * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procDeployCompany = async function(keystore, passwd, params) {
+module.exports.procDeployCompany = async function(keystore, passwd, params, funcptr, gasprice = 0) {
     try {
         if(params.operation != 'procDeployCompany') {
             throw new Error('params: Invalid Operation');
@@ -349,15 +379,29 @@ module.exports.procDeployCompany = async function(keystore, passwd, params) {
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        await deployCompany(cmder, privkey, name, url, recipient, service, nonce).then(async (ret) => {
-            if(ret != null) { // 정상수행: ret == contract address
-                let action = `COMPANY DEPLOY done!\n` +
-                `- [COMPANY]:     [${colors.blue(name)}],\n` +
-                `=>[ADDRESS]:     [${colors.green(ret[0])}],\n` +
-                `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
-                Log('DEBUG', `${action}`);
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
+        let alldone = false;
+        for(let i = 0; i < 1; i++, nonce++) {
+            let promise = deployCompany(cmder, privkey, name, url, recipient, service, nonce, gasprice).then(async (ret) => {
+                if(ret != null) { // 정상수행: ret == contract address
+                    let action = `COMPANY DEPLOY done!\n` +
+                    `- [COMPANY]:     [${colors.blue(name)}],\n` +
+                    `=>[ADDRESS]:     [${colors.green(ret[0])}],\n` +
+                    `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
+                    Log('DEBUG', `${action}`);
+                }
+            });
+            promises.push(promise);
+        }
+        Promise.all(promises).then(async () => {
+            alldone = true;
+            if(funcptr != undefined && functpr != null) {
+                await funcptr(cmder);
             }
         });
+        while(alldone == false) {
+            await msleep(100);
+        }
         return true;
     } catch(error) {
         let action = `Action: procDeployCompany`;
