@@ -30,10 +30,10 @@ const ApiWork = new mongoose.Schema({
  * @author jhhong
  */
 const ApiAccount = new mongoose.Schema({
-  'account': {type: String, index: {unique: true}, lowercase: true}, // 계정주소, 유일값
-  'passwd':   String, // 계정 비밀번호
-  'cmdid':    String, // 가장 최근에 처리된 혹은 처리중인 COMMAND ID
-  'status':   String, // 현재 상태 (IDLE: 대기 / PROCEEDING: 처리중)
+  'account':  {type: String, index: {unique: true}, lowercase: true}, // 계정주소, 유일값
+  'passwd':    String, // 계정 비밀번호
+  'cmdName':   String, // 가장 최근에 처리된 혹은 처리중인 COMMAND 이름
+  'status':    String, // 현재 상태 (IDLE: 대기 / PROCEEDING: 처리중)
 }, {collection: 'ApiAccount'},);
 
 mongoose.set('useCreateIndex', true); // warning 제거:DeprecationWarning: collection.ensureIndex is deprecated. ...

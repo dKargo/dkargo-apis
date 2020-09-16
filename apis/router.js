@@ -8,6 +8,10 @@
 const colors = require('colors/safe'); // 콘솔 Color 출력
 
 //// LIBs
+const ApiAdmin    = require('./libs/libApiAdmin.js'); // 관리자 API
+const ApiCompany  = require('./libs/libApiCompany.js'); // 물류사 API
+const ApiOrder    = require('./libs/libApiOrder.js'); // 화주 API
+const ApiToken    = require('./libs/libApiToken.js'); // 토큰 API
 const getKeystore = require('../apis/libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
 
 //// LOGs
@@ -48,6 +52,198 @@ let getWorks = async function(addr) {
         let action = `Action: getWork`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return 'none';
+    }
+}
+
+/**
+ * @notice 물류사를 등록한다.
+ * @param {String} addr 커맨드 수행 주소
+ * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRegister.json )
+ * @return JSON type (ok: 필드로 성공, 실패 구분)
+ * @author jhhong
+ */
+let cmdServiceRegisterCompanies = async function(addr, params) {
+    try {
+        let keystore = await getKeystore(addr);
+        if (keystore == null) {
+            throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
+        }
+        let exists = await Account.countDocuments({account: addr});
+        if(exists > 1) {
+            throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
+        }
+        if(exists == 0) {
+            throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
+        }
+        let account = await Account.findOne({account: addr});
+        if(account.status != 'idle') {
+            throw new Error(`Account is busy! ADDR:[${addr}]`);
+        }
+        if(params.operation != 'procRegister') { // params 가용성 체크: OPERATION
+            throw new Error('params: Invalid Operation');
+        }
+        let cbptrPre = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (REGISTER COMPANIES)`);
+        }
+        let cbptrPost = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (REGISTER COMPANIES)`);
+        }
+        ApiAdmin.procRegister(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        let ret = new Object(); // 응답 생성: SUCCESS
+        ret.ok = true;
+        return JSON.stringify(ret);
+    } catch(error) {
+        let action = `Action: cmdServiceRegisterCompanies`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        let ret = new Object(); // 응답 생성: FAILED
+        ret.ok = false;
+        ret.reason = error.message;
+        return JSON.stringify(ret);
+    }
+}
+
+/**
+ * @notice 물류사를 등록해제한다.
+ * @param {String} addr 커맨드 수행 주소
+ * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procUnregister.json )
+ * @return JSON type (ok: 필드로 성공, 실패 구분)
+ * @author jhhong
+ */
+let cmdServiceUnregisterCompanies = async function(addr, params) {
+    try {
+        let keystore = await getKeystore(addr);
+        if (keystore == null) {
+            throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
+        }
+        let exists = await Account.countDocuments({account: addr});
+        if(exists > 1) {
+            throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
+        }
+        if(exists == 0) {
+            throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
+        }
+        let account = await Account.findOne({account: addr});
+        if(account.status != 'idle') {
+            throw new Error(`Account is busy! ADDR:[${addr}]`);
+        }
+        if(params.operation != 'procUnregister') { // params 가용성 체크: OPERATION
+            throw new Error('params: Invalid Operation');
+        }
+        let cbptrPre = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (UNREGISTER COMPANIES)`);
+        }
+        let cbptrPost = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (UNREGISTER COMPANIES)`);
+        }
+        ApiAdmin.procUnregister(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        let ret = new Object(); // 응답 생성: SUCCESS
+        ret.ok = true;
+        return JSON.stringify(ret);
+    } catch(error) {
+        let action = `Action: cmdServiceUnregisterCompanies`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        let ret = new Object(); // 응답 생성: FAILED
+        ret.ok = false;
+        ret.reason = error.message;
+        return JSON.stringify(ret);
+    }
+}
+
+/**
+ * @notice 물류사를 등록해제한다.
+ * @param {String} addr 커맨드 수행 주소
+ * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procMarkOrderPayed.json )
+ * @return JSON type (ok: 필드로 성공, 실패 구분)
+ * @author jhhong
+ */
+let cmdServiceCheckPayments = async function(addr, params) {
+    try {
+        let keystore = await getKeystore(addr);
+        if (keystore == null) {
+            throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
+        }
+        let exists = await Account.countDocuments({account: addr});
+        if(exists > 1) {
+            throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
+        }
+        if(exists == 0) {
+            throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
+        }
+        let account = await Account.findOne({account: addr});
+        if(account.status != 'idle') {
+            throw new Error(`Account is busy! ADDR:[${addr}]`);
+        }
+        if(params.operation != 'procMarkOrderPayed') { // params 가용성 체크: OPERATION
+            throw new Error('params: Invalid Operation');
+        }
+        let cbptrPre = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (CHECK PAYMENTS)`);
+        }
+        let cbptrPost = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (CHECK PAYMENTS)`);
+        }
+        ApiAdmin.procMarkOrderPayed(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        let ret = new Object(); // 응답 생성: SUCCESS
+        ret.ok = true;
+        return JSON.stringify(ret);
+    } catch(error) {
+        let action = `Action: cmdServiceCheckPayments`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        let ret = new Object(); // 응답 생성: FAILED
+        ret.ok = false;
+        ret.reason = error.message;
+        return JSON.stringify(ret);
+    }
+}
+
+/**
+ * @notice 관리되어야 할 계정을 추가한다.
+ * @param {String} addr 커맨드 수행 주소
+ * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployToken.json )
+ * @return JSON type (ok: 필드로 성공, 실패 구분)
+ * @author jhhong
+ */
+let cmdTokenDeploy = async function(addr, params) {
+    try {
+        let keystore = await getKeystore(addr);
+        if (keystore == null) {
+            throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
+        }
+        let exists = await Account.countDocuments({account: addr});
+        if(exists > 1) {
+            throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
+        }
+        if(exists == 0) {
+            throw new Error(`Unlisted! Need to \"ADD ACCOUNT\" ADDR:[${addr}]`);
+        }
+        let account = await Account.findOne({account: addr});
+        if(account.status != 'idle') {
+            throw new Error(`Account is busy! ADDR:[${addr}]`);
+        }
+        if(params.operation != 'procDeployToken') { // params 가용성 체크: OPERATION
+            throw new Error('params: Invalid Operation');
+        }
+        await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
+        ApiToken.procDeployToken(keystore, account.passwd, params, async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
+            Log('DEBUG', `All Done! (DEPLOY TOKEN)`);
+        });
+        let ret = new Object(); // 응답 생성: SUCCESS
+        ret.ok = true;
+        return JSON.stringify(ret);
+    } catch(error) {
+        let action = `Action: cmdTokenDeploy`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        let ret = new Object(); // 응답 생성: FAILED
+        ret.ok = false;
+        ret.reason = error.message;
+        return JSON.stringify(ret);
     }
 }
 
@@ -158,7 +354,7 @@ module.exports = function(app) {
         let ret = await getWorks(req.params.address);
         res.end(ret);
     });
-    app.post('/cmdTokenDeploy/:address', async function(req, res) {
+    app.post('/cmdTokenTransfer/:address', async function(req, res) {
         console.log(req.params.address);
         console.log(req.body.data.name);
         res.json({ok: true});
@@ -207,32 +403,56 @@ module.exports = function(app) {
         console.log(req.body.data.name);
         res.json({ok: true});
     });
+    /**
+     * @notice 물류사 등록 프로시져
+     * @dev 수행주체: ADMIN
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRegister.json
+     * @author jhhong
+     */
     app.post('/cmdServiceRegisterCompanies/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdServiceRegisterCompanies(req.params.address, req.body);
+        res.json(ret);
     });
+    /**
+     * @notice 물류사 등록해제 프로시져
+     * @dev 수행주체: ADMIN
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procUnregister.json
+     * @author jhhong
+     */
     app.post('/cmdServiceUnregisterCompanies/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdServiceUnregisterCompanies(req.params.address, req.body);
+        res.json(ret);
     });
+    /**
+     * @notice 물류사 주문 결제확인 프로시져
+     * @dev 수행주체: ADMIN
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procMarkOrderPayed.json
+     * @author jhhong
+     */
     app.post('/cmdServiceCheckPayments/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdServiceCheckPayments(req.params.address, req.body);
+        res.json(ret);
     });
     app.post('/cmdServiceSettleIncentives/:address', async function(req, res) {
         console.log(req.body.data.name);
         res.json({ok: true});
     });
     /**
-     * @notice 토큰 DEPLOY COMMAND 처리
+     * @notice TOKEN DEPLOY COMMAND 처리
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployToken.json
+     * @author jhhong
      */
     app.post('/cmdTokenDeploy/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdTokenDeploy(req.params.address, req.body);
+        res.json(ret);
     });
+    /**
+     * @notice SERVICE DEPLOY COMMAND 처리
+     * @author jhhong
+     */
     app.post('/cmdServiceDeploy/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdServiceDeploy(req.params.address, req.body);
+        res.json(ret);
     });
     /**
      * @notice 계정 추가 COMMAND 처리

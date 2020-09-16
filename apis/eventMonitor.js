@@ -221,7 +221,7 @@ let getEventArguments = async function(eventname, table, receipt) {
 }
 
 /**
- * @notice 트랜젝션을 파싱한다.
+ * @notice 이벤트를 파싱한다.
  * @dev 트랜젝션이 디카르고 tx인지 판별, 디카르고 tx에 한해서 txtype에 맞는 schema로 데이터를 가공
  * @param {Object} table Event Log Parsing 테이블 (이벤트 이름 / inputs / signature 조합)
  * @param {Object} txdata 트랜젝션 정보 (eth.getTransaction)

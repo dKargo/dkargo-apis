@@ -25,12 +25,13 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
  * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSubmitOrder.json )
- * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procSubmitOrder = async function(keystore, passwd, params, funcptr, gasprice = 0) {
+module.exports.procSubmitOrder = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
         if(params.operation != 'procSubmitOrder') {
             throw new Error('params: Invalid Operation');
@@ -49,7 +50,14 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params, funcpt
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
-        let alldone = false;
+        //// 흐름제어 코드
+        let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
+        if(count > 0) { // libs function 호출이 일어날 경우
+            alldone = false; // alldone값을 false로 세팅
+            if(cbptrPre != undefined && cbptrPre != null) {
+                await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
+            }
+        }
         for(let i = 0; i < count; i++, nonce++) {
             let promise = submitOrder(orders[i].addr, cmder, privkey, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -63,8 +71,8 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params, funcpt
         }
         Promise.all(promises).then(async () => {
             alldone = true;
-            if(funcptr != undefined && functpr != null) {
-                await funcptr(cmder);
+            if(cbptrPost != undefined && cbptrPost != null) {
+                await cbptrPost(cmder);
             }
         });
         while(alldone == false) {
@@ -84,12 +92,13 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params, funcpt
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
  * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetOrderInfo.json )
- * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procSetOrderInfo = async function(keystore, passwd, params, funcptr, gasprice = 0) {
+module.exports.procSetOrderInfo = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
         if(params.operation != 'procSetOrderInfo') {
             throw new Error('params: Invalid Operation');
@@ -105,7 +114,14 @@ module.exports.procSetOrderInfo = async function(keystore, passwd, params, funcp
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
         let promises = new Array();
-        let alldone = false;
+        //// 흐름제어 코드
+        let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
+        if(url != undefined) { // libs function 호출이 일어날 경우
+            alldone = false; // alldone값을 false로 세팅
+            if(cbptrPre != undefined && cbptrPre != null) {
+                await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
+            }
+        }
         if(url != undefined) {
             let promise = setUrl(order, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -120,8 +136,8 @@ module.exports.procSetOrderInfo = async function(keystore, passwd, params, funcp
         }
         Promise.all(promises).then(async () => {
             alldone = true;
-            if(funcptr != undefined && functpr != null) {
-                await funcptr(cmder);
+            if(cbptrPost != undefined && cbptrPost != null) {
+                await cbptrPost(cmder);
             }
         });
         while(alldone == false) {
@@ -140,12 +156,13 @@ module.exports.procSetOrderInfo = async function(keystore, passwd, params, funcp
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
  * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployOrder.json )
- * @param {pointer} funcptr 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procDeployOrder = async function(keystore, passwd, params, funcptr, gasprice = 0) {
+module.exports.procDeployOrder = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
         if(params.operation != 'procDeployOrder') {
             throw new Error('params: Invalid Operation');
@@ -165,7 +182,14 @@ module.exports.procDeployOrder = async function(keystore, passwd, params, funcpt
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
-        let alldone = false;
+        //// 흐름제어 코드
+        let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
+        if(ordercnt > 0) { // libs function 호출이 일어날 경우
+            alldone = false; // alldone값을 false로 세팅
+            if(cbptrPre != undefined && cbptrPre != null) {
+                await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
+            }
+        }
         for(let i = 0; i < ordercnt; i++, nonce++) {
             let url = orders[i].url; // 주문 상세정보 URL
             let sectioncnt = orders[i].count; // 배송구간 개수
@@ -194,8 +218,8 @@ module.exports.procDeployOrder = async function(keystore, passwd, params, funcpt
         }
         Promise.all(promises).then(async () => {
             alldone = true;
-            if(funcptr != undefined && functpr != null) {
-                await funcptr(cmder);
+            if(cbptrPost != undefined && cbptrPost != null) {
+                await cbptrPost(cmder);
             }
         });
         while(alldone == false) {
