@@ -1,5 +1,5 @@
 {
-    "operation": "procDeployToken",
+    "operation": "procTokenDeploy",
     "data": {
         "name": "dKargo",
         "symbol": "DKA",

@@ -1,5 +1,5 @@
 {
-    "operation": "procRemoveAccounts",
+    "operation": "procAdminAddAccounts",
     "data": {
         "count": "11",
         "accounts": [

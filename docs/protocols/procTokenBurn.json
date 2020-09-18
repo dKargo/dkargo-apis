@@ -1,0 +1,7 @@
+{
+    "operation": "procTokenBurn",
+    "data": {
+        "token": "0x245FDCbCaA8dDaf8Dc859f61Bba0D93Fd605f69b",
+        "amount": "1000000000000000000"
+    }
+}

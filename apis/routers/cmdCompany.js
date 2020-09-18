@@ -22,7 +22,7 @@ const Account  = mongoose.model('ApiAccount'); // Account Schema
 /**
  * @notice 물류사 컨트랙트 DEPLOY를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployCompany.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyDeploy.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -43,7 +43,7 @@ module.exports.cmdCompanyDeploy = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procDeployCompany') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procCompanyDeploy') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -54,7 +54,7 @@ module.exports.cmdCompanyDeploy = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (DEPLOY COMPANY)`);
         }
-        ApiCompany.procDeployCompany(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiCompany.procCompanyDeploy(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -71,7 +71,7 @@ module.exports.cmdCompanyDeploy = async function(addr, params) {
 /**
  * @notice 주문접수 프로시져를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procLaunch.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunch.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -92,7 +92,7 @@ module.exports.cmdCompanyLaunchOrders = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procLaunch') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procCompanyLaunch') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -103,7 +103,7 @@ module.exports.cmdCompanyLaunchOrders = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (LAUNCH ORDERS)`);
         }
-        ApiCompany.procLaunch(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiCompany.procCompanyLaunch(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -120,7 +120,7 @@ module.exports.cmdCompanyLaunchOrders = async function(addr, params) {
 /**
  * @notice 주문 구간배송완료 프로시져를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procUpdateOrder.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderUpdate.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -141,7 +141,7 @@ module.exports.cmdCompanyUpdateOrders = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procUpdateOrder') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procOrderUpdate') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -152,7 +152,7 @@ module.exports.cmdCompanyUpdateOrders = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (UPDATE ORDERS)`);
         }
-        ApiCompany.procUpdateOrder(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiCompany.procOrderUpdate(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -169,7 +169,7 @@ module.exports.cmdCompanyUpdateOrders = async function(addr, params) {
 /**
  * @notice 물류사 운영자 등록을 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAddOperator.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyAddOperator.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -190,7 +190,7 @@ module.exports.cmdCompanyAddOperators = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procAddOperator') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procCompanyAddOperator') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -201,7 +201,7 @@ module.exports.cmdCompanyAddOperators = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (ADD OPERATORS)`);
         }
-        ApiCompany.procAddOperator(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiCompany.procCompanyAddOperator(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -218,7 +218,7 @@ module.exports.cmdCompanyAddOperators = async function(addr, params) {
 /**
  * @notice 물류사 운영자 등록해제를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRemoveOperator.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyRemoveOperators.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -239,7 +239,7 @@ module.exports.cmdCompanyRemoveOperators = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procRemoveOperator') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procCompanyRemoveOperators') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -250,7 +250,7 @@ module.exports.cmdCompanyRemoveOperators = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (REMOVE OPERATORS)`);
         }
-        ApiCompany.procRemoveOperator(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiCompany.procCompanyRemoveOperators(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -267,7 +267,7 @@ module.exports.cmdCompanyRemoveOperators = async function(addr, params) {
 /**
  * @notice 물류사 정보설정을 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetCompanyInfo.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanySetInfo.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -288,7 +288,7 @@ module.exports.cmdCompanysetInfos = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procSetCompanyInfo') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procCompanySetInfo') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -299,7 +299,7 @@ module.exports.cmdCompanysetInfos = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (SET COMPANY INFORMATIONS)`);
         }
-        ApiCompany.procSetCompanyInfo(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiCompany.procCompanySetInfo(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);

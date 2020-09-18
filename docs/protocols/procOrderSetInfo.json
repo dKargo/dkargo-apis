@@ -1,5 +1,5 @@
 {
-    "operation": "procSetOrderInfo",
+    "operation": "procOrderSetInfo",
     "data": {
         "order": "0x245FDCbCaA8dDaf8Dc859f61Bba0D93Fd605f69b",
         "url": "https://dkargo.io/orders/h09kor10AE-00000001"

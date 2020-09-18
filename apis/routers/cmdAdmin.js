@@ -21,13 +21,13 @@ const Account  = mongoose.model('ApiAccount'); // Account Schema
 
 /**
  * @notice 관리되어야 할 계정을 추가한다.
- * @param {Object} params 계정 정보들 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAddAccounts.json )
+ * @param {object} params 계정 정보들 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminAddAccounts.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
 module.exports.cmdAdminAddAccounts = async function(params) {
     try {
-        if(params.operation != 'procAddAccounts') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procAdminAddAccounts') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let counts = params.data.count;
@@ -68,13 +68,13 @@ module.exports.cmdAdminAddAccounts = async function(params) {
 
 /**
  * @notice 관리되어야 할 계정을 삭제한다.
- * @param {Object} params 계정 정보들 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRemoveAccounts.json )
+ * @param {object} params 계정 정보들 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminRemoveAccounts.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
 module.exports.cmdAdminRemoveAccounts = async function(params) {
     try {
-        if(params.operation != 'procRemoveAccounts') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procAdminRemoveAccounts') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let counts = params.data.count;
@@ -115,7 +115,7 @@ module.exports.cmdAdminRemoveAccounts = async function(params) {
 /**
  * @notice 물류사를 등록한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRegister.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminRegisterCompanies.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -136,7 +136,7 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procRegister') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procAdminRegisterCompanies') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -147,7 +147,7 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (REGISTER COMPANIES)`);
         }
-        ApiAdmin.procRegister(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiAdmin.procAdminRegisterCompanies(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -164,7 +164,7 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
 /**
  * @notice 물류사를 등록해제한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procUnregister.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminUnregisterCompanies.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -185,7 +185,7 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procUnregister') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procAdminUnregisterCompanies') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -196,7 +196,7 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (UNREGISTER COMPANIES)`);
         }
-        ApiAdmin.procUnregister(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiAdmin.procAdminUnregisterCompanies(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -213,7 +213,7 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
 /**
  * @notice 주문이 결제완료 되었음을 기록한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procMarkOrderPayed.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminMarkOrderPayments.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -234,7 +234,7 @@ module.exports.cmdAdminMarkOrderPayments = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procMarkOrderPayed') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procAdminMarkOrderPayments') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -245,7 +245,7 @@ module.exports.cmdAdminMarkOrderPayments = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (CHECK PAYMENTS)`);
         }
-        ApiAdmin.procMarkOrderPayed(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiAdmin.procAdminMarkOrderPayments(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);

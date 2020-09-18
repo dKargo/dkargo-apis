@@ -22,7 +22,7 @@ const Account  = mongoose.model('ApiAccount'); // Account Schema
 /**
  * @notice 주문 컨트랙트 DEPLOY를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployOrder.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -43,7 +43,7 @@ module.exports.cmdOrdersDeploy = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procDeployOrder') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procOrderDeploy') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -54,7 +54,7 @@ module.exports.cmdOrdersDeploy = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (DEPLOY ORDERS)`);
         }
-        ApiOrder.procDeployOrder(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiOrder.procOrderDeploy(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -71,7 +71,7 @@ module.exports.cmdOrdersDeploy = async function(addr, params) {
 /**
  * @notice 주문 등록요청 프로시져를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSubmitOrder.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSubmit.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -92,7 +92,7 @@ module.exports.cmdOrdersSubmit = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procSubmitOrder') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procOrderSubmit') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -103,7 +103,7 @@ module.exports.cmdOrdersSubmit = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (SUBMIT ORDERS)`);
         }
-        ApiOrder.procSubmitOrder(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiOrder.procOrderSubmit(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);
@@ -120,7 +120,7 @@ module.exports.cmdOrdersSubmit = async function(addr, params) {
 /**
  * @notice 주문 상세정보 변경 프로시져를 수행한다.
  * @param {String} addr 커맨드 수행 주소
- * @param {Object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetOrderInfo.json )
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSetInfo.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
  */
@@ -141,7 +141,7 @@ module.exports.cmdOrderSetInfos = async function(addr, params) {
         if(account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
-        if(params.operation != 'procSetOrderInfo') { // params 가용성 체크: OPERATION
+        if(params.operation != 'procOrderSetInfo') { // params 가용성 체크: OPERATION
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
@@ -152,7 +152,7 @@ module.exports.cmdOrderSetInfos = async function(addr, params) {
             await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
             Log('DEBUG', `End Procedure...... (SET ORDER INFO)`);
         }
-        ApiOrder.procSetOrderInfo(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        ApiOrder.procOrderSetInfo(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
         ret.ok = true;
         return JSON.stringify(ret);

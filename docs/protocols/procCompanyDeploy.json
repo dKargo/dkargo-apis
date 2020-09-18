@@ -1,5 +1,5 @@
 {
-    "operation": "procDeployCompany",
+    "operation": "procCompanyDeploy",
     "data": {
         "name": "Deleo Korea",
         "url": "https://dkargo.io/companies/Deleo",

@@ -27,16 +27,16 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 물류사를 등록한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procRegister.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminRegisterCompanies.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procRegister = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procAdminRegisterCompanies = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procRegister') {
+        if(params.operation != 'procAdminRegisterCompanies') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -85,7 +85,7 @@ module.exports.procRegister = async function(keystore, passwd, params, cbptrPre,
         }
         return true;
     } catch(error) {
-        let action = `Action: procRegister`;
+        let action = `Action: procAdminRegisterCompanies`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -95,16 +95,16 @@ module.exports.procRegister = async function(keystore, passwd, params, cbptrPre,
  * @notice 물류사를 등록해제한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procUnregister.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminUnregisterCompanies.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procUnregister = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procUnregister') {
+        if(params.operation != 'procAdminUnregisterCompanies') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -152,7 +152,7 @@ module.exports.procUnregister = async function(keystore, passwd, params, cbptrPr
         }
         return true;
     } catch(error) {
-        let action = `Action: procRegister`;
+        let action = `Action: procAdminRegisterCompanies`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -162,16 +162,16 @@ module.exports.procUnregister = async function(keystore, passwd, params, cbptrPr
  * @notice 결제된 주문리스트들을 "결제됨"으로 표시한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procMarkOrderPayed.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminMarkOrderPayments.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procMarkOrderPayed = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procAdminMarkOrderPayments = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procMarkOrderPayed') {
+        if(params.operation != 'procAdminMarkOrderPayments') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -219,7 +219,7 @@ module.exports.procMarkOrderPayed = async function(keystore, passwd, params, cbp
         }
         return true;
     } catch(error) {
-        let action = `Action: procMarkOrderPayed`;
+        let action = `Action: procAdminMarkOrderPayments`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -229,7 +229,7 @@ module.exports.procMarkOrderPayed = async function(keystore, passwd, params, cbp
  * @notice 인센티브를 정산한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSettlement.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSettlement.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0

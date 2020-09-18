@@ -1,5 +1,5 @@
 {
-    "operation": "procMarkOrderPayed",
+    "operation": "procAdminMarkOrderPayments",
     "data": {
         "service": "0x245FDCbCaA8dDaf8Dc859f61Bba0D93Fd605f69b",
         "count": "3",

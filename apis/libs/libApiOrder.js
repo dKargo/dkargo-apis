@@ -24,16 +24,16 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 주문을 요청한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSubmitOrder.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSubmit.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procSubmitOrder = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procSubmitOrder') {
+        if(params.operation != 'procOrderSubmit') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -80,7 +80,7 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params, cbptrP
         }
         return true;
     } catch(error) {
-        let action = `Action: procSubmitOrder`;
+        let action = `Action: procOrderSubmit`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -91,20 +91,20 @@ module.exports.procSubmitOrder = async function(keystore, passwd, params, cbptrP
  * @dev 부가정보: 주문 상세 URL
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetOrderInfo.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSetInfo.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procSetOrderInfo = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procSetOrderInfo') {
+        if(params.operation != 'procOrderSetInfo') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
-            Log('WARN', `Not found Data to procSetOrderInfo!`);
+            Log('WARN', `Not found Data to procOrderSetInfo!`);
             return true;
         }
         let order = params.data.order;
@@ -145,7 +145,7 @@ module.exports.procSetOrderInfo = async function(keystore, passwd, params, cbptr
         }
         return true;
     } catch(error) {
-        let action = `Action: procSetOrderInfo`;
+        let action = `Action: procOrderSetInfo`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -155,16 +155,16 @@ module.exports.procSetOrderInfo = async function(keystore, passwd, params, cbptr
  * @notice 주문 컨트랙트 디플로이를 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {string} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployOrder.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procDeployOrder = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procDeployOrder') {
+        if(params.operation != 'procOrderDeploy') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -227,7 +227,7 @@ module.exports.procDeployOrder = async function(keystore, passwd, params, cbptrP
         }
         return true;
     } catch(error) {
-        let action = `Action: procDeployOrder`;
+        let action = `Action: procOrderDeploy`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
