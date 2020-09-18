@@ -31,12 +31,6 @@ const getCompanyWorks             = require('./routers/getCompany.js').getCompan
 //// LOGs
 const Log = require('../libs/libLog.js').Log; // 로그 출력
 
-//// DBs
-require('./db.js'); // for mongoose schema import
-const mongoose = require('mongoose');
-const Work    = mongoose.model('ApiWork'); // Work schema
-const Account = mongoose.model('ApiAccount'); // Account Schema
-
 /**
  * @notice API routing 수행 함수
  * @param {Object} app Express Object
@@ -60,17 +54,35 @@ module.exports = function(app) {
         console.log(req.body);
         res.json({ok: true});
     });
+    /**
+     * @notice 주문 컨트랙트 DEPLOY 프로시져
+     * @dev 수행주체: 화주
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procDeployOrder.json
+     * @author jhhong
+     */
     app.post('/cmdOrdersDeploy/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdOrdersDeploy(req.params.address, req.body);
+        res.json(ret);
     });
+    /**
+     * @notice 주문 등록요청 프로시져
+     * @dev 수행주체: 화주
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSubmitOrder.json
+     * @author jhhong
+     */
     app.post('/cmdOrdersSubmit/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdOrdersSubmit(req.params.address, req.body);
+        res.json(ret);
     });
+    /**
+     * @notice 주문 상세정보 변경 프로시져
+     * @dev 수행주체: 화주
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetOrderInfo.json
+     * @author jhhong
+     */
     app.post('/cmdOrderSetInfos/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdOrderSetInfos(req.params.address, req.body);
+        res.json(ret);
     });
     /**
      * @notice 물류사 컨트랙트 DEPLOY 프로시져
@@ -123,7 +135,7 @@ module.exports = function(app) {
         res.json(ret);
     });
     /**
-     * @notice 물류사 정보설정 프로시져
+     * @notice 물류사 정보 변경 프로시져
      * @dev 수행주체: 물류사
      * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procSetCompanyInfo.json
      * @author jhhong
