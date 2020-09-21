@@ -1,16 +1,16 @@
 {
   "contractName": "Typedef",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"jhhong\",\"details\":\"\\uac01 Chain \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac\\uc5d0\\uc11c \\ub2e4\\ub8f0 data type \\uc815\\uc758\",\"kind\":\"dev\",\"methods\":{},\"title\":\"Typedef\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol\":\"Typedef\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol\":{\"keccak256\":\"0xf2eecf79913f7ca4e09ab61a6a979651a643e152cd2954255a454fd1902cfa7c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3ae417ea4f7bdaff4e5c3e4694575a7e906dc6ae3b92e8f7c94e900bb8ed7e6c\",\"dweb:/ipfs/QmfJT4eBfgcz2tbj57ZkUBPAUEsc65U4Q15RDPpAsoVfCo\"]}},\"version\":1}",
-  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212200af8e6f94992fdb4c1ffb0fec358ba14e5fb966af06517b7bbf43b8fd990d87c64736f6c63430007000033",
-  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212200af8e6f94992fdb4c1ffb0fec358ba14e5fb966af06517b7bbf43b8fd990d87c64736f6c63430007000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"jhhong\",\"details\":\"\\uac01 Chain \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac\\uc5d0\\uc11c \\ub2e4\\ub8f0 data type \\uc815\\uc758\",\"kind\":\"dev\",\"methods\":{},\"title\":\"Typedef\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol\":\"Typedef\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol\":{\"keccak256\":\"0xf2eecf79913f7ca4e09ab61a6a979651a643e152cd2954255a454fd1902cfa7c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3ae417ea4f7bdaff4e5c3e4694575a7e906dc6ae3b92e8f7c94e900bb8ed7e6c\",\"dweb:/ipfs/QmfJT4eBfgcz2tbj57ZkUBPAUEsc65U4Q15RDPpAsoVfCo\"]}},\"version\":1}",
+  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122030c5cae18444ead1f5f0aee7807fe074cf1672adc977da830b5455f9aa6e1bdd64736f6c63430007000033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122030c5cae18444ead1f5f0aee7807fe074cf1672adc977da830b5455f9aa6e1bdd64736f6c63430007000033",
   "immutableReferences": {},
   "sourceMap": "161:1359:18:-:0;;;;;;;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "161:1359:18:-:0;;;;;;;;",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.0;\n\n/// @title Typedef\n/// @dev 각 Chain 라이브러리에서 다룰 data type 정의\n/// @author jhhong\nlibrary Typedef {\n\n    // 구조체 : Address Type 노드 정보\n    struct AddressElmt {\n        address prev; // 이전 노드\n        address next; // 다음 노드\n    }\n    // 구조체 : Address Type 노드 체인\n    struct AddressList {\n        uint256 count; // 노드의 총 개수\n        address head; // 체인의 머리\n        address tail; // 체인의 꼬리\n        mapping(address => AddressElmt) map; // 계정에 대한 노드 정보 매핑\n    }\n\n    // 구조체 : Bytes32 Type 노드 정보\n    struct Bytes32Elmt {\n        bytes32 prev; // 이전 노드\n        bytes32 next; // 다음 노드\n    }\n    // 구조체 : Bytes32 Type 노드 체인\n    struct Bytes32List {\n        uint256 count; // 노드의 총 개수\n        bytes32 head; // 체인의 머리\n        bytes32 tail; // 체인의 꼬리\n        mapping(bytes32 => Bytes32Elmt) map; // 계정에 대한 노드 정보 매핑\n    }\n\n    // 구조체 : Uint64 Type 노드 정보\n    struct Uint64Elmt {\n        uint64 prev; // 이전 노드\n        uint64 next; // 다음 노드\n    }\n    // 구조체 : Uint64 Type 노드 체인\n    struct Uint64List {\n        uint256 count; // 노드의 총 개수\n        uint64 head; // 체인의 머리\n        uint64 tail; // 체인의 꼬리\n        mapping(uint64 => Uint64Elmt) map; // 계정에 대한 노드 정보 매핑\n    }\n}",
-  "sourcePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
+  "sourcePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
   "ast": {
-    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
+    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
     "exportedSymbols": {
       "Typedef": [
         4656
@@ -695,7 +695,7 @@
     "src": "32:1488:18"
   },
   "legacyAST": {
-    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
+    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
     "exportedSymbols": {
       "Typedef": [
         4656
@@ -1384,8 +1384,8 @@
     "version": "0.7.0+commit.9e61f92b.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.3",
-  "updatedAt": "2020-09-08T02:08:21.939Z",
+  "schemaVersion": "3.2.5",
+  "updatedAt": "2020-09-15T00:57:34.432Z",
   "devdoc": {
     "author": "jhhong",
     "details": "각 Chain 라이브러리에서 다룰 data type 정의",
