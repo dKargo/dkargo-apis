@@ -202,9 +202,9 @@ module.exports.nextCompany = async function(ca, company) {
 module.exports.nextRecipient = async function(ca, recipient) {
     try {
         let service = new web3.eth.Contract(abi, ca);
-        return await service.methods.nextCompany(recipient).call();
+        return await service.methods.nextRecipient(recipient).call();
     } catch(error) {
-        let action = `Action: nextCompany
+        let action = `Action: nextRecipient
         - [ca]:        [${ca}],
         - [recipient]: [${recipient}]`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
@@ -309,16 +309,21 @@ module.exports.recipientCount = async function(ca) {
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} company 등록할 물류사 컨트랙트 주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.register = async function(ca, cmder, privkey, company, nonce) {
+module.exports.register = async function(ca, cmder, privkey, company, nonce, gasprice = 0) {
     try {
         let service = new web3.eth.Contract(abi, ca);
         let gas  = await service.methods.register(company).estimateGas({from: cmder});
         let data = await service.methods.register(company).encodeABI();
-        Log('DEBUG', `GAS (register) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (register) = [${colors.cyan(gas)}], GAS-PRICE = [${colors.cyan(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
         let receipt = await sendTransaction(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
@@ -339,16 +344,21 @@ module.exports.register = async function(ca, cmder, privkey, company, nonce) {
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} addr 인센티브 수령자 주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.settle = async function(ca, cmder, privkey, addr, nonce) {
+module.exports.settle = async function(ca, cmder, privkey, addr, nonce, gasprice = 0) {
     try {
         let service = new web3.eth.Contract(abi, ca);
         let gas  = await service.methods.settle(addr).estimateGas({from: cmder});
         let data = await service.methods.settle(addr).encodeABI();
-        Log('DEBUG', `GAS (settle) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (settle) = [${colors.cyan(gas)}], GAS-PRICE = [${colors.cyan(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
         let receipt = await sendTransaction(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
@@ -369,16 +379,21 @@ module.exports.settle = async function(ca, cmder, privkey, addr, nonce) {
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} company 등록해제할 물류사 컨트랙트 주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.unregister = async function(ca, cmder, privkey, company, nonce) {
+module.exports.unregister = async function(ca, cmder, privkey, company, nonce, gasprice = 0) {
     try {
         let service = new web3.eth.Contract(abi, ca);
         let gas  = await service.methods.unregister(company).estimateGas({from: cmder});
         let data = await service.methods.unregister(company).encodeABI();
-        Log('DEBUG', `GAS (unregister) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (unregister) = [${colors.cyan(gas)}], GAS-PRICE = [${colors.cyan(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
         let receipt = await sendTransaction(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
@@ -399,16 +414,21 @@ module.exports.unregister = async function(ca, cmder, privkey, company, nonce) {
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} order 주문 컨트랙트 주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.markOrderPayed = async function(ca, cmder, privkey, order, nonce) {
+module.exports.markOrderPayed = async function(ca, cmder, privkey, order, nonce, gasprice = 0) {
     try {
         let service = new web3.eth.Contract(abi, ca);
         let gas  = await service.methods.markOrderPayed(order).estimateGas({from: cmder});
         let data = await service.methods.markOrderPayed(order).encodeABI();
-        Log('DEBUG', `GAS (markOrderPayed) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (markOrderPayed) = [${colors.cyan(gas)}], GAS-PRICE = [${colors.cyan(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
         let receipt = await sendTransaction(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
@@ -427,16 +447,21 @@ module.exports.markOrderPayed = async function(ca, cmder, privkey, order, nonce)
  * @param {string} cmder 명령 수행자의 주소
  * @param {string} privkey 명령 수행자의 private key
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong
  */
- module.exports.deployService = async function(cmder, privkey, nonce) {
+ module.exports.deployService = async function(cmder, privkey, nonce, gasprice = 0) {
     try {
         let service = new web3.eth.Contract(abi);
         let gas  = await service.deploy({data: bytecode}).estimateGas({from: cmder});
         let data = await service.deploy({data: bytecode}).encodeABI();
-        Log('DEBUG', `GAS (deployService) = [${colors.cyan(gas)}]`);
-        const rawtx = {nonce: web3.utils.toHex(nonce), gas: gas, data: data};
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (deployService) = [${colors.cyan(gas)}], GAS-PRICE = [${colors.cyan(gasprice)}]`);
+        const rawtx = {nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
         let receipt = await sendTransaction(privkey, rawtx);
         return [receipt.contractAddress, receipt.blockNumber];
     } catch(error) {

@@ -52,7 +52,6 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -61,6 +60,7 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let promise = approve(token, cmder, privkey, approvals[i].addr, approvals[i].amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -80,7 +80,7 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -116,11 +116,11 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false; // 본 함수가 호출되면 무조건 libs function이 호출되므로 alldone을 false로 초기화
         if(cbptrPre != undefined && cbptrPre != null) {
             await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < 1; i++, nonce++) {
             let promise = burn(token, cmder, privkey, amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -139,7 +139,7 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -179,7 +179,6 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -188,6 +187,7 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let promise = transfer(token, cmder, privkey, remittances[i].addr, remittances[i].amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -207,7 +207,7 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -241,11 +241,11 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
         let symbol = params.data.symbol;
         let supply = params.data.supply;
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false; // 본 함수가 호출되면 무조건 libs function이 호출되므로 alldone을 false로 초기화
         if(cbptrPre != undefined && cbptrPre != null) {
             await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < 1; i++, nonce++) {
             let promise = deployToken(cmder, privkey, name, symbol, supply, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
@@ -264,7 +264,7 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {

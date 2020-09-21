@@ -32,16 +32,16 @@ const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 pri
  * @notice 주문을 접수한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunch.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunchOrders.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procCompanyLaunch = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procCompanyLaunchOrders = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procCompanyLaunch') {
+        if(params.operation != 'procCompanyLaunchOrders') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -58,7 +58,6 @@ module.exports.procCompanyLaunch = async function(keystore, passwd, params, cbpt
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -67,6 +66,7 @@ module.exports.procCompanyLaunch = async function(keystore, passwd, params, cbpt
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let promise = launch(company, cmder, privkey, orders[i].addr, orders[i].transportid, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -86,11 +86,11 @@ module.exports.procCompanyLaunch = async function(keystore, passwd, params, cbpt
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
-        let action = `Action: procCompanyLaunch`;
+        let action = `Action: procCompanyLaunchOrders`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -100,16 +100,16 @@ module.exports.procCompanyLaunch = async function(keystore, passwd, params, cbpt
  * @notice 주문 상태갱신을 수행한다.
  * @param {string} keystore keystore object(json format)
  * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderUpdate.json )
+ * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyUpdateOrders.json )
  * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procOrderUpdate = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
     try {
-        if(params.operation != 'procOrderUpdate') {
+        if(params.operation != 'procCompanyUpdateOrders') {
             throw new Error('params: Invalid Operation');
         }
         if(params.data == undefined || params.data == null || params.data == 'none') {
@@ -126,7 +126,6 @@ module.exports.procOrderUpdate = async function(keystore, passwd, params, cbptrP
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -135,6 +134,7 @@ module.exports.procOrderUpdate = async function(keystore, passwd, params, cbptrP
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let addr = orders[i].addr;
             let transportid = orders[i].transportid;
@@ -158,11 +158,11 @@ module.exports.procOrderUpdate = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
-        let action = `Action: procOrderUpdate`;
+        let action = `Action: procCompanyUpdateOrders`;
         Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
         return false;
     }
@@ -198,7 +198,6 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -207,6 +206,7 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let promise = addOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -225,7 +225,7 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -265,7 +265,6 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -274,6 +273,7 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let promise = removeOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -292,7 +292,7 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -331,7 +331,6 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array();
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if((name != undefined) || (url != undefined) || (recipient != undefined)) { // libs function 호출이 일어날 경우
@@ -340,6 +339,7 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         if(name != undefined) {
             let promise = setName(company, cmder, privkey, name, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -382,7 +382,7 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -420,11 +420,11 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         let alldone = false; // 본 함수가 호출되면 무조건 libs function이 호출되므로 alldone을 false로 초기화
         if(cbptrPre != undefined && cbptrPre != null) {
             await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < 1; i++, nonce++) {
             let promise = deployCompany(cmder, privkey, name, url, recipient, service, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
@@ -444,7 +444,7 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {

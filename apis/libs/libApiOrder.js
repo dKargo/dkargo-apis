@@ -49,7 +49,6 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(count > 0) { // libs function 호출이 일어날 경우
@@ -58,6 +57,7 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let promise = submitOrder(orders[i].addr, cmder, privkey, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -76,7 +76,7 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -113,7 +113,6 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array();
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(url != undefined) { // libs function 호출이 일어날 경우
@@ -122,6 +121,7 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         if(url != undefined) {
             let promise = setUrl(order, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
@@ -141,7 +141,7 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {
@@ -181,7 +181,6 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
         let nonce = await web3.eth.getTransactionCount(cmder);
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         //// 흐름제어 코드
         let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
         if(ordercnt > 0) { // libs function 호출이 일어날 경우
@@ -190,6 +189,7 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < ordercnt; i++, nonce++) {
             let url = orders[i].url; // 주문 상세정보 URL
             let sectioncnt = orders[i].count; // 배송구간 개수
@@ -223,7 +223,7 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(100);
+            await msleep(10);
         }
         return true;
     } catch(error) {

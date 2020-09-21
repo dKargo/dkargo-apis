@@ -114,7 +114,7 @@ module.exports = function(app) {
     /**
      * @notice 주문접수 프로시져
      * @dev 수행주체: 물류사
-     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunch.json
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunchOrders.json
      * @author jhhong
      */
     app.post('/cmdCompanyLaunchOrders/:address', async function(req, res) {
@@ -124,7 +124,7 @@ module.exports = function(app) {
     /**
      * @notice 주문 구간배송완료 프로시져
      * @dev 수행주체: 물류사
-     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderUpdate.json
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyUpdateOrders.json
      * @author jhhong
      */
     app.post('/cmdCompanyUpdateOrders/:address', async function(req, res) {
@@ -191,9 +191,15 @@ module.exports = function(app) {
         let ret = await cmdAdminMarkOrderPayments(req.params.address, req.body);
         res.json(ret);
     });
+    /**
+     * @notice 인센티브 정산 프로시져
+     * @dev 수행주체: ADMIN
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminSettle.json
+     * @author jhhong
+     */
     app.post('/cmdAdminSettleIncentives/:address', async function(req, res) {
-        console.log(req.body.data.name);
-        res.json({ok: true});
+        let ret = await cmdAdminSettleIncentives(req.params.address, req.body);
+        res.json(ret);
     });
     /**
      * @notice 계정 추가 COMMAND 처리

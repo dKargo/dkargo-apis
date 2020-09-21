@@ -258,3 +258,52 @@ module.exports.cmdAdminMarkOrderPayments = async function(addr, params) {
         return JSON.stringify(ret);
     }
 }
+
+/**
+ * @notice 주문이 결제완료 되었음을 기록한다.
+ * @param {String} addr 커맨드 수행 주소
+ * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminSettle.json )
+ * @return JSON type (ok: 필드로 성공, 실패 구분)
+ * @author jhhong
+ */
+module.exports.cmdAdminSettleIncentives = async function(addr, params) {
+    try {
+        let keystore = await getKeystore(addr);
+        if (keystore == null) {
+            throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
+        }
+        let exists = await Account.countDocuments({account: addr});
+        if(exists > 1) {
+            throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
+        }
+        if(exists == 0) {
+            throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
+        }
+        let account = await Account.findOne({account: addr});
+        if(account.status != 'idle') {
+            throw new Error(`Account is busy! ADDR:[${addr}]`);
+        }
+        if(params.operation != 'procAdminSettle') { // params 가용성 체크: OPERATION
+            throw new Error('params: Invalid Operation');
+        }
+        let cbptrPre = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (SETTLE INCENTIVES)`);
+        }
+        let cbptrPost = async function(addr) {
+            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (SETTLE INCENTIVES)`);
+        }
+        ApiAdmin.procAdminSettlement(keystore, account.passwd, params, cbptrPre, cbptrPost);
+        let ret = new Object(); // 응답 생성: SUCCESS
+        ret.ok = true;
+        return JSON.stringify(ret);
+    } catch(error) {
+        let action = `Action: cmdAdminSettleIncentives`;
+        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        let ret = new Object(); // 응답 생성: FAILED
+        ret.ok = false;
+        ret.reason = error.message;
+        return JSON.stringify(ret);
+    }
+}
