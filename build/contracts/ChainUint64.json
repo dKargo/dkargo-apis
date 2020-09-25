@@ -1,16 +1,16 @@
 {
   "contractName": "ChainUint64",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"jhhong\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ChainUint64\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"\\uc8fc\\uc18c\\uccb4\\uc778 \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac \\uc815\\uc758\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainUint64.sol\":\"ChainUint64\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainUint64.sol\":{\"keccak256\":\"0x708d55ffcdf06407397752c52b167a0c8034bb7c46bcbea8312c35af6654cf2c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f21727d805a3a84ab3019ffd323e29367abbeaa6c211a9605c8b9d4cff2d629e\",\"dweb:/ipfs/QmYhwToDsjVbtpSiujAWPZzM9wL2a6kuCZ952SoypPFUvr\"]},\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol\":{\"keccak256\":\"0xf2eecf79913f7ca4e09ab61a6a979651a643e152cd2954255a454fd1902cfa7c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3ae417ea4f7bdaff4e5c3e4694575a7e906dc6ae3b92e8f7c94e900bb8ed7e6c\",\"dweb:/ipfs/QmfJT4eBfgcz2tbj57ZkUBPAUEsc65U4Q15RDPpAsoVfCo\"]},\"/home/jhhong/work/dkargo-scm/contracts/libs/math/SafeMath256.sol\":{\"keccak256\":\"0x921f731251bdd27760a1121f204f9e5ff9ddcee5ca8ec8ccd6a7890f6a3670e4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://052543a743d56d73e5427401e2ce5a48d2b455a4b10dc3e023490ebf3686a885\",\"dweb:/ipfs/QmeEMWz9zhJrAz1q7veSCc9caBZi5rzo6CjJtJLyPBDidB\"]}},\"version\":1}",
-  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220c3dfe136c94eb39b8027adeb15a49d06ed9950364530120e5759452b02aa21be64736f6c63430007000033",
-  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220c3dfe136c94eb39b8027adeb15a49d06ed9950364530120e5759452b02aa21be64736f6c63430007000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"jhhong\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ChainUint64\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"\\uc8fc\\uc18c\\uccb4\\uc778 \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac \\uc815\\uc758\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainUint64.sol\":\"ChainUint64\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainUint64.sol\":{\"keccak256\":\"0x708d55ffcdf06407397752c52b167a0c8034bb7c46bcbea8312c35af6654cf2c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f21727d805a3a84ab3019ffd323e29367abbeaa6c211a9605c8b9d4cff2d629e\",\"dweb:/ipfs/QmYhwToDsjVbtpSiujAWPZzM9wL2a6kuCZ952SoypPFUvr\"]},\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol\":{\"keccak256\":\"0xf2eecf79913f7ca4e09ab61a6a979651a643e152cd2954255a454fd1902cfa7c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3ae417ea4f7bdaff4e5c3e4694575a7e906dc6ae3b92e8f7c94e900bb8ed7e6c\",\"dweb:/ipfs/QmfJT4eBfgcz2tbj57ZkUBPAUEsc65U4Q15RDPpAsoVfCo\"]},\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/math/SafeMath256.sol\":{\"keccak256\":\"0x921f731251bdd27760a1121f204f9e5ff9ddcee5ca8ec8ccd6a7890f6a3670e4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://052543a743d56d73e5427401e2ce5a48d2b455a4b10dc3e023490ebf3686a885\",\"dweb:/ipfs/QmeEMWz9zhJrAz1q7veSCc9caBZi5rzo6CjJtJLyPBDidB\"]}},\"version\":1}",
+  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212203a656394cd822b456e2b7a083602a371396d870fa64d2f437bec309cb736006664736f6c63430007000033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212203a656394cd822b456e2b7a083602a371396d870fa64d2f437bec309cb736006664736f6c63430007000033",
   "immutableReferences": {},
   "sourceMap": "207:3737:17:-:0;;;;;;;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "207:3737:17:-:0;;;;;;;;",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.0;\n\nimport \"./Typedef.sol\";\nimport \"../math/SafeMath256.sol\";\n\n/// @title ChainUint64\n/// @notice 주소체인 라이브러리 정의\n/// @author jhhong\nlibrary ChainUint64 {\n    using SafeMath256 for uint256;\n\n    /// @notice 체인의 첫번째 노드 인덱스를 반환한다.\n    /// @param list Uint64 Chain List\n    /// @return 체인의 첫번째 노드 인덱스 (uint64)\n    function first(Typedef.Uint64List storage list) internal view returns(uint64) {\n        return list.head;\n    }\n\n    /// @notice 체인의 마지막 노드 인덱스를 반환한다.\n    /// @param list Uint64 Chain List\n    /// @return 체인의 마지막 노드 인덱스 (uint64)\n    function last(Typedef.Uint64List storage list) internal view returns(uint64) {\n        return list.tail;\n    }\n\n    /// @notice 체인에 등록된 엘리먼트 총 개수를 반환한다.\n    /// @param list Uint64 Chain List\n    /// @return 체인에 등록된 엘리먼트 총 개수 (uint256)\n    function size(Typedef.Uint64List storage list) internal view returns(uint256) {\n        return list.count;\n    }\n\n    /// @notice node의 다음 노드 인덱스를 반환한다.\n    /// @param list Uint64 Chain List\n    /// @param node 노드 인덱스\n    /// @return node의 다음 노드 인덱스\n    function nextOf(Typedef.Uint64List storage list, uint64 node) internal view returns(uint64) {\n        return list.map[node].next;\n    }\n\n    /// @notice node의 이전 노드 인덱스를 반환한다.\n    /// @param list Uint64 Chain List\n    /// @param node 노드 인덱스\n    /// @return node의 이전 노드 인덱스\n    function prevOf(Typedef.Uint64List storage list, uint64 node) internal view returns(uint64) {\n        return list.map[node].prev;\n    }\n\n    /// @notice node가 체인에 연결된 상태인지를 확인한다.\n    /// @param list Uint64 Chain List\n    /// @param node 체인 연결 여부를 확인할 노드 인덱스\n    /// @return 연결 여부 (boolean), true: 연결됨(linked), false: 연결되지 않음(unlinked)\n    function isLinked(Typedef.Uint64List storage list, uint64 node) internal view returns (bool) {\n        if(list.count == 1 && list.head == node && list.tail == node) {\n            return true;\n        } else {\n            return (list.map[node].prev == uint64(0) && list.map[node].next == uint64(0))? (false) :(true);\n        }\n    }\n\n    /// @notice 새로운 노드 정보를 노드 체인에 연결한다.\n    /// @param list Uint64 Chain List\n    /// @param node 노드 체인에 연결할 노드 인덱스\n    function linkChain(Typedef.Uint64List storage list, uint64 node) internal {\n        require(!isLinked(list, node), \"ChainUint64: the node is aleady linked\");\n        if(list.count == 0) {\n            list.head = list.tail = node;\n        } else {\n            list.map[node].prev = list.tail;\n            list.map[list.tail].next = node;\n            list.tail = node;\n        }\n        list.count = list.count.add(1);\n    }\n\n    /// @notice node 노드를 체인에서 연결 해제한다.\n    /// @param list Uint64 Chain List\n    /// @param node 노드 체인에서 연결 해제할 노드 인덱스\n    function unlinkChain(Typedef.Uint64List storage list, uint64 node) internal {\n        require(isLinked(list, node), \"ChainUint64: the node is aleady unlinked\");\n        uint64 tempPrev = list.map[node].prev;\n        uint64 tempNext = list.map[node].next;\n        if (list.head == node) {\n            list.head = tempNext;\n        }\n        if (list.tail == node) {\n            list.tail = tempPrev;\n        }\n        if (tempPrev != uint64(0)) {\n            list.map[tempPrev].next = tempNext;\n            list.map[node].prev = uint64(0);\n        }\n        if (tempNext != uint64(0)) {\n            list.map[tempNext].prev = tempPrev;\n            list.map[node].next = uint64(0);\n        }\n        list.count = list.count.sub(1);\n    }\n}\n",
-  "sourcePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainUint64.sol",
+  "sourcePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainUint64.sol",
   "ast": {
-    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainUint64.sol",
+    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainUint64.sol",
     "exportedSymbols": {
       "ChainUint64": [
         4604
@@ -32,7 +32,7 @@
         "src": "32:24:17"
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
         "file": "./Typedef.sol",
         "id": 4275,
         "nodeType": "ImportDirective",
@@ -43,7 +43,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/math/SafeMath256.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/math/SafeMath256.sol",
         "file": "../math/SafeMath256.sol",
         "id": 4276,
         "nodeType": "ImportDirective",
@@ -4242,7 +4242,7 @@
     "src": "32:3913:17"
   },
   "legacyAST": {
-    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainUint64.sol",
+    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainUint64.sol",
     "exportedSymbols": {
       "ChainUint64": [
         4604
@@ -4264,7 +4264,7 @@
         "src": "32:24:17"
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
         "file": "./Typedef.sol",
         "id": 4275,
         "nodeType": "ImportDirective",
@@ -4275,7 +4275,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/math/SafeMath256.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/math/SafeMath256.sol",
         "file": "../math/SafeMath256.sol",
         "id": 4276,
         "nodeType": "ImportDirective",
@@ -8478,8 +8478,8 @@
     "version": "0.7.0+commit.9e61f92b.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.5",
-  "updatedAt": "2020-09-15T00:57:34.423Z",
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2020-09-08T02:08:21.936Z",
   "devdoc": {
     "author": "jhhong",
     "kind": "dev",

@@ -21,16 +21,16 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"jhhong\",\"details\":\"EIP165 interface \\uc120\\uc5b8 https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\",\"kind\":\"dev\",\"methods\":{},\"title\":\"IERC165\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/dkargo-scm/contracts/introspection/ERC165/IERC165.sol\":\"IERC165\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/dkargo-scm/contracts/introspection/ERC165/IERC165.sol\":{\"keccak256\":\"0x9dedfa7e3e0d7d0cf677846cc390af9447fbec3ae08d7dc4aa9ddcda68405d46\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://438294fb538d359e33bc1df4ebdff8e8ee0aa964e021ccd0ef5bbad4ede66ec8\",\"dweb:/ipfs/QmSRBm3BcER5jmTnFr2NemMp8oMY7k3y1Bhi5KDr4452Vb\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"author\":\"jhhong\",\"details\":\"EIP165 interface \\uc120\\uc5b8 https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\",\"kind\":\"dev\",\"methods\":{},\"title\":\"IERC165\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/introspection/ERC165/IERC165.sol\":\"IERC165\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/introspection/ERC165/IERC165.sol\":{\"keccak256\":\"0x9dedfa7e3e0d7d0cf677846cc390af9447fbec3ae08d7dc4aa9ddcda68405d46\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://438294fb538d359e33bc1df4ebdff8e8ee0aa964e021ccd0ef5bbad4ede66ec8\",\"dweb:/ipfs/QmSRBm3BcER5jmTnFr2NemMp8oMY7k3y1Bhi5KDr4452Vb\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.0;\n\n/// @title IERC165\n/// @dev EIP165 interface 선언\n/// https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\n/// @author jhhong\ninterface IERC165 {\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\n}",
-  "sourcePath": "/home/jhhong/work/dkargo-scm/contracts/introspection/ERC165/IERC165.sol",
+  "sourcePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/introspection/ERC165/IERC165.sol",
   "ast": {
-    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/introspection/ERC165/IERC165.sol",
+    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/introspection/ERC165/IERC165.sol",
     "exportedSymbols": {
       "IERC165": [
         3337
@@ -165,7 +165,7 @@
     "src": "32:264:11"
   },
   "legacyAST": {
-    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/introspection/ERC165/IERC165.sol",
+    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/introspection/ERC165/IERC165.sol",
     "exportedSymbols": {
       "IERC165": [
         3337
@@ -304,8 +304,8 @@
     "version": "0.7.0+commit.9e61f92b.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.5",
-  "updatedAt": "2020-09-15T00:57:34.389Z",
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2020-09-08T02:08:21.898Z",
   "devdoc": {
     "author": "jhhong",
     "details": "EIP165 interface 선언 https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",

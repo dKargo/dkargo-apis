@@ -1,16 +1,16 @@
 {
   "contractName": "ChainBytes32",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"jhhong\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ChainBytes32\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Bytes32 Chain \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac \\uc815\\uc758\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainBytes32.sol\":\"ChainBytes32\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainBytes32.sol\":{\"keccak256\":\"0x49567a1b7a4edf0dfc51c631168394b22dcde8327382e8442e0078d32c65a351\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c60b8411cf33974f9bbc44d773ad6e14fc22a74051f67a01ddda0e7952efb5f8\",\"dweb:/ipfs/QmV1aQ9KwKXo8CfQdk6YsTdjDxh8dTomQnwpz79mwY81qt\"]},\"/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol\":{\"keccak256\":\"0xf2eecf79913f7ca4e09ab61a6a979651a643e152cd2954255a454fd1902cfa7c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3ae417ea4f7bdaff4e5c3e4694575a7e906dc6ae3b92e8f7c94e900bb8ed7e6c\",\"dweb:/ipfs/QmfJT4eBfgcz2tbj57ZkUBPAUEsc65U4Q15RDPpAsoVfCo\"]},\"/home/jhhong/work/dkargo-scm/contracts/libs/math/SafeMath256.sol\":{\"keccak256\":\"0x921f731251bdd27760a1121f204f9e5ff9ddcee5ca8ec8ccd6a7890f6a3670e4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://052543a743d56d73e5427401e2ce5a48d2b455a4b10dc3e023490ebf3686a885\",\"dweb:/ipfs/QmeEMWz9zhJrAz1q7veSCc9caBZi5rzo6CjJtJLyPBDidB\"]}},\"version\":1}",
-  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220ce471b49caa18304101e89e39cc9530f995d45e92095a4d46ec35f18da3c348e64736f6c63430007000033",
-  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220ce471b49caa18304101e89e39cc9530f995d45e92095a4d46ec35f18da3c348e64736f6c63430007000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.7.0+commit.9e61f92b\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"author\":\"jhhong\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ChainBytes32\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"notice\":\"Bytes32 Chain \\ub77c\\uc774\\ube0c\\ub7ec\\ub9ac \\uc815\\uc758\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainBytes32.sol\":\"ChainBytes32\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainBytes32.sol\":{\"keccak256\":\"0x49567a1b7a4edf0dfc51c631168394b22dcde8327382e8442e0078d32c65a351\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c60b8411cf33974f9bbc44d773ad6e14fc22a74051f67a01ddda0e7952efb5f8\",\"dweb:/ipfs/QmV1aQ9KwKXo8CfQdk6YsTdjDxh8dTomQnwpz79mwY81qt\"]},\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol\":{\"keccak256\":\"0xf2eecf79913f7ca4e09ab61a6a979651a643e152cd2954255a454fd1902cfa7c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3ae417ea4f7bdaff4e5c3e4694575a7e906dc6ae3b92e8f7c94e900bb8ed7e6c\",\"dweb:/ipfs/QmfJT4eBfgcz2tbj57ZkUBPAUEsc65U4Q15RDPpAsoVfCo\"]},\"/home/jhhong/work/renewal/dkargo-scm/contracts/libs/math/SafeMath256.sol\":{\"keccak256\":\"0x921f731251bdd27760a1121f204f9e5ff9ddcee5ca8ec8ccd6a7890f6a3670e4\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://052543a743d56d73e5427401e2ce5a48d2b455a4b10dc3e023490ebf3686a885\",\"dweb:/ipfs/QmeEMWz9zhJrAz1q7veSCc9caBZi5rzo6CjJtJLyPBDidB\"]}},\"version\":1}",
+  "bytecode": "0x60566023600b82828239805160001a607314601657fe5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212202f00d92b994e64efd5a079d6f6f61e5a7caf88d274686621ff0a6427d6d1de7764736f6c63430007000033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212202f00d92b994e64efd5a079d6f6f61e5a7caf88d274686621ff0a6427d6d1de7764736f6c63430007000033",
   "immutableReferences": {},
   "sourceMap": "209:3775:16:-:0;;;;;;;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "209:3775:16:-:0;;;;;;;;",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.0;\n\nimport \"./Typedef.sol\";\nimport \"../math/SafeMath256.sol\";\n\n/// @title ChainBytes32\n/// @notice Bytes32 Chain 라이브러리 정의\n/// @author jhhong\nlibrary ChainBytes32 {\n    using SafeMath256 for uint256;\n\n    /// @notice 체인의 첫번째 노드 인덱스를 반환한다.\n    /// @param list Bytes32 Chain List\n    /// @return 체인의 첫번째 노드 인덱스 (bytes32)\n    function first(Typedef.Bytes32List storage list) internal view returns(bytes32) {\n        return list.head;\n    }\n\n    /// @notice 체인의 마지막 노드 인덱스를 반환한다.\n    /// @param list Bytes32 Chain List\n    /// @return 체인의 마지막 노드 인덱스 (bytes32)\n    function last(Typedef.Bytes32List storage list) internal view returns(bytes32) {\n        return list.tail;\n    }\n\n    /// @notice 체인에 등록된 엘리먼트 총 개수를 반환한다.\n    /// @param list Bytes32 Chain List\n    /// @return 체인에 등록된 엘리먼트 총 개수 (uint256)\n    function size(Typedef.Bytes32List storage list) internal view returns(uint256) {\n        return list.count;\n    }\n\n    /// @notice node의 다음 노드 인덱스를 반환한다.\n    /// @param list Bytes32 Chain List\n    /// @param node 노드 인덱스\n    /// @return node의 다음 노드 인덱스\n    function nextOf(Typedef.Bytes32List storage list, bytes32 node) internal view returns(bytes32) {\n        return list.map[node].next;\n    }\n\n    /// @notice node의 이전 노드 인덱스를 반환한다.\n    /// @param list Bytes32 Chain List\n    /// @param node 노드 인덱스\n    /// @return node의 이전 노드 인덱스\n    function prevOf(Typedef.Bytes32List storage list, bytes32 node) internal view returns(bytes32) {\n        return list.map[node].prev;\n    }\n\n    /// @notice node가 체인에 연결된 상태인지를 확인한다.\n    /// @param list Bytes32 Chain List\n    /// @param node 체인 연결 여부를 확인할 노드 인덱스\n    /// @return 연결 여부 (boolean), true: 연결됨(linked), false: 연결되지 않음(unlinked)\n    function isLinked(Typedef.Bytes32List storage list, bytes32 node) internal view returns (bool) {\n        if(list.count == 1 && list.head == node && list.tail == node) {\n            return true;\n        } else {\n            return (list.map[node].prev == bytes32(0) && list.map[node].next == bytes32(0))? (false) :(true);\n        }\n    }\n\n    /// @notice 새로운 노드 정보를 노드 체인에 연결한다.\n    /// @param list Bytes32 Chain List\n    /// @param node 노드 체인에 연결할 노드 인덱스\n    function linkChain(Typedef.Bytes32List storage list, bytes32 node) internal {\n        require(!isLinked(list, node), \"ChainBytes32: the node is aleady linked\");\n        if(list.count == 0) {\n            list.head = list.tail = node;\n        } else {\n            list.map[node].prev = list.tail;\n            list.map[list.tail].next = node;\n            list.tail = node;\n        }\n        list.count = list.count.add(1);\n    }\n\n    /// @notice node 노드를 체인에서 연결 해제한다.\n    /// @param list Bytes32 Chain List\n    /// @param node 노드 체인에서 연결 해제할 노드 인덱스\n    function unlinkChain(Typedef.Bytes32List storage list, bytes32 node) internal {\n        require(isLinked(list, node), \"ChainBytes32: the node is aleady unlinked\");\n        bytes32 tempPrev = list.map[node].prev;\n        bytes32 tempNext = list.map[node].next;\n        if (list.head == node) {\n            list.head = tempNext;\n        }\n        if (list.tail == node) {\n            list.tail = tempPrev;\n        }\n        if (tempPrev != bytes32(0)) {\n            list.map[tempPrev].next = tempNext;\n            list.map[node].prev = bytes32(0);\n        }\n        if (tempNext != bytes32(0)) {\n            list.map[tempNext].prev = tempPrev;\n            list.map[node].next = bytes32(0);\n        }\n        list.count = list.count.sub(1);\n    }\n}\n",
-  "sourcePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainBytes32.sol",
+  "sourcePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainBytes32.sol",
   "ast": {
-    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainBytes32.sol",
+    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainBytes32.sol",
     "exportedSymbols": {
       "ChainBytes32": [
         4272
@@ -32,7 +32,7 @@
         "src": "32:24:16"
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
         "file": "./Typedef.sol",
         "id": 3943,
         "nodeType": "ImportDirective",
@@ -43,7 +43,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/math/SafeMath256.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/math/SafeMath256.sol",
         "file": "../math/SafeMath256.sol",
         "id": 3944,
         "nodeType": "ImportDirective",
@@ -4242,7 +4242,7 @@
     "src": "32:3953:16"
   },
   "legacyAST": {
-    "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/ChainBytes32.sol",
+    "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/ChainBytes32.sol",
     "exportedSymbols": {
       "ChainBytes32": [
         4272
@@ -4264,7 +4264,7 @@
         "src": "32:24:16"
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/chain/Typedef.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
         "file": "./Typedef.sol",
         "id": 3943,
         "nodeType": "ImportDirective",
@@ -4275,7 +4275,7 @@
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/jhhong/work/dkargo-scm/contracts/libs/math/SafeMath256.sol",
+        "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/math/SafeMath256.sol",
         "file": "../math/SafeMath256.sol",
         "id": 3944,
         "nodeType": "ImportDirective",
@@ -8478,8 +8478,8 @@
     "version": "0.7.0+commit.9e61f92b.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.2.5",
-  "updatedAt": "2020-09-15T00:57:34.416Z",
+  "schemaVersion": "3.2.3",
+  "updatedAt": "2020-09-08T02:08:21.922Z",
   "devdoc": {
     "author": "jhhong",
     "kind": "dev",
