@@ -5,12 +5,17 @@
  * @author jhhong
  */
 
-const colors = require('colors/safe'); // 콘솔 Color 출력
-const web3 = require('./Web3.js').prov1; // web3 provider (token은 mainnet(chain1)에 deploy됨)
-const abi = require('../build/contracts/DkargoToken.json').abi; // 컨트랙트 ABI
+//// WEB3
+const web3   = require('./Web3.js').prov1; // web3 provider (token은 mainnet(chain1)에 deploy됨)
+const sendTx = require('./Web3.js').prov1SendTx; // 트랜젝션을 생성하여 블록체인에 전송하는 함수
+//// GLOBALs
+const abi      = require('../build/contracts/DkargoToken.json').abi; // 컨트랙트 ABI
 const bytecode = require('../build/contracts/DkargoToken.json').bytecode; // 컨트랙트 bytecode
+//// LOGs
 const Log = require('./libLog.js').Log; // 로그 출력
-const sendTransaction = require('./Web3.js').prov1SendTx; // 트랜젝션을 생성하여 블록체인에 전송하는 함수
+//// LOG COLOR (console)
+const RED  = require('./libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const CYAN = require('./libLog.js').consoleCyan; // 콘솔 컬러 출력: CYAN
 
 /**
  * @notice holder가 spender에게 할당한 위임 통화량을 반환한다.
@@ -29,7 +34,7 @@ module.exports.allowance = async function(ca, holder, spender) {
         - [ca]:      [${ca}],
         - [holder]:  [${holder}],
         - [spender]: [${spender}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -48,7 +53,7 @@ module.exports.balanceOf = async function(ca, user) {
         let action = `Action: balanceOf
         - [ca]:   [${ca}],
         - [user]: [${user}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -65,7 +70,7 @@ module.exports.count = async function(ca) {
     } catch(error) {
         let action = `Action: count
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -82,7 +87,7 @@ module.exports.decimals = async function(ca) {
     } catch(error) {
         let action = `Action: decimals
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -99,7 +104,7 @@ module.exports.head = async function(ca) {
     } catch(error) {
         let action = `Action: head
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -118,7 +123,7 @@ module.exports.isLinked = async function(ca, user) {
         let action = `Action: isLinked
         - [ca]:   [${ca}],
         - [user]: [${user}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -135,7 +140,7 @@ module.exports.name = async function(ca) {
     } catch(error) {
         let action = `Action: name
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -154,7 +159,7 @@ module.exports.nextOf = async function(ca, user) {
         let action = `Action: nextOf
         - [ca]:   [${ca}],
         - [user]: [${user}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -173,7 +178,7 @@ module.exports.prevOf = async function(ca, user) {
         let action = `Action: prevOf
         - [ca]:   [${ca}],
         - [user]: [${user}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -190,7 +195,7 @@ module.exports.symbol = async function(ca) {
     } catch(error) {
         let action = `Action: symbol
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -207,7 +212,7 @@ module.exports.tail = async function(ca) {
     } catch(error) {
         let action = `Action: tail
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -224,7 +229,7 @@ module.exports.totalSupply = async function(ca) {
     } catch(error) {
         let action = `Action: totalSupply
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -236,17 +241,22 @@ module.exports.totalSupply = async function(ca) {
  * @param {string} spender spender(토큰 위임자) 계좌 주소
  * @param {string} amount 토큰 위임양
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.approve = async function(ca, cmder, privkey, spender, amount, nonce) {
+module.exports.approve = async function(ca, cmder, privkey, spender, amount, nonce, gasprice = 0) {
     try {
         let token = await new web3.eth.Contract(abi, ca);
         let gas  = await token.methods.approve(spender, amount).estimateGas({from: cmder});
         let data = await token.methods.approve(spender, amount).encodeABI();
-        Log('DEBUG', `GAS (approve) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (approve) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: approve
@@ -255,7 +265,7 @@ module.exports.approve = async function(ca, cmder, privkey, spender, amount, non
         - [to]:     [${spender}],
         - [amount]: [${amount}],
         - [nonce]:  [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -267,17 +277,22 @@ module.exports.approve = async function(ca, cmder, privkey, spender, amount, non
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} amount 토큰 소각양
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.burn = async function(ca, cmder, privkey, amount, nonce) {
+module.exports.burn = async function(ca, cmder, privkey, amount, nonce, gasprice = 0) {
     try {
         let token = await new web3.eth.Contract(abi, ca);
         let gas  = await token.methods.burn(amount).estimateGas({from: cmder});
         let data = await token.methods.burn(amount).encodeABI();
-        Log('DEBUG', `GAS (burn) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (burn) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: burn
@@ -285,7 +300,7 @@ module.exports.burn = async function(ca, cmder, privkey, amount, nonce) {
         - [cmder]:  [${cmder}],
         - [amount]: [${amount}],
         - [nonce]:  [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -298,17 +313,22 @@ module.exports.burn = async function(ca, cmder, privkey, amount, nonce) {
  * @param {string} to to 계좌 주소
  * @param {string} amount 토큰 송금양
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.transfer = async function(ca, cmder, privkey, to, amount, nonce) {
+module.exports.transfer = async function(ca, cmder, privkey, to, amount, nonce, gasprice = 0) {
     try {
         let token = await new web3.eth.Contract(abi, ca);
         let gas  = await token.methods.transfer(to, amount).estimateGas({from: cmder});
         let data = await token.methods.transfer(to, amount).encodeABI();
-        Log('DEBUG', `GAS (transfer) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (transfer) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: transfer
@@ -317,7 +337,7 @@ module.exports.transfer = async function(ca, cmder, privkey, to, amount, nonce) 
         - [to]:     [${to}],
         - [amount]: [${amount}],
         - [nonce]:  [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -331,17 +351,22 @@ module.exports.transfer = async function(ca, cmder, privkey, to, amount, nonce) 
  * @param {string} to to 계좌 주소
  * @param {string} amount 토큰 송금양
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.transferFrom = async function(ca, cmder, privkey, from, to, amount, nonce) {
+module.exports.transferFrom = async function(ca, cmder, privkey, from, to, amount, nonce, gasprice = 0) {
     try {
         let token = await new web3.eth.Contract(abi, ca);
         let gas  = await token.methods.transferFrom(from, to, amount).estimateGas({from: cmder});
         let data = await token.methods.transferFrom(from, to, amount).encodeABI();
-        Log('DEBUG', `GAS (transferFrom) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (transferFrom) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: transferFrom
@@ -351,7 +376,7 @@ module.exports.transferFrom = async function(ca, cmder, privkey, from, to, amoun
         - [to]:     [${to}],
         - [amount]: [${amount}],
         - [nonce]:  [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -364,17 +389,22 @@ module.exports.transferFrom = async function(ca, cmder, privkey, from, to, amoun
  * @param {string} symbol 토큰 심볼
  * @param {string} supply 초기 발행량
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong
  */
-module.exports.deployToken = async function(cmder, privkey, name, symbol, supply, nonce) {
+module.exports.deployToken = async function(cmder, privkey, name, symbol, supply, nonce, gasprice = 0) {
     try {
         let token = await new web3.eth.Contract(abi);
         let gas  = await token.deploy({data: bytecode, arguments:[name, symbol, supply]}).estimateGas({from: cmder});
         let data = await token.deploy({data: bytecode, arguments:[name, symbol, supply]}).encodeABI();
-        Log('DEBUG', `GAS (deploy) = [${colors.cyan(gas)}]`);
-        const rawtx = {nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (deployToken) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return [receipt.contractAddress, receipt.blockNumber];
     } catch(error) {
         let action = `Action: deployToken
@@ -383,7 +413,7 @@ module.exports.deployToken = async function(cmder, privkey, name, symbol, supply
         - [symbol]: [${symbol}],
         - [supply]: [${supply}],
         - [nonce]:  [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }

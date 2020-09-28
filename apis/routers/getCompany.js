@@ -4,16 +4,14 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
 //// DBs
 require('../db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
 const Work     = mongoose.model('ApiWork'); // Work Schema
-
 //// LOGs
 const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 
 /**
  * @notice 물류사가 배송해야 할 배송업무 리스트를 획득한다.
@@ -42,7 +40,7 @@ module.exports.getCompanyWorks = async function(addr) {
         }
     } catch(error) {
         let action = `Action: getCompanyWorks`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return 'none';
     }
 }

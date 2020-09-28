@@ -4,20 +4,18 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const ApiCompany  = require('../libs/libApiCompany.js'); // 물류사 API
-const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
-
-//// LOGs
-const Log = require('../../libs/libLog.js').Log; // 로그 출력
-
 //// DBs
 require('../db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
 const Account  = mongoose.model('ApiAccount'); // Account Schema
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+//// LIBs (libApiCompany)
+const ApiCompany = require('../libs/libApiCompany.js'); // 물류사 API
+//// LIBs (libApiCommon)
+const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
 
 /**
  * @notice 물류사 컨트랙트 DEPLOY를 수행한다.
@@ -60,7 +58,7 @@ module.exports.cmdCompanyDeploy = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdCompanyDeploy`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -109,7 +107,7 @@ module.exports.cmdCompanyLaunchOrders = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdCompanyLaunchOrders`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -158,7 +156,7 @@ module.exports.cmdCompanyUpdateOrders = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdCompanyUpdateOrders`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -207,7 +205,7 @@ module.exports.cmdCompanyAddOperators = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdCompanyAddOperators`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -256,7 +254,7 @@ module.exports.cmdCompanyRemoveOperators = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdCompanyRemoveOperators`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -305,7 +303,7 @@ module.exports.cmdCompanysetInfos = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdCompanysetInfos`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;

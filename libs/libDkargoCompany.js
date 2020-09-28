@@ -5,12 +5,17 @@
  * @author jhhong
  */
 
-const colors = require('colors/safe'); // 콘솔 Color 출력
-const web3 = require('./Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
-const abi = require('../build/contracts/DkargoCompany.json').abi; // 컨트랙트 ABI
+//// WEB3
+const web3   = require('./Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
+const sendTx = require('./Web3.js').prov2SendTx; // 트랜젝션을 생성하여 블록체인에 전송하는 함수
+//// GLOBALs
+const abi      = require('../build/contracts/DkargoCompany.json').abi; // 컨트랙트 ABI
 const bytecode = require('../build/contracts/DkargoCompany.json').bytecode; // 컨트랙트 bytecode
+//// LOGs
 const Log = require('./libLog.js').Log; // 로그 출력
-const sendTransaction = require('./Web3.js').prov2SendTx; // 트랜젝션을 생성하여 블록체인에 전송하는 함수
+//// LOG COLOR (console)
+const RED  = require('./libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const CYAN = require('./libLog.js').consoleCyan; // 콘솔 컬러 출력: CYAN
 
 /**
  * @notice 주문의 정상 배송완료 여부를 반환한다.
@@ -25,7 +30,7 @@ module.exports.isComplete = async function(ca) {
     } catch(error) {
         let action = `Action: isComplete
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -42,7 +47,7 @@ module.exports.firstOrder = async function(ca) {
     } catch(error) {
         let action = `Action: firstOrder
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -59,7 +64,7 @@ module.exports.lastOrder = async function(ca) {
     } catch(error) {
         let action = `Action: lastOrder
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -76,7 +81,7 @@ module.exports.name = async function(ca) {
     } catch(error) {
         let action = `Action: name
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -95,7 +100,7 @@ module.exports.nextOrder = async function(ca, order) {
         let action = `Action: nextOrder
         - [ca]:    [${ca}],
         - [order]: [${order}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -114,7 +119,7 @@ module.exports.prevOrder = async function(ca, order) {
         let action = `Action: prevOrder
         - [ca]:    [${ca}],
         - [order]: [${order}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -131,7 +136,7 @@ module.exports.recipient = async function(ca) {
     } catch(error) {
         let action = `Action: recipient
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -148,7 +153,7 @@ module.exports.service = async function(ca) {
     } catch(error) {
         let action = `Action: service
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -165,7 +170,7 @@ module.exports.url = async function(ca) {
     } catch(error) {
         let action = `Action: url
         - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
 
@@ -177,17 +182,22 @@ module.exports.url = async function(ca) {
  * @param {string} order 접수할 주문 컨트랙트 주소
  * @param {number} transportid 운송번호 (구간배송번호)
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.launch = async function(ca, cmder, privkey, order, transportid, nonce) {
+module.exports.launch = async function(ca, cmder, privkey, order, transportid, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.launch(order, transportid).estimateGas({from: cmder});
         let data = await company.methods.launch(order, transportid).encodeABI();
-        Log('DEBUG', `GAS (launch) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (launch) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: launch
@@ -195,7 +205,7 @@ module.exports.launch = async function(ca, cmder, privkey, order, transportid, n
         - [cmder]: [${cmder}],
         - [order]: [${order}],
         - [nonce]: [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -209,17 +219,22 @@ module.exports.launch = async function(ca, cmder, privkey, order, transportid, n
  * @param {number} transportid 운송번호 (구간배송번호)
  * @param {number} code 배송상태 코드
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.updateOrderCode = async function(ca, cmder, privkey, order, transportid, code, nonce) {
+module.exports.updateOrderCode = async function(ca, cmder, privkey, order, transportid, code, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.updateOrderCode(order, transportid, code).estimateGas({from: cmder});
         let data = await company.methods.updateOrderCode(order, transportid, code).encodeABI();
-        Log('DEBUG', `GAS (updateOrderCode) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (updateOrderCode) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: updateOrderCode
@@ -229,7 +244,7 @@ module.exports.updateOrderCode = async function(ca, cmder, privkey, order, trans
         - [transportid]: [${transportid}],
         - [code]:        [${code}],
         - [nonce]:       [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -242,17 +257,22 @@ module.exports.updateOrderCode = async function(ca, cmder, privkey, order, trans
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} operator 관리자로 등록할 주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.addOperator = async function(ca, cmder, privkey, operator, nonce) {
+module.exports.addOperator = async function(ca, cmder, privkey, operator, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.addOperator(operator).estimateGas({from: cmder});
         let data = await company.methods.addOperator(operator).encodeABI();
-        Log('DEBUG', `GAS (addOperator) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (addOperator) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: addOperator
@@ -260,7 +280,7 @@ module.exports.addOperator = async function(ca, cmder, privkey, operator, nonce)
         - [cmder]:    [${cmder}],
         - [operator]: [${operator}],
         - [nonce]:    [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -273,17 +293,22 @@ module.exports.addOperator = async function(ca, cmder, privkey, operator, nonce)
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} operator 관리자 권한 해제할 주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.removeOperator = async function(ca, cmder, privkey, operator, nonce) {
+module.exports.removeOperator = async function(ca, cmder, privkey, operator, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.removeOperator(operator).estimateGas({from: cmder});
         let data = await company.methods.removeOperator(operator).encodeABI();
-        Log('DEBUG', `GAS (removeOperator) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (removeOperator) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: removeOperator
@@ -291,7 +316,7 @@ module.exports.removeOperator = async function(ca, cmder, privkey, operator, non
         - [cmder]:    [${cmder}],
         - [operator]: [${operator}],
         - [nonce]:    [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -303,17 +328,22 @@ module.exports.removeOperator = async function(ca, cmder, privkey, operator, non
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} name 물류사 별칭
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.setName = async function(ca, cmder, privkey, name, nonce) {
+module.exports.setName = async function(ca, cmder, privkey, name, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.setName(name).estimateGas({from: cmder});
         let data = await company.methods.setName(name).encodeABI();
-        Log('DEBUG', `GAS (setName) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (setName) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: setName
@@ -321,7 +351,7 @@ module.exports.setName = async function(ca, cmder, privkey, name, nonce) {
         - [cmder]: [${cmder}],
         - [order]: [${name}],
         - [nonce]: [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -333,17 +363,22 @@ module.exports.setName = async function(ca, cmder, privkey, name, nonce) {
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} url 물류사 URL
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.setUrl = async function(ca, cmder, privkey, url, nonce) {
+module.exports.setUrl = async function(ca, cmder, privkey, url, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.setUrl(url).estimateGas({from: cmder});
         let data = await company.methods.setUrl(url).encodeABI();
-        Log('DEBUG', `GAS (setUrl) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (setUrl) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: setUrl
@@ -351,7 +386,7 @@ module.exports.setUrl = async function(ca, cmder, privkey, url, nonce) {
         - [cmder]: [${cmder}],
         - [order]: [${url}],
         - [nonce]: [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -363,17 +398,22 @@ module.exports.setUrl = async function(ca, cmder, privkey, url, nonce) {
  * @param {string} privkey 명령 수행자의 private key
  * @param {string} recipient 물류사 수취인주소
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
-module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonce) {
+module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi, ca);
         let gas  = await company.methods.setRecipient(recipient).estimateGas({from: cmder});
         let data = await company.methods.setRecipient(recipient).encodeABI();
-        Log('DEBUG', `GAS (setRecipient) = [${colors.cyan(gas)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (setRecipient) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return receipt.transactionHash;
     } catch(error) {
         let action = `Action: setRecipient
@@ -381,7 +421,7 @@ module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonc
         - [cmder]: [${cmder}],
         - [order]: [${recipient}],
         - [nonce]: [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -395,17 +435,22 @@ module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonc
  * @param {array} recipient 물류수행 참여자 주소 배열 (화주+물류사)
  * @param {array} service 물류 트래킹 코드 배열
  * @param {number} nonce NONCE값
+ * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong
  */
- module.exports.deployCompany = async function(cmder, privkey, name, url, recipient, service, nonce) {
+ module.exports.deployCompany = async function(cmder, privkey, name, url, recipient, service, nonce, gasprice = 0) {
     try {
         let company = await new web3.eth.Contract(abi);
         let gas  = await company.deploy({data: bytecode, arguments:[name, url, recipient, service]}).estimateGas({from: cmder});
         let data = await company.deploy({data: bytecode, arguments:[name, url, recipient, service]}).encodeABI();
-        Log('DEBUG', `GAS (deployCompany) = [${colors.cyan(gas)}]`);
-        const rawtx = {nonce: web3.utils.toHex(nonce), gas: gas, data: data};
-        let receipt = await sendTransaction(privkey, rawtx);
+        if (gasprice == 0) {
+            gasprice = await web3.eth.getGasPrice();
+        }
+        let gphex = `0x${parseInt(gasprice).toString(16)}`;
+        Log('DEBUG', `GAS (deployCompany) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
+        const rawtx = {nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
+        let receipt = await sendTx(privkey, rawtx);
         return [receipt.contractAddress, receipt.blockNumber];
     } catch(error) {
         let action = `Action: deployCompany
@@ -415,7 +460,7 @@ module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonc
         - [recipient]: [${recipient}],
         - [service]:   [${service}],
         - [nonce]:     [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }

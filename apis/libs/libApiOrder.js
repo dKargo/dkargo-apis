@@ -7,18 +7,20 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const Log         = require('../../libs/libLog.js').Log; // 로그 출력
-const msleep      = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// WEB3
+const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const GREEN = require('../../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
+const BLUE  = require('../../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
+//// LIBs (libCommon)
+const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// LIBs (libDkargoOrder)
 const submitOrder = require('../../libs/libDkargoOrder.js').submitOrderCreate; // submitOrderCreate: 주문 요청 함수
 const setUrl      = require('../../libs/libDkargoOrder.js').setUrl; // setUrl: 주문 상세정보가 저장된 URL 설정 함수
 const deployOrder = require('../../libs/libDkargoOrder.js').deployOrder; // deployOrder: 주문 컨트랙트 deploy 함수
-
-//// WEB3
-const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
 
 /**
  * @notice 주문을 요청한다.
@@ -62,8 +64,8 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
             let promise = submitOrder(orders[i].addr, cmder, privkey, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SUBMIT-ORDER done!\n` +
-                    `- [ORDER]:  [${colors.blue(orders[i].addr)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [ORDER]:  [${BLUE(orders[i].addr)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -81,7 +83,7 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
         return true;
     } catch(error) {
         let action = `Action: procOrderSubmit`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -126,8 +128,8 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
             let promise = setUrl(order, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-URL done!\n` +
-                    `- [URL]:    [${colors.blue(url)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [URL]:    [${BLUE(url)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -146,7 +148,7 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
         return true;
     } catch(error) {
         let action = `Action: procOrderSetInfo`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -208,9 +210,9 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
             let promise = deployOrder(cmder, privkey, url, service, members, codes, incentives, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
                     let action = `ORDER DEPLOY done!\n` +
-                    `- [URL]:         [${colors.blue(url)}],\n` +
-                    `=>[ADDRESS]:     [${colors.green(ret[0])}],\n` +
-                    `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
+                    `- [URL]:         [${BLUE (url)}],\n` +
+                    `=>[ADDRESS]:     [${GREEN(ret[0])}],\n` +
+                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -228,7 +230,7 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
         return true;
     } catch(error) {
         let action = `Action: procOrderDeploy`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }

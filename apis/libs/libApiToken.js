@@ -8,19 +8,22 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const Log          = require('../../libs/libLog.js').Log; // 로그 출력
-const msleep       = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
-const approve      = require('../../libs/libDkargoToken.js').approve; // approve: 토큰 위임 함수
-const burn         = require('../../libs/libDkargoToken.js').burn; // burn: 토큰 소각 함수
-const transfer     = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 송금 함수
-const deployToken  = require('../../libs/libDkargoToken.js').deployToken; // deployToken: 토큰 컨트랙트 deploy 함수
-
 //// WEB3
-const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
+const web3 = require('../../libs/Web3.js').prov1; // web3 provider (token mainnet(chain1)에 deploy됨)
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const GREEN = require('../../libs/libLog.js').consoleGreen;
+const BLUE  = require('../../libs/libLog.js').consoleBlue;
+//// LIBs (libCommon)
+const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// LIBs (libDkargoToken)
+const approve     = require('../../libs/libDkargoToken.js').approve; // approve: 토큰 위임 함수
+const burn        = require('../../libs/libDkargoToken.js').burn; // burn: 토큰 소각 함수
+const transfer    = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 송금 함수
+const deployToken = require('../../libs/libDkargoToken.js').deployToken; // deployToken: 토큰 컨트랙트 deploy 함수
+
 
 /**
  * @notice 토큰을 위임한다.
@@ -65,9 +68,9 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
             let promise = approve(token, cmder, privkey, approvals[i].addr, approvals[i].amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `APPROVE done!\n` +
-                    `- [TO]:     [${colors.blue(approvals[i].addr)}],\n` +
-                    `- [AMOUNT]: [${colors.blue(approvals[i].amount)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [TO]:     [${BLUE(approvals[i].addr)}],\n` +
+                    `- [AMOUNT]: [${BLUE(approvals[i].amount)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -85,7 +88,7 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
         return true;
     } catch(error) {
         let action = `Action: procTokenApprove`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -125,8 +128,8 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
             let promise = burn(token, cmder, privkey, amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `BURN done!\n` +
-                    `- [AMOUNT]: [${colors.blue(amount)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [AMOUNT]: [${BLUE(amount)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -144,7 +147,7 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
         return true;
     } catch(error) {
         let action = `Action: procTokenBurn`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -192,9 +195,9 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
             let promise = transfer(token, cmder, privkey, remittances[i].addr, remittances[i].amount, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `TRANSFER done!\n` +
-                    `- [TO]:     [${colors.blue(remittances[i].addr)}],\n` +
-                    `- [AMOUNT]: [${colors.blue(remittances[i].amount)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [TO]:     [${BLUE(remittances[i].addr)}],\n` +
+                    `- [AMOUNT]: [${BLUE(remittances[i].amount)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -212,7 +215,7 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
         return true;
     } catch(error) {
         let action = `Action: procTokenTransfer`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -250,8 +253,8 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
             let promise = deployToken(cmder, privkey, name, symbol, supply, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
                     let action = `TOKEN DEPLOY done!\n` +
-                    `=>[ADDRESS]:     [${colors.green(ret[0])}]\n` +
-                    `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
+                    `=>[ADDRESS]:     [${GREEN(ret[0])}]\n` +
+                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -269,7 +272,7 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
         return true;
     } catch(error) {
         let action = `Action: procTokenDeploy`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }

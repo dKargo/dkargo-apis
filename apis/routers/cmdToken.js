@@ -4,20 +4,18 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const ApiToken    = require('../libs/libApiToken.js'); // 토큰 API
-const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
-
-//// LOGs
-const Log = require('../../libs/libLog.js').Log; // 로그 출력
-
 //// DBs
 require('../db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
 const Account  = mongoose.model('ApiAccount'); // Account Schema
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+//// LIBs (libApiToken)
+const ApiToken = require('../libs/libApiToken.js'); // 토큰 API
+//// LIBs (libApiCommon)
+const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
 
 /**
  * @notice 토큰 위임 프로시져를 수행한다.
@@ -60,7 +58,7 @@ module.exports.cmdTokenApprove = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdTokenApprove`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -109,7 +107,7 @@ module.exports.cmdTokenBurn = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdTokenBurn`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -158,7 +156,7 @@ module.exports.cmdTokenTransfer = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdTokenTransfer`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;

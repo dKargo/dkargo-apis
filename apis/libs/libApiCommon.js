@@ -4,10 +4,15 @@
  * @author jhhong
  */
 
-const fs = require('fs'); // Keystore 경로 획득을 위함
+//// COMMON
+const fs   = require('fs'); // Keystore 경로 획득을 위함
 const path = require('path'); // .env 경로 추출을 위함
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+//// DOTENV
 require('dotenv').config({ path: path.join(__dirname, '../../.env') }); // 지정된 경로의 환경변수 사용 (.env 파일 참조)
-const colors = require('colors/safe'); // 콘솔 Color 출력
 
 /**
  * @notice 계좌 주소에 해당하는 Keystore 파일 오브젝트를 반환한다.
@@ -27,7 +32,8 @@ module.exports.getKeystore = async function(addr) {
         }
         return null;
     } catch(error) {
-        console.log(colors.red(error));
+        let action = `Action: getKeystore`;
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }

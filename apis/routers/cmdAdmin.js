@@ -4,20 +4,18 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const ApiAdmin    = require('../libs/libApiAdmin.js'); // 관리자 API
-const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
-
-//// LOGs
-const Log = require('../../libs/libLog.js').Log; // 로그 출력
-
 //// DBs
 require('../db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
 const Account  = mongoose.model('ApiAccount'); // Account Schema
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+//// LIBs (libApiAdmin)
+const ApiAdmin = require('../libs/libApiAdmin.js'); // 관리자 API
+//// LIBs (libApiCommon)
+const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore File에서 Object 추출
 
 /**
  * @notice 관리되어야 할 계정을 추가한다.
@@ -58,7 +56,7 @@ module.exports.cmdAdminAddAccounts = async function(params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdAdminAddAccounts`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -104,7 +102,7 @@ module.exports.cmdAdminRemoveAccounts = async function(params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdAdminRemoveAccounts`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -153,7 +151,7 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdAdminRegisterCompanies`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -202,7 +200,7 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdAdminUnregisterCompanies`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -251,7 +249,7 @@ module.exports.cmdAdminMarkOrderPayments = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdAdminMarkOrderPayments`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;
@@ -300,7 +298,7 @@ module.exports.cmdAdminSettleIncentives = async function(addr, params) {
         return JSON.stringify(ret);
     } catch(error) {
         let action = `Action: cmdAdminSettleIncentives`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         let ret = new Object(); // 응답 생성: FAILED
         ret.ok = false;
         ret.reason = error.message;

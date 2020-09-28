@@ -4,40 +4,28 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// ABIs & LIBs
-const abiService = require('../build/contracts/DkargoService.json').abi; // Service Contract ABI
-const abiPrefix  = require('../build/contracts/DkargoPrefix.json').abi; // 컨트랙트 ABI
-const abiERC165  = require('../build/contracts/ERC165.json').abi; // 컨트랙트 ABI
-const ZEROADDR   = require('../libs/libCommon.js').ZEROADDR; // ZERO-ADDRESS 상수
-
-//// LOGs
-const initLog = require('../libs/libLog.js').initLog; // 로그 초기화 함수 (winston)
-const Log     = require('../libs/libLog.js').Log; // 로그 출력
-
+//// WEB3
+const web3 = require('../libs/Web3.js').prov2; // web3 provider (물류 관련 contract는 privnet에 올라간다 (prov2))
 //// DBs
 require('./db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
 const Block = mongoose.model('ApiBlock'); // Block schema
-const Work = mongoose.model('ApiWork'); // Work schema
-
-//// WEB3
-const web3 = require('../libs/Web3.js').prov2; // web3 provider (물류 관련 contract는 privnet에 올라간다 (prov2))
-
-/**
- * @notice 사용법 출력함수이다.
- * @author jhhong
- */
-function usage() {
-    const fullpath = __filename.split('/');
-    const filename = fullpath[fullpath.length - 1];
-    console.log(colors.green("Usage:"));
-    console.log(`> node ${filename} [argv1] [argv2]`);
-    console.log(`....[argv1]: Service Address`);
-    console.log(`....[argv2]: Start Block`);
-}
+const Work  = mongoose.model('ApiWork'); // Work schema
+//// LOGs
+const initLog       = require('../libs/libLog.js').initLog; // 로그 초기화 함수 (winston)
+const enableLogFile = require('../libs/libLog.js').enableLogFile; // 로그 파일 출력기능 추가 함수
+const Log           = require('../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED   = require('../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const GREEN = require('../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
+const BLUE  = require('../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
+const GRAY  = require('../libs/libLog.js').consoleGray; // 콘솔 컬러 출력: GRAY
+const CYAN  = require('../libs/libLog.js').consoleCyan; // 콘솔 컬러 출력: CYAN
+//// ABIs & LIBs
+const abiERC165  = require('../build/contracts/ERC165.json').abi; // 컨트랙트 ABI
+const abiPrefix  = require('../build/contracts/DkargoPrefix.json').abi; // 컨트랙트 ABI
+const abiService = require('../build/contracts/DkargoService.json').abi; // Service Contract ABI
+const ZEROADDR   = require('../libs/libCommon.js').ZEROADDR; // ZERO-ADDRESS 상수
 
 /**
  * @notice ca가 디카르고 컨트랙트 증명을 위한 인터페이스를 지원하는지 확인한다.
@@ -57,7 +45,7 @@ let isDkargoContract = async function(ca) {
         return true;
     } catch(error) {
         let action = `Action: isDkargoContract`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -74,7 +62,7 @@ let getDkargoPrefix = async function(ca) {
         return await DkargoPrefix.methods.getDkargoPrefix().call();
     } catch(error) {
         let action = `Action: getDkargoPrefix`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -92,7 +80,7 @@ let checkValidGenesis = async function(addr, genesis) {
         if(data == null) {
             throw new Error(`null data received!`);
         }
-        Log('DEBUG', `block: [${colors.green(data.number)}] txnum: [${colors.green(data.transactions.length)}]`);
+        Log('DEBUG', `block: [${GREEN(data.number)}] txnum: [${GREEN(data.transactions.length)}]`);
         for(d in data.transactions) {
             const txdata = data.transactions[d];
             const receipt = await web3.eth.getTransactionReceipt(txdata.hash);
@@ -109,7 +97,7 @@ let checkValidGenesis = async function(addr, genesis) {
         return false;
     } catch(error) {
         let action = `Action: checkValidGenesis`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -138,9 +126,9 @@ let getStartBlock = async function(addr, defaultblock) {
                 let ret = await Work.deleteMany({blocknumber: latest.blockNumber});
                 if(ret != null) {
                     let action = `Work.deleteMany done!\n` +
-                    `- [Matched]:      [${colors.green(ret.n)}],\n` +
-                    `- [Successful]:   [${colors.green(ret.ok)}],\n` +
-                    `- [DeletedCount]: [${colors.green(ret.deletedCount)}]`;
+                    `- [Matched]:      [${GREEN(ret.n)}],\n` +
+                    `- [Successful]:   [${GREEN(ret.ok)}],\n` +
+                    `- [DeletedCount]: [${GREEN(ret.deletedCount)}]`;
                     Log('DEBUG', `${action}`);
                 }
                 return latest.blockNumber;
@@ -150,7 +138,7 @@ let getStartBlock = async function(addr, defaultblock) {
         }
     } catch(error) {
         let action = `Action: getStartBlock`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return 0;
     }
 }
@@ -180,7 +168,7 @@ let createEventParseTable = async function() {
         }
         return (ret.length > 0)? (ret) : (null);
     } catch(error) {
-        Log('ERROR', `${colors.red(error)}`);
+        Log('ERROR', `${RED(error)}`);
         return null;
     }
 }
@@ -215,7 +203,7 @@ let getEventArguments = async function(eventname, table, receipt) {
         }
         return null;
     } catch(error) {
-        Log('ERROR', `${colors.red(error)}`);
+        Log('ERROR', `${RED(error)}`);
         return null;
     }
 }
@@ -238,8 +226,8 @@ let parseEvents = async function(table, txdata, receipt) {
                     let ret = await getEventArguments('CompanyRegistered', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan('CompanyRegistered')}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- address....: [${colors.green(ret[idx].company)}]`);
+                            Log('INFO',  `EVENT:[${CYAN('CompanyRegistered')}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- address....: [${GREEN(ret[idx].company)}]`);
                         }
                     }
                     break;
@@ -248,8 +236,8 @@ let parseEvents = async function(table, txdata, receipt) {
                     let ret = await getEventArguments('CompanyUnregistered', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan('CompanyUnregistered')}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- address....: [${colors.green(ret[idx].company)}]`);
+                            Log('INFO',  `EVENT:[${CYAN('CompanyUnregistered')}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- address....: [${GREEN(ret[idx].company)}]`);
                         }
                     }
                     break;
@@ -258,10 +246,10 @@ let parseEvents = async function(table, txdata, receipt) {
                     let ret = await getEventArguments('Settled', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan(`Settled`)}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- addr.....: [${colors.green(ret[idx].addr)}]`);
-                            Log('DEBUG', `- value....: [${colors.green(ret[idx].value)}] DKA`);
-                            Log('DEBUG', `- rests....: [${colors.green(ret[idx].rests)}] DKA`);
+                            Log('INFO',  `EVENT:[${CYAN(`Settled`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- addr.....: [${GREEN(ret[idx].addr)}]`);
+                            Log('DEBUG', `- value....: [${GREEN(ret[idx].value)}] DKA`);
+                            Log('DEBUG', `- rests....: [${GREEN(ret[idx].rests)}] DKA`);
                         }
                     }
                     break;
@@ -270,11 +258,11 @@ let parseEvents = async function(table, txdata, receipt) {
                     let ret = await getEventArguments('OrderTransferred', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan(`OrderTransferred`)}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- order..........: [${colors.green(ret[idx].order)}]`);
-                            Log('DEBUG', `- from...........: [${colors.green(ret[idx].from)}]`);
-                            Log('DEBUG', `- to.............: [${colors.green(ret[idx].to)}]`);
-                            Log('DEBUG', `- transportid....: [${colors.green(ret[idx].transportid)}]`);
+                            Log('INFO',  `EVENT:[${CYAN(`OrderTransferred`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- order..........: [${GREEN(ret[idx].order)}]`);
+                            Log('DEBUG', `- from...........: [${GREEN(ret[idx].from)}]`);
+                            Log('DEBUG', `- to.............: [${GREEN(ret[idx].to)}]`);
+                            Log('DEBUG', `- transportid....: [${GREEN(ret[idx].transportid)}]`);
                             if(ret[idx].transportid != 1) { // 주문의 최초상태변경이 아닌 경우, 이전 상태변경 이벤트가 반드시 존재함 -> 해당 이벤트의 execute 필드를 true로 변경해야 함
                                 let lasttid = ret[idx].transportid - 1;
                                 let data = await Work.findOneAndUpdate(
@@ -283,9 +271,9 @@ let parseEvents = async function(table, txdata, receipt) {
                                     {new: true});
                                 if(data == null) {
                                     let action = `Not Found Previous Event!\n` +
-                                    `- [ORDER]:       [${colors.blue(ret[idx].order)}]\n` +
-                                    `- [COMPANY]:     [${colors.blue(ret[idx].from)}]\n` +
-                                    `- [TRANSPORTID]: [${colors.blue(lasttid)}]`;
+                                    `- [ORDER]:       [${BLUE(ret[idx].order)}]\n` +
+                                    `- [COMPANY]:     [${BLUE(ret[idx].from)}]\n` +
+                                    `- [TRANSPORTID]: [${BLUE(lasttid)}]`;
                                     Log('DEBUG', `ERROR: ${action}`);
                                 }
                             }
@@ -304,9 +292,9 @@ let parseEvents = async function(table, txdata, receipt) {
                     ret = await getEventArguments('IncentiveUpdated', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan(`IncentiveUpdated`)}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- addr.....: [${colors.green(ret[idx].addr)}]`);
-                            Log('DEBUG', `- value....: [${colors.green(ret[idx].value)}]`);
+                            Log('INFO',  `EVENT:[${CYAN(`IncentiveUpdated`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- addr.....: [${GREEN(ret[idx].addr)}]`);
+                            Log('DEBUG', `- value....: [${GREEN(ret[idx].value)}]`);
                         }
                     }
                     break;
@@ -315,19 +303,19 @@ let parseEvents = async function(table, txdata, receipt) {
                     let ret = await getEventArguments('OrderCreated', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan(`OrderCreated`)}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- address....: [${colors.green(ret[idx].order)}]`);
-                            Log('DEBUG', `- id.........: [${colors.green(ret[idx].id)}]`);
+                            Log('INFO',  `EVENT:[${CYAN(`OrderCreated`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- address....: [${GREEN(ret[idx].order)}]`);
+                            Log('DEBUG', `- id.........: [${GREEN(ret[idx].id)}]`);
                         }
                     }
                     ret = await getEventArguments('OrderTransferred', table, receipt); // 이벤트 파라메터 획득
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
-                            Log('INFO',  `EVENT:[${colors.cyan(`OrderTransferred`)}], BLOCK:[${colors.blue(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- order..........: [${colors.green(ret[idx].order)}]`);
-                            Log('DEBUG', `- from...........: [${colors.green(ret[idx].from)}]`);
-                            Log('DEBUG', `- to.............: [${colors.green(ret[idx].to)}]`);
-                            Log('DEBUG', `- transportid....: [${colors.green(ret[idx].transportid)}]`);
+                            Log('INFO',  `EVENT:[${CYAN(`OrderTransferred`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
+                            Log('DEBUG', `- order..........: [${GREEN(ret[idx].order)}]`);
+                            Log('DEBUG', `- from...........: [${GREEN(ret[idx].from)}]`);
+                            Log('DEBUG', `- to.............: [${GREEN(ret[idx].to)}]`);
+                            Log('DEBUG', `- transportid....: [${GREEN(ret[idx].transportid)}]`);
                             if(ret[idx].transportid != 1) { // 주문의 최초상태변경이 아닌 경우, 이전 상태변경 이벤트가 반드시 존재함 -> 해당 이벤트의 execute 필드를 true로 변경해야 함
                                 let lasttid = ret[idx].transportid - 1;
                                 let data = await Work.findOneAndUpdate(
@@ -336,9 +324,9 @@ let parseEvents = async function(table, txdata, receipt) {
                                     {new: true});
                                 if(data == null) {
                                     let action = `Not Found Previous Event!\n` +
-                                    `- [ORDER]:       [${colors.blue(ret[idx].order)}]\n` +
-                                    `- [COMPANY]:     [${colors.blue(ret[idx].from)}]\n` +
-                                    `- [TRANSPORTID]: [${colors.blue(lasttid)}]`;
+                                    `- [ORDER]:       [${BLUE(ret[idx].order)}]\n` +
+                                    `- [COMPANY]:     [${BLUE(ret[idx].from)}]\n` +
+                                    `- [TRANSPORTID]: [${BLUE(lasttid)}]`;
                                     Log('DEBUG', `ERROR: ${action}`);
                                 }
                             }
@@ -360,7 +348,7 @@ let parseEvents = async function(table, txdata, receipt) {
             }
         }
     } catch(error) {
-        Log('ERROR', `${colors.red(error)}`);
+        Log('ERROR', `${RED(error)}`);
     }
 }
 
@@ -384,7 +372,7 @@ let syncPastBlocks = async function(startblock, table) {
                 await Block.collection.updateOne({nettype: 'logistics'}, {$set: {blockNumber: data.number}});
             }
             let latest = await Block.findOne({nettype: 'logistics'});
-            Log('DEBUG', `New Block Detected: BLOCK:[${colors.blue(latest.blockNumber)}]`);
+            Log('DEBUG', `New Block Detected: BLOCK:[${BLUE(latest.blockNumber)}]`);
             for(idx in data.transactions) {
                 const txdata  = data.transactions[idx];
                 const receipt = await web3.eth.getTransactionReceipt(txdata.hash);
@@ -394,7 +382,7 @@ let syncPastBlocks = async function(startblock, table) {
         }
         Log('INFO', `START BLOCK:[${curblock}]`);
     } catch(error) {
-        Log('ERROR', `${colors.red(error)}`);
+        Log('ERROR', `${RED(error)}`);
     }
 }
 
@@ -404,7 +392,8 @@ let syncPastBlocks = async function(startblock, table) {
  */
 let RunProc = async function() {
     try {
-        initLog(); // 로그 초기화
+        await initLog(); // 로그 초기화
+        await enableLogFile(`apis/sync`);
         if(process.argv.length != 4) {
             throw new Error("Invalid Parameters!");
         }
@@ -412,7 +401,7 @@ let RunProc = async function() {
         if(startblock == 0) {
             throw new Error(`Need to reset DB! Exit!`);
         }
-        Log('DEBUG', colors.gray(`Start Monitoring from BlockNumber:[${startblock}]......`));
+        Log('DEBUG', GRAY(`Start Monitoring from BlockNumber:[${startblock}]......`));
         let table = await createEventParseTable(); // Event Parsing Table 생성
         if (table == null) {
             throw new Error("\"EVENT TABLE\" create Failed!");
@@ -424,7 +413,7 @@ let RunProc = async function() {
          */
         web3.eth.subscribe('newBlockHeaders', async function(error) {
             if(error != null) {
-                Log('ERROR', colors.red(`ERROR: ${error}`));
+                Log('ERROR', RED(`ERROR: ${error}`));
             }
         }).on('data', async (header) => {
             let data = await web3.eth.getBlock(header.hash, true);
@@ -437,18 +426,17 @@ let RunProc = async function() {
                 await Block.collection.updateOne({nettype: 'logistics'}, {$set: {blockNumber: data.number}});
             }
             let latest = await Block.findOne();
-            Log('DEBUG', `New Block Detected: BLOCK:[${colors.blue(latest.blockNumber)}]`);
+            Log('DEBUG', `New Block Detected: BLOCK:[${BLUE(latest.blockNumber)}]`);
             for(idx in data.transactions) {
                 const txdata  = data.transactions[idx];
                 const receipt = await web3.eth.getTransactionReceipt(txdata.hash);
                 await parseEvents(table, txdata, receipt);
             }
         }).on('error', async (log) => {
-            Log('ERROR', colors.red(`ERROR occured: ${log}`));
+            Log('ERROR', RED(`ERROR occured: ${log}`));
         });
      } catch(error) {
-        Log('ERROR', `${colors.red(error)}`);
-        usage();
+        Log('ERROR', `${RED(error)}`);
         process.exit(1);
      }
  }

@@ -3,7 +3,11 @@
  * @notice 유용한 lib Functions 및 constant 정의
  * @author jhhong
  */
+
+//// LOGs
 const Log = require('./libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED = require('./libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 
 /**
  * @notice ms만큼 딜레이를 수행한다.
@@ -33,7 +37,7 @@ module.exports.hex2a = async function(hex) {
     } catch(error) {
         let action = `Action: hex2a
         - [hex]: [${hex}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }

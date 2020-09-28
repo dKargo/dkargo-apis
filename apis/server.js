@@ -9,9 +9,9 @@ const colors  = require('colors/safe'); // 콘솔 Color 출력
 const express = require('express'); // express 패키지
 const app     = express(); // express Object
 const cors    = require('cors'); // CORS 관리 패키지
-
 //// LOGs
-const initLog = require('../libs/libLog.js').initLog; // 로그 초기화 함수 (winston)
+const initLog       = require('../libs/libLog.js').initLog; // 로그 초기화 함수 (winston)
+const enableLogFile = require('../libs/libLog.js').enableLogFile; // 로그 파일 출력기능 추가 함수
 
 /**
  * @notice 사용법 출력함수이다.
@@ -31,7 +31,8 @@ function usage() {
  */
 let RunProc = async function() {
     try {
-        initLog();
+        await initLog();
+        await enableLogFile(`apis/server`);
         if(process.argv.length != 3) {
             throw new Error("invalid paramters!");
         }

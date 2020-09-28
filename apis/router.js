@@ -37,6 +37,11 @@ const Log = require('../libs/libLog.js').Log; // 로그 출력
  * @author jhhong
  */
 module.exports = function(app) {
+    /**
+     * @notice 물류사 담당 구간-배송 리스트를 얻어온다.
+     * @dev 수행주체: any
+     * @author jhhong
+     */
     app.get('/getCompanyWorks/:address', async function(req, res) {
         let ret = await getCompanyWorks(req.params.address);
         res.end(ret);
@@ -44,7 +49,7 @@ module.exports = function(app) {
     /**
      * @notice 토큰 위임 프로시져
      * @dev 수행주체: 공용
-     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenApprove.json
      * @author jhhong
      */
     app.post('/cmdTokenApprove/:address', async function(req, res) {
@@ -54,7 +59,7 @@ module.exports = function(app) {
     /**
      * @notice 토큰 소각 프로시져
      * @dev 수행주체: 공용
-     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenBurn.json
      * @author jhhong
      */
     app.post('/cmdTokenBurn/:address', async function(req, res) {
@@ -64,7 +69,7 @@ module.exports = function(app) {
     /**
      * @notice 토큰 송금 프로시져
      * @dev 수행주체: 공용
-     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenTransfer.json
      * @author jhhong
      */
     app.post('/cmdTokenTransfer/:address', async function(req, res) {

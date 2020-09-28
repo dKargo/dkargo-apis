@@ -9,12 +9,20 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const Log            = require('../../libs/libLog.js').Log; // 로그 출력
-const msleep         = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// CONSTANTS
+const ZEROADDR = require('../../libs/libCommon.js').ZEROADDR; // ZERO-ADDRESS 상수
+//// WEB3
+const web3           = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
+const isSameProvider = require('../../libs/Web3.js').isSameProvider; // tokennet / logisticsnet PROVIDER가 동일한 PROVIDER인지 체크
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const GREEN = require('../../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
+const BLUE  = require('../../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
+//// LIBs (libCommon)
+const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// LIBs (libDkargoService)
 const register       = require('../../libs/libDkargoService.js').register; // register: 물류사 등록 함수
 const unregister     = require('../../libs/libDkargoService.js').unregister; // unregister: 물류사 등록해제 함수
 const markOrderPayed = require('../../libs/libDkargoService.js').markOrderPayed; // markOrderPayed: 주문 결제확인 함수
@@ -24,12 +32,8 @@ const incentives     = require('../../libs/libDkargoService.js').incentives; // 
 const nextRecipient  = require('../../libs/libDkargoService.js').nextRecipient; // nextRecipient: 다음 인센티브 수령자 주소 획득함수
 const recipientCount = require('../../libs/libDkargoService.js').recipientCount; // recipientCount: 인센티브 수령자 총 카운트 획득함수
 const deployService  = require('../../libs/libDkargoService.js').deployService; // deployService: 서비스 컨트랙트 deploy 함수
-const transfer       = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 전송 함수
-const ZEROADDR       = require('../../libs/libCommon.js').ZEROADDR; // ZERO-ADDRESS 상수
-
-//// WEB3
-const web3           = require('../../libs/Web3.js').prov2; // web3 provider (chain2: logistics)
-const isSameProvider = require('../../libs/Web3.js').isSameProvider; // tokennet / logisticsnet PROVIDER가 동일한 PROVIDER인지 체크
+//// LIBs (libDkargoToken)
+const transfer = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 전송 함수
 
 /**
  * @notice 물류사를 등록한다.
@@ -74,8 +78,8 @@ module.exports.procAdminRegisterCompanies = async function(keystore, passwd, par
             let promise = register(service, cmder, privkey, companies[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `REGISTER done!\n` +
-                    `- [COMPANY]: [${colors.blue(companies[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${colors.green(ret)}]`;
+                    `- [COMPANY]: [${BLUE(companies[i].addr)}],\n` +
+                    `=>[TXHASH]:  [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -94,7 +98,7 @@ module.exports.procAdminRegisterCompanies = async function(keystore, passwd, par
         return true;
     } catch(error) {
         let action = `Action: procAdminRegisterCompanies`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -142,8 +146,8 @@ module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, p
             let promise = unregister(service, cmder, privkey, companies[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `UNREGISTER done!\n` +
-                    `- [COMPANY]: [${colors.blue(companies[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${colors.green(ret)}]`;
+                    `- [COMPANY]: [${BLUE(companies[i].addr)}],\n` +
+                    `=>[TXHASH]:  [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -161,7 +165,7 @@ module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, p
         return true;
     } catch(error) {
         let action = `Action: procAdminRegisterCompanies`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -209,8 +213,8 @@ module.exports.procAdminMarkOrderPayments = async function(keystore, passwd, par
             let promise = markOrderPayed(service, cmder, privkey, orders[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `MARK-ORDER-PAYED done!\n` +
-                    `- [ORDER]:  [${colors.blue(orders[i].addr)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [ORDER]:  [${BLUE(orders[i].addr)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -228,7 +232,7 @@ module.exports.procAdminMarkOrderPayments = async function(keystore, passwd, par
         return true;
     } catch(error) {
         let action = `Action: procAdminMarkOrderPayments`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -275,7 +279,7 @@ let transferIncentives = async function(service, token, from, privkey, nonce, ga
         return settles;
     } catch(error) {
         let action = `Action: transferIncentives`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -308,7 +312,7 @@ let settlement = async function(service, from, privkey, recipients, nonce, gaspr
         return true;
     } catch(error) {
         let action = `Action: settlement`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -362,7 +366,7 @@ module.exports.procAdminSettlement = async function(keystore, passwd, params, cb
         return true;
     } catch(error) {
         let action = `Action: procAdminSettlement`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -392,8 +396,8 @@ module.exports.procDeployService = async function(keystore, passwd, cbptrPre, cb
             let promise = deployService(cmder, privkey, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
                     let action = `SERVICE DEPLOY done!\n` +
-                    `=>[ADDRESS]:     [${colors.green(ret[0])}]\n` +
-                    `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
+                    `=>[ADDRESS]:     [${GREEN(ret[0])}]\n` +
+                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -411,7 +415,7 @@ module.exports.procDeployService = async function(keystore, passwd, cbptrPre, cb
         return true;
     } catch(error) {
         let action = `Action: procDeployService`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }

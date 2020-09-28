@@ -4,14 +4,22 @@
  * @author jhhong
  */
 
-const colors = require('colors/safe'); // 콘솔 Color 출력
+//// COMMON
 const path = require('path'); // .env 경로 추출을 위함
+//// WEB3
 const WEB3 = require('web3'); // web3 모듈 패키지
-const Tx = require('ethereumjs-tx').Transaction; // ethereum 환경에서 tx 생성을 편리하게 해주는 패키지
-const custom = require('ethereumjs-common').default; // custom network 명시를 위함
+//// ETHEREUMJS-TX
+const Tx = require('ethereumjs-tx').Transaction; // Ethereum tx 생성 패키지
+//// ETHEREUMJS-COMMON
+const Custom = require('ethereumjs-common').default; // Ethereum Custom network 정의
+//// DOTENV
 require('dotenv').config({ path: path.join(__dirname, '../.env') }); // 지정된 경로의 환경변수 사용 (.env 파일 참조)
+//// LOGs
 const Log = require('./libLog.js').Log; // 로그 출력
-
+//// LOG COLOR (console)
+const RED   = require('./libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const GREEN = require('./libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
+//// GLOBALs
 let prov1; // chain1을 제어할 Web3 Provider 생성
 if(process.env.PROVIDER_TYPE1 == `http`) { // HTTP
     prov1 = new WEB3(new WEB3.providers.HttpProvider(`http://${process.env.PROVIDER_INFO1}`));
@@ -32,7 +40,6 @@ if(process.env.PROVIDER_TYPE2 == `http`) { // HTTP
 } else { // unsupported
     prov2 = null;
 }
-
 let txopt1; // chain1의 tx options 정보
 switch(process.env.CHAIN_ID1) {
     case '1': // mainnet
@@ -42,14 +49,13 @@ switch(process.env.CHAIN_ID1) {
         txopt1 = {chain: 'ropsten', hardfork: process.env.EVM_VERSION1};
         break;
     case '15': // privatenet
-        const cutominfo = custom.forCustomChain('mainnet', {chainId: Number(process.env.CHAIN_ID1)}, process.env.EVM_VERSION1);
+        const cutominfo = Custom.forCustomChain('mainnet', {chainId: Number(process.env.CHAIN_ID1)}, process.env.EVM_VERSION1);
         txopt1 = {common: cutominfo};
         break;
     default: // unsupported
         txopt1 = null;
         break;
 }
-
 let txopt2; // chain2의 tx options 정보
 switch(process.env.CHAIN_ID2) {
     case '1': // mainnet
@@ -59,7 +65,7 @@ switch(process.env.CHAIN_ID2) {
         txopt2 = {chain: 'ropsten', hardfork: process.env.EVM_VERSION2};
         break;
     case '15': // privatenet
-        const cutominfo = custom.forCustomChain('mainnet', {chainId: Number(process.env.CHAIN_ID2)}, process.env.EVM_VERSION2);
+        const cutominfo = Custom.forCustomChain('mainnet', {chainId: Number(process.env.CHAIN_ID2)}, process.env.EVM_VERSION2);
         txopt2 = {common: cutominfo};
         break;
     default: // unsupported
@@ -91,12 +97,12 @@ module.exports.prov1SendTx = async function(privkey, rawtx) {
         const rawdata = '0x' + serialized.toString('hex'); // Raw data 생성
         let receipt = await prov1.eth.sendSignedTransaction(rawdata)
         .on('transactionHash', async function(txhash) {
-            Log('DEBUG', `TX:[${colors.green(txhash)}] Created!`);
+            Log('DEBUG', `TX:[${GREEN(txhash)}] Created!`);
         }); // 서명된 Transaction 전송
         return receipt; // receipt 정보 반환
     } catch(error) {
         let action = `Action: prov1SendTx`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -122,12 +128,12 @@ module.exports.prov2SendTx = async function(privkey, rawtx) {
         const rawdata = '0x' + serialized.toString('hex'); // Raw data 생성
         let receipt = await prov2.eth.sendSignedTransaction(rawdata)
         .on('transactionHash', async function(txhash) {
-            Log('DEBUG', `TX:[${colors.green(txhash)}] Created!`);
+            Log('DEBUG', `TX:[${GREEN(txhash)}] Created!`);
         }); // 서명된 Transaction 전송
         return receipt; // receipt 정보 반환
     } catch(error) {
         let action = `Action: prov2SendTx`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return null;
     }
 }
@@ -144,8 +150,7 @@ module.exports.isSameProvider = async function() {
         return (prov1._requestManager.provider.url == prov2._requestManager.provider.url)? (true) : (false);
     } catch(error) {
         let action = `Action: isSameProvider`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
-
 }

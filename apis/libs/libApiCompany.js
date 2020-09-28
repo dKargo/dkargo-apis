@@ -10,12 +10,17 @@
  * @author jhhong
  */
 
-//// COMMON
-const colors = require('colors/safe'); // 콘솔 Color 출력
-
-//// LIBs
-const Log            = require('../../libs/libLog.js').Log; // 로그 출력
-const msleep         = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// WEB3
+const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
+//// LOGs
+const Log = require('../../libs/libLog.js').Log; // 로그 출력
+//// LOG COLOR (console)
+const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
+const GREEN = require('../../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
+const BLUE  = require('../../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
+//// LIBs (libCommon)
+const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
+//// LIBs (libDkargoCompany)
 const launch         = require('../../libs/libDkargoCompany.js').launch; // launch: 주문 접수 함수
 const updateOrder    = require('../../libs/libDkargoCompany.js').updateOrderCode; // updateOrder: 주문 상태갱신 함수
 const addOperator    = require('../../libs/libDkargoCompany.js').addOperator; // addOperator: 관리자 등록 함수
@@ -24,9 +29,6 @@ const setName        = require('../../libs/libDkargoCompany.js').setName; // set
 const setUrl         = require('../../libs/libDkargoCompany.js').setUrl; // setUrl: 물류사 URL 설정 함수
 const setRecipient   = require('../../libs/libDkargoCompany.js').setRecipient; // setRecipient: 물류사 수취인주소 설정 함수
 const deployCompany  = require('../../libs/libDkargoCompany.js').deployCompany; // deployCompany: 물류사 컨트랙트 deploy 함수
-
-//// WEB3
-const web3 = require('../../libs/Web3.js').prov2; // web3 provider (order는 privnet(chain2)에 deploy됨)
 
 /**
  * @notice 주문을 접수한다.
@@ -71,9 +73,9 @@ module.exports.procCompanyLaunchOrders = async function(keystore, passwd, params
             let promise = launch(company, cmder, privkey, orders[i].addr, orders[i].transportid, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `LAUNCH done!\n` +
-                    `- [ORDER]:  [${colors.blue(orders[i].addr)}],\n` +
-                    `- [TID]:    [${colors.blue(orders[i].transportid)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [ORDER]:  [${BLUE(orders[i].addr)}],\n` +
+                    `- [TID]:    [${BLUE(orders[i].transportid)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -91,7 +93,7 @@ module.exports.procCompanyLaunchOrders = async function(keystore, passwd, params
         return true;
     } catch(error) {
         let action = `Action: procCompanyLaunchOrders`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -142,10 +144,10 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
             let promise = updateOrder(company, cmder, privkey, addr, transportid, code, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `UPDATE done!\n` +
-                    `- [ORDER]:  [${colors.blue(addr)}],\n` +
-                    `- [TID]:    [${colors.blue(transportid)}],\n` +
-                    `- [CODE]:   [${colors.blue(code)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [ORDER]:  [${BLUE(addr)}],\n` +
+                    `- [TID]:    [${BLUE(transportid)}],\n` +
+                    `- [CODE]:   [${BLUE(code)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -163,7 +165,7 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
         return true;
     } catch(error) {
         let action = `Action: procCompanyUpdateOrders`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -211,8 +213,8 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
             let promise = addOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `ADD-OPERATOR done!\n` +
-                    `- [ADDRESS]: [${colors.blue(operators[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${colors.green(ret)}]`;
+                    `- [ADDRESS]: [${BLUE(operators[i].addr)}],\n` +
+                    `=>[TXHASH]:  [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -230,7 +232,7 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
         return true;
     } catch(error) {
         let action = `Action: procCompanyAddOperator`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -278,8 +280,8 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
             let promise = removeOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `REMOVE-OPERATOR done!\n` +
-                    `- [ADDRESS]: [${colors.blue(operators[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${colors.green(ret)}]`;
+                    `- [ADDRESS]: [${BLUE(operators[i].addr)}],\n` +
+                    `=>[TXHASH]:  [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -297,7 +299,7 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
         return true;
     } catch(error) {
         let action = `Action: procCompanyRemoveOperators`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -344,8 +346,8 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             let promise = setName(company, cmder, privkey, name, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-NAME done!\n` +
-                    `- [NAME]:   [${colors.blue(name)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [NAME]:   [${BLUE(name)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -356,8 +358,8 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             let promise = setUrl(company, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-URL done!\n` +
-                    `- [URL]:    [${colors.blue(url)}],\n` +
-                    `=>[TXHASH]: [${colors.green(ret)}]`;
+                    `- [URL]:    [${BLUE(url)}],\n` +
+                    `=>[TXHASH]: [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -368,8 +370,8 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             let promise = setRecipient(company, cmder, privkey, recipient, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-RECIPIENT done!\n` +
-                    `- [RECIPIENT]: [${colors.blue(recipient)}],\n` +
-                    `=>[TXHASH]:    [${colors.green(ret)}]`;
+                    `- [RECIPIENT]: [${BLUE(recipient)}],\n` +
+                    `=>[TXHASH]:    [${GREEN(ret)}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -387,7 +389,7 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
         return true;
     } catch(error) {
         let action = `Action: procCompanySetInfo`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
@@ -429,9 +431,9 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
             let promise = deployCompany(cmder, privkey, name, url, recipient, service, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
                     let action = `COMPANY DEPLOY done!\n` +
-                    `- [COMPANY]:     [${colors.blue(name)}],\n` +
-                    `=>[ADDRESS]:     [${colors.green(ret[0])}],\n` +
-                    `=>[BLOCKNUMBER]: [${colors.green(ret[1])}]`;
+                    `- [COMPANY]:     [${BLUE(name)}],\n` +
+                    `=>[ADDRESS]:     [${GREEN(ret[0])}],\n` +
+                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -449,7 +451,7 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
         return true;
     } catch(error) {
         let action = `Action: procCompanyDeploy`;
-        Log('ERROR', `exception occured!:\n${action}\n${colors.red(error.stack)}`);
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }
 }
