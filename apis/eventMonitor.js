@@ -372,7 +372,7 @@ let syncPastBlocks = async function(startblock, table) {
                 await Block.collection.updateOne({nettype: 'logistics'}, {$set: {blockNumber: data.number}});
             }
             let latest = await Block.findOne({nettype: 'logistics'});
-            Log('DEBUG', `New Block Detected: BLOCK:[${BLUE(latest.blockNumber)}]`);
+            //Log('DEBUG', `New Block Detected: BLOCK:[${BLUE(latest.blockNumber)}]`);
             for(idx in data.transactions) {
                 const txdata  = data.transactions[idx];
                 const receipt = await web3.eth.getTransactionReceipt(txdata.hash);
@@ -426,7 +426,7 @@ let RunProc = async function() {
                 await Block.collection.updateOne({nettype: 'logistics'}, {$set: {blockNumber: data.number}});
             }
             let latest = await Block.findOne();
-            Log('DEBUG', `New Block Detected: BLOCK:[${BLUE(latest.blockNumber)}]`);
+            //Log('DEBUG', `New Block Detected: BLOCK:[${BLUE(latest.blockNumber)}]`);
             for(idx in data.transactions) {
                 const txdata  = data.transactions[idx];
                 const receipt = await web3.eth.getTransactionReceipt(txdata.hash);
