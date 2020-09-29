@@ -363,6 +363,9 @@ module.exports.procAdminSettlement = async function(keystore, passwd, params, cb
         if(await settlement(service, cmder, privkey, lists, nonce, gasprice) != true) {
             throw new Error('Settlement Failed!');
         }
+        if(cbptrPost != undefined && cbptrPost != null) {
+            await cbptrPost(cmder); // Bugfix: cbptrPost 호출 코드가 빠져있었음.
+        }
         return true;
     } catch(error) {
         let action = `Action: procAdminSettlement`;
