@@ -27,12 +27,12 @@ const deployToken = require('../../libs/libDkargoToken.js').deployToken; // depl
 
 /**
  * @notice 토큰을 위임한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenApprove.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenApprove.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -95,12 +95,12 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
 
 /**
  * @notice 토큰을 소각한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenBurn.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenBurn.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -154,12 +154,12 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
 
 /**
  * @notice 토큰을 송금한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenTransfer.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenTransfer.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -222,12 +222,12 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
 
 /**
  * @notice 토큰 컨트랙트 디플로이를 수행한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenDeploy.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenDeploy.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */

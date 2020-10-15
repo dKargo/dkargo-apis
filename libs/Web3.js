@@ -79,7 +79,7 @@ module.exports.prov2 = prov2; // Chain2의 Web3 Provider
 /**
  * @notice 트랜젝션을 생성하여 블록체인에 전송한다.(provider1 전용)
  * @param {object} privkey 서명자의 private key
- * @param {object} rawtx 트랜젝션 Raw Data
+ * @param {object} rawtx   트랜젝션 Raw Data
  * @return receipt 정보
  */
 module.exports.prov1SendTx = async function(privkey, rawtx) {
@@ -110,7 +110,7 @@ module.exports.prov1SendTx = async function(privkey, rawtx) {
 /**
  * @notice 트랜젝션을 생성하여 블록체인에 전송한다.(provider2 전용)
  * @param {object} privkey 서명자의 private key
- * @param {object} rawtx 트랜젝션 Raw Data
+ * @param {object} rawtx   트랜젝션 Raw Data
  * @return receipt 정보
  */
 module.exports.prov2SendTx = async function(privkey, rawtx) {

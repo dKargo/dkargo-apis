@@ -138,7 +138,7 @@ module.exports.totalIncentive = async function(ca) {
 
 /**
  * @notice index에 매핑되는 주문 추적 정보를 얻어온다.
- * @param {string} ca 주문 컨트랙트 주소
+ * @param {string} ca    주문 컨트랙트 주소
  * @param {string} index Traking 인덱스
  * @return 추적 정보 Object (time:트래킹 시각/addr:트래킹 수행주체/code:배송상태 코드/incentive:배송 인센티브)
  * @author jhhong
@@ -190,10 +190,10 @@ module.exports.url = async function(ca) {
 
 /**
  * @notice 주문 심사요청을 위해 주문을 서비스 컨트랙트에 제출한다.
- * @param {string} ca 주문 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {number} nonce NONCE값
+ * @param {string} ca       주문 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -223,11 +223,11 @@ module.exports.submitOrderCreate = async function(ca, cmder, privkey, nonce, gas
 
 /**
  * @notice 주문의 URL 정보를 설정한다.
- * @param {string} ca 주문 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} url URL 정보
- * @param {number} nonce NONCE값
+ * @param {string} ca       주문 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} url      URL 정보
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -258,15 +258,15 @@ module.exports.setUrl = async function(ca, cmder, privkey, url, nonce, gasprice 
 
 /**
  * @notice DkargoOrder deploy를 수행한다.
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} url 주문 URL 정보
- * @param {string} service 서비스 컨트랙트 주소
- * @param {array} members 물류수행 참여자 주소 배열 (화주+물류사)
- * @param {array} codes 물류 트래킹 코드 배열
- * @param {array} incentives 각 구간에서의 물류수행 완료 시 받는 인센티브 배열
- * @param {number} nonce NONCE값
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {string} cmder      명령 수행자의 주소
+ * @param {string} privkey    명령 수행자의 private key
+ * @param {string} url        주문 URL 정보
+ * @param {string} service    서비스 컨트랙트 주소
+ * @param {array}  members    물류수행 참여자 주소 배열 (화주+물류사)
+ * @param {array}  codes      물류 트래킹 코드 배열
+ * @param {array}  incentives 각 구간에서의 물류수행 완료 시 받는 인센티브 배열
+ * @param {number} nonce      NONCE값
+ * @param {number} gasprice   GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong
  */

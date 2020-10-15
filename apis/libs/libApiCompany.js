@@ -32,12 +32,12 @@ const deployCompany  = require('../../libs/libDkargoCompany.js').deployCompany; 
 
 /**
  * @notice 주문을 접수한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunchOrders.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunchOrders.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -100,12 +100,12 @@ module.exports.procCompanyLaunchOrders = async function(keystore, passwd, params
 
 /**
  * @notice 주문 상태갱신을 수행한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyUpdateOrders.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyUpdateOrders.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -172,12 +172,12 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
 
 /**
  * @notice 관리자를 추가한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyAddOperator.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyAddOperator.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -239,12 +239,12 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
 
 /**
  * @notice 관리자에서 제거한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyRemoveOperators.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyRemoveOperators.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -307,12 +307,12 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
 /**
  * @notice 물류사의 부가정보들을 설정한다.
  * @dev 부가정보: 물류사 이름 / 물류사 URL / 물류사 수취인주소
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanySetInfo.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanySetInfo.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -396,12 +396,12 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
 
 /**
  * @notice 물류사 컨트랙트 deploy를 수행한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyDeploy.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyDeploy.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */

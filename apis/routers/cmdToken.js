@@ -19,7 +19,7 @@ const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore 
 
 /**
  * @notice 토큰 위임 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenApprove.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -68,7 +68,7 @@ module.exports.cmdTokenApprove = async function(addr, params) {
 
 /**
  * @notice 토큰 소각 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenBurn.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -117,7 +117,7 @@ module.exports.cmdTokenBurn = async function(addr, params) {
 
 /**
  * @notice 토큰 전송 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procTokenTransfer.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong

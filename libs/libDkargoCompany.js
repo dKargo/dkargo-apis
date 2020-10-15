@@ -18,23 +18,6 @@ const RED  = require('./libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 const CYAN = require('./libLog.js').consoleCyan; // 콘솔 컬러 출력: CYAN
 
 /**
- * @notice 주문의 정상 배송완료 여부를 반환한다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @return 주문의 정상 배송완료 여부(bool)
- * @author jhhong
- */
-module.exports.isComplete = async function(ca) {
-    try {
-        let order = new web3.eth.Contract(abi, ca);
-        return await order.methods.isComplete().call();
-    } catch(error) {
-        let action = `Action: isComplete
-        - [ca]: [${ca}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-    }
-}
-
-/**
  * @notice 물류사가 담당하는 주문 리스트에서 첫번째 엘리먼트를 읽어온다.
  * @param {string} ca 물류사 컨트랙트 주소
  * @return 물류사 관할 주문 리스트의 첫번째 엘리먼트(address)
@@ -87,7 +70,7 @@ module.exports.name = async function(ca) {
 
 /**
  * @notice 물류사가 담당하는 주문 리스트에서 order 바로 다음 엘리먼트를 읽어온다.
- * @param {string} ca 물류사 컨트랙트 주소
+ * @param {string} ca    물류사 컨트랙트 주소
  * @param {string} order 주문 컨트랙트 주소
  * @return 물류사 관할 주문 리스트의 order 바로 다음 엘리먼트(address)
  * @author jhhong
@@ -106,7 +89,7 @@ module.exports.nextOrder = async function(ca, order) {
 
 /**
  * @notice 물류사가 담당하는 주문 리스트에서 order 바로 앞 엘리먼트를 읽어온다.
- * @param {string} ca 물류사 컨트랙트 주소
+ * @param {string} ca    물류사 컨트랙트 주소
  * @param {string} order 주문 컨트랙트 주소
  * @return 물류사 관할 주문 리스트의 order 바로 앞 엘리먼트(address)
  * @author jhhong
@@ -176,13 +159,13 @@ module.exports.url = async function(ca) {
 
 /**
  * @notice 주문을 접수한다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} order 접수할 주문 컨트랙트 주소
+ * @param {string} ca          물류사 컨트랙트 주소
+ * @param {string} cmder       명령 수행자의 주소
+ * @param {string} privkey     명령 수행자의 private key
+ * @param {string} order       접수할 주문 컨트랙트 주소
  * @param {number} transportid 운송번호 (구간배송번호)
- * @param {number} nonce NONCE값
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number} nonce       NONCE값
+ * @param {number} gasprice    GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
@@ -212,14 +195,14 @@ module.exports.launch = async function(ca, cmder, privkey, order, transportid, n
 
 /**
  * @notice 주문의 배송상태를 갱신한다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} order 배송상태를 갱신할 주문 컨트랙트 주소
+ * @param {string} ca          물류사 컨트랙트 주소
+ * @param {string} cmder       명령 수행자의 주소
+ * @param {string} privkey     명령 수행자의 private key
+ * @param {string} order       배송상태를 갱신할 주문 컨트랙트 주소
  * @param {number} transportid 운송번호 (구간배송번호)
- * @param {number} code 배송상태 코드
- * @param {number} nonce NONCE값
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number} code        배송상태 코드
+ * @param {number} nonce       NONCE값
+ * @param {number} gasprice    GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
@@ -252,11 +235,11 @@ module.exports.updateOrderCode = async function(ca, cmder, privkey, order, trans
 /**
  * @notice 관리자를 등록한다.
  * @dev 관리자는 현장(창고, 세관 등..)에서 실제 검수 및 운송 완료를 기록하는 직원의 주소이며, 컨트랙트 소유자도 관리자에 포함된다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
+ * @param {string} ca       물류사 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
  * @param {string} operator 관리자로 등록할 주소
- * @param {number} nonce NONCE값
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -288,11 +271,11 @@ module.exports.addOperator = async function(ca, cmder, privkey, operator, nonce,
 /**
  * @notice 관리자를 등록해제한다.
  * @dev 관리자는 현장(창고, 세관 등..)에서 실제 검수 및 운송 완료를 기록하는 직원의 주소이며, 컨트랙트 소유자도 관리자에 포함된다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
+ * @param {string} ca       물류사 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
  * @param {string} operator 관리자 권한 해제할 주소
- * @param {number} nonce NONCE값
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -323,11 +306,11 @@ module.exports.removeOperator = async function(ca, cmder, privkey, operator, non
 
 /**
  * @notice 물류사 별칭을 설정한다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} name 물류사 별칭
- * @param {number} nonce NONCE값
+ * @param {string} ca       물류사 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} name     물류사 별칭
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -358,11 +341,11 @@ module.exports.setName = async function(ca, cmder, privkey, name, nonce, gaspric
 
 /**
  * @notice 물류사 URL을 설정한다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} url 물류사 URL
- * @param {number} nonce NONCE값
+ * @param {string} ca       물류사 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} url      물류사 URL
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -393,12 +376,12 @@ module.exports.setUrl = async function(ca, cmder, privkey, url, nonce, gasprice 
 
 /**
  * @notice 물류사 수취인주소를 설정한다.
- * @param {string} ca 물류사 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
+ * @param {string} ca        물류사 컨트랙트 주소
+ * @param {string} cmder     명령 수행자의 주소
+ * @param {string} privkey   명령 수행자의 private key
  * @param {string} recipient 물류사 수취인주소
- * @param {number} nonce NONCE값
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number} nonce     NONCE값
+ * @param {number} gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
  */
@@ -428,14 +411,14 @@ module.exports.setRecipient = async function(ca, cmder, privkey, recipient, nonc
 
 /**
  * @notice DkargoCompany deploy를 수행한다.
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} name 주문 URL 정보
- * @param {string} url 서비스 컨트랙트 주소
- * @param {array} recipient 물류수행 참여자 주소 배열 (화주+물류사)
- * @param {array} service 물류 트래킹 코드 배열
- * @param {number} nonce NONCE값
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {string} cmder     명령 수행자의 주소
+ * @param {string} privkey   명령 수행자의 private key
+ * @param {string} name      주문 URL 정보
+ * @param {string} url       서비스 컨트랙트 주소
+ * @param {array}  recipient 물류수행 참여자 주소 배열 (화주+물류사)
+ * @param {array}  service   물류 트래킹 코드 배열
+ * @param {number} nonce     NONCE값
+ * @param {number} gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong
  */

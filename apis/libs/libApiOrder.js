@@ -24,12 +24,12 @@ const deployOrder = require('../../libs/libDkargoOrder.js').deployOrder; // depl
 
 /**
  * @notice 주문을 요청한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSubmit.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSubmit.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -91,12 +91,12 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
 /**
  * @notice 주문의 부가정보들을 설정한다.
  * @dev 부가정보: 주문 상세 URL
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSetInfo.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSetInfo.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -155,12 +155,12 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
 
 /**
  * @notice 주문 컨트랙트 디플로이를 수행한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -195,7 +195,7 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
         for(let i = 0; i < ordercnt; i++, nonce++) {
             let url = orders[i].url; // 주문 상세정보 URL
             let sectioncnt = orders[i].count; // 배송구간 개수
-            let sections = orders[i].sections; // 배송구간 정보
+            let sections   = orders[i].sections; // 배송구간 정보
             if(sections.length != sectioncnt) {
                 throw new Error(`params: Invalid Data: Order[${i}]'s Section Count`);
             }

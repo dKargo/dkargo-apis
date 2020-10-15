@@ -19,7 +19,7 @@ const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore 
 
 /**
  * @notice 물류사 컨트랙트 DEPLOY를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyDeploy.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -68,7 +68,7 @@ module.exports.cmdCompanyDeploy = async function(addr, params) {
 
 /**
  * @notice 주문접수 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyLaunchOrders.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -117,7 +117,7 @@ module.exports.cmdCompanyLaunchOrders = async function(addr, params) {
 
 /**
  * @notice 주문 구간배송완료 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyUpdateOrders.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -166,7 +166,7 @@ module.exports.cmdCompanyUpdateOrders = async function(addr, params) {
 
 /**
  * @notice 물류사 운영자 등록을 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyAddOperator.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -215,7 +215,7 @@ module.exports.cmdCompanyAddOperators = async function(addr, params) {
 
 /**
  * @notice 물류사 운영자 등록해제를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanyRemoveOperators.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -264,7 +264,7 @@ module.exports.cmdCompanyRemoveOperators = async function(addr, params) {
 
 /**
  * @notice 물류사 정보설정을 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procCompanySetInfo.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong

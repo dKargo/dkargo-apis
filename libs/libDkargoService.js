@@ -35,18 +35,37 @@ module.exports.companyCount = async function(ca) {
 }
 
 /**
- * @notice 물류사 평점을 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @notice 물류사가 배송완료한 주문의 개수를 반환한다.
+ * @param {string} ca      서비스 컨트랙트 주소
  * @param {string} company 물류사 컨트랙트 주소
- * @return 물류사 평점(number)
+ * @return 물류사가 배송완료한 주문의 개수(number)
  * @author jhhong
  */
-module.exports.degree = async function(ca, company) {
+module.exports.completeOrders = async function(ca, company) {
     try {
         let service = new web3.eth.Contract(abi, ca);
-        return await service.methods.degree(company).call();
+        return await service.methods.completeOrders(company).call();
     } catch(error) {
-        let action = `Action: degree
+        let action = `Action: completeOrders
+        - [ca]:      [${ca}],
+        - [company]: [${company}]`;
+        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
+    }
+}
+
+/**
+ * @notice 물류사가 담당한 주문의 총 개수를 반환한다.
+ * @param {string} ca      서비스 컨트랙트 주소
+ * @param {string} company 물류사 컨트랙트 주소
+ * @return 물류사가 담당한 주문의 총 개수(number)
+ * @author jhhong
+ */
+module.exports.totalOrders = async function(ca, company) {
+    try {
+        let service = new web3.eth.Contract(abi, ca);
+        return await service.methods.totalOrders(company).call();
+    } catch(error) {
+        let action = `Action: totalOrders
         - [ca]:      [${ca}],
         - [company]: [${company}]`;
         Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
@@ -89,7 +108,7 @@ module.exports.firstRecipient = async function(ca) {
 
 /**
  * @notice addr이 수령할 인센티브 정보를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca   서비스 컨트랙트 주소
  * @param {string} addr 인센티브 수령자 주소
  * @return addr이 수령할 인센티브 정보(object: "수령가능한 인센티브 총합" / "settle 수행 시 지급받을 인센티브 양")
  * @author jhhong
@@ -108,7 +127,7 @@ module.exports.incentives = async function(ca, addr) {
 
 /**
  * @notice 물류사의 등록여부를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca      서비스 컨트랙트 주소
  * @param {string} company 물류사 컨트랙트 주소
  * @return 물류사의 등록여부(bool)
  * @author jhhong
@@ -121,25 +140,6 @@ module.exports.isMember = async function(ca, company) {
         let action = `Action: isMember
         - [ca]:      [${ca}],
         - [company]: [${company}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-    }
-}
-
-/**
- * @notice 주문의 결제여부를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
- * @param {string} order 주문 컨트랙트 주소
- * @return 주문의 결제여부(bool)
- * @author jhhong
- */
-module.exports.isPayed = async function(ca, order) {
-    try {
-        let service = new web3.eth.Contract(abi, ca);
-        return await service.methods.isPayed(order).call();
-    } catch(error) {
-        let action = `Action: isPayed
-        - [ca]:    [${ca}],
-        - [order]: [${order}]`;
         Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
     }
 }
@@ -180,7 +180,7 @@ module.exports.lastRecipient = async function(ca) {
 
 /**
  * @notice 등록된 물류사 리스트에서 company 바로 다음 엘리먼트를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca      서비스 컨트랙트 주소
  * @param {string} company 물류사 컨트랙트 주소
  * @return 등록된 물류사 리스트의 company 바로 다음 엘리먼트(address)
  * @author jhhong
@@ -199,7 +199,7 @@ module.exports.nextCompany = async function(ca, company) {
 
 /**
  * @notice 인센티브 수령자 리스트에서 recipient 바로 다음 엘리먼트를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca        서비스 컨트랙트 주소
  * @param {string} recipient 인센티브 수령자 주소
  * @return 인센티브 수령자 리스트의 recipient 바로 다음 엘리먼트(address)
  * @author jhhong
@@ -218,7 +218,7 @@ module.exports.nextRecipient = async function(ca, recipient) {
 
 /**
  * @notice 주문번호에 대응되는 주문 컨트랙트 주소를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca      서비스 컨트랙트 주소
  * @param {string} orderid 주문번호
  * @return 주문 컨트랙트 주소(address)
  * @author jhhong
@@ -254,7 +254,7 @@ module.exports.orderCount = async function(ca) {
 
 /**
  * @notice 등록된 물류사 리스트에서 company 바로 앞 엘리먼트를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca      서비스 컨트랙트 주소
  * @param {string} company 서비스 컨트랙트 주소
  * @return 등록된 물류사 리스트의 company 바로 앞 엘리먼트(address)
  * @author jhhong
@@ -273,7 +273,7 @@ module.exports.prevCompany = async function(ca, company) {
 
 /**
  * @notice 인센티브 수령자 리스트에서 recipient 바로 앞 엘리먼트를 반환한다.
- * @param {string} ca 서비스 컨트랙트 주소
+ * @param {string} ca      서비스 컨트랙트 주소
  * @param {string} company 서비스 컨트랙트 주소
  * @return 인센티브 수령자 리스트의 recipient 바로 앞 엘리먼트(address)
  * @author jhhong
@@ -309,11 +309,11 @@ module.exports.recipientCount = async function(ca) {
 
 /**
  * @notice 물류사를 등록한다.
- * @param {string} ca 서비스 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} company 등록할 물류사 컨트랙트 주소
- * @param {number} nonce NONCE값
+ * @param {string} ca       서비스 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} company  등록할 물류사 컨트랙트 주소
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -344,11 +344,11 @@ module.exports.register = async function(ca, cmder, privkey, company, nonce, gas
 
 /**
  * @notice addr이 받아야 할 인센티브를 정산한다.
- * @param {string} ca 서비스 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} addr 인센티브 수령자 주소
- * @param {number} nonce NONCE값
+ * @param {string} ca       서비스 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} addr     인센티브 수령자 주소
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -379,11 +379,11 @@ module.exports.settle = async function(ca, cmder, privkey, addr, nonce, gasprice
 
 /**
  * @notice 물류사를 등록해제한다.
- * @param {string} ca 서비스 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} company 등록해제할 물류사 컨트랙트 주소
- * @param {number} nonce NONCE값
+ * @param {string} ca       서비스 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} company  등록해제할 물류사 컨트랙트 주소
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -413,45 +413,10 @@ module.exports.unregister = async function(ca, cmder, privkey, company, nonce, g
 }
 
 /**
- * @notice 주문이 결제되었음을 기록한다.
- * @param {string} ca 서비스 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} order 주문 컨트랙트 주소
- * @param {number} nonce NONCE값
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
- * @return 성공 시 txhash, 실패 시 null
- * @author jhhong
- */
-module.exports.markOrderPayed = async function(ca, cmder, privkey, order, nonce, gasprice = 0) {
-    try {
-        let service = new web3.eth.Contract(abi, ca);
-        let gas  = await service.methods.markOrderPayed(order).estimateGas({from: cmder});
-        let data = await service.methods.markOrderPayed(order).encodeABI();
-        if (gasprice == 0) {
-            gasprice = await web3.eth.getGasPrice();
-        }
-        let gphex = `0x${parseInt(gasprice).toString(16)}`;
-        Log('DEBUG', `GAS (markOrderPayed) = [${CYAN(gas)}], GAS-PRICE = [${CYAN(gasprice)}]`);
-        const rawtx = {to: ca, nonce: web3.utils.toHex(nonce), gas: gas, gasPrice: gphex, data: data};
-        let receipt = await sendTx(privkey, rawtx);
-        return receipt.transactionHash;
-    } catch(error) {
-        let action = `Action: markOrderPayed
-        - [CA]:    [${ca}],
-        - [cmder]: [${cmder}],
-        - [order]: [${order}],
-        - [nonce]: [${nonce}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-        return null;
-    }
-}
-
-/**
  * @notice DkargoCompany deploy를 수행한다.
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {number} nonce NONCE값
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong

@@ -90,7 +90,7 @@ module.exports.enableLogFile = async function(id) {
  * @notice 로그를 출력한다.
  * @dev initLog 선행 필수
  * @param {string} prefix 로그레벨 지정자 (ERROR, WARN, INFO, DEBUG, VERBOSE, SILLY)
- * @param {string} str 출력할 데이터 (문자열)
+ * @param {string} str    출력할 데이터 (문자열)
  * @author jhhong
  */
 module.exports.Log = async function(prefix, str) {

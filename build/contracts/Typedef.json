@@ -13,15 +13,15 @@
     "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
     "exportedSymbols": {
       "Typedef": [
-        4656
+        4777
       ]
     },
-    "id": 4657,
+    "id": 4778,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4606,
+        "id": 4727,
         "literals": [
           "solidity",
           ">=",
@@ -37,31 +37,31 @@
         "contractDependencies": [],
         "contractKind": "library",
         "documentation": {
-          "id": 4607,
+          "id": 4728,
           "nodeType": "StructuredDocumentation",
           "src": "58:103:18",
           "text": "@title Typedef\n @dev 각 Chain 라이브러리에서 다룰 data type 정의\n @author jhhong"
         },
         "fullyImplemented": true,
-        "id": 4656,
+        "id": 4777,
         "linearizedBaseContracts": [
-          4656
+          4777
         ],
         "name": "Typedef",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Typedef.AddressElmt",
-            "id": 4612,
+            "id": 4733,
             "members": [
               {
                 "constant": false,
-                "id": 4609,
+                "id": 4730,
                 "mutability": "mutable",
                 "name": "prev",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4612,
+                "scope": 4733,
                 "src": "259:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -70,7 +70,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4608,
+                  "id": 4729,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "259:7:18",
@@ -85,12 +85,12 @@
               },
               {
                 "constant": false,
-                "id": 4611,
+                "id": 4732,
                 "mutability": "mutable",
                 "name": "next",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4612,
+                "scope": 4733,
                 "src": "298:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -99,7 +99,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4610,
+                  "id": 4731,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "298:7:18",
@@ -115,22 +115,22 @@
             ],
             "name": "AddressElmt",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "230:104:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.AddressList",
-            "id": 4623,
+            "id": 4744,
             "members": [
               {
                 "constant": false,
-                "id": 4614,
+                "id": 4735,
                 "mutability": "mutable",
                 "name": "count",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "414:13:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -139,7 +139,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4613,
+                  "id": 4734,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "414:7:18",
@@ -153,12 +153,12 @@
               },
               {
                 "constant": false,
-                "id": 4616,
+                "id": 4737,
                 "mutability": "mutable",
                 "name": "head",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "461:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -167,7 +167,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4615,
+                  "id": 4736,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "461:7:18",
@@ -182,12 +182,12 @@
               },
               {
                 "constant": false,
-                "id": 4618,
+                "id": 4739,
                 "mutability": "mutable",
                 "name": "tail",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "503:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -196,7 +196,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4617,
+                  "id": 4738,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "503:7:18",
@@ -211,23 +211,23 @@
               },
               {
                 "constant": false,
-                "id": 4622,
+                "id": 4743,
                 "mutability": "mutable",
                 "name": "map",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "545:35:18",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4612_storage_$",
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4733_storage_$",
                   "typeString": "mapping(address => struct Typedef.AddressElmt)"
                 },
                 "typeName": {
-                  "id": 4621,
+                  "id": 4742,
                   "keyType": {
-                    "id": 4619,
+                    "id": 4740,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "553:7:18",
@@ -239,18 +239,18 @@
                   "nodeType": "Mapping",
                   "src": "545:31:18",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4612_storage_$",
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4733_storage_$",
                     "typeString": "mapping(address => struct Typedef.AddressElmt)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4620,
+                    "id": 4741,
                     "name": "AddressElmt",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4612,
+                    "referencedDeclaration": 4733,
                     "src": "564:11:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_AddressElmt_$4612_storage_ptr",
+                      "typeIdentifier": "t_struct$_AddressElmt_$4733_storage_ptr",
                       "typeString": "struct Typedef.AddressElmt"
                     }
                   }
@@ -261,22 +261,22 @@
             ],
             "name": "AddressList",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "385:243:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Bytes32Elmt",
-            "id": 4628,
+            "id": 4749,
             "members": [
               {
                 "constant": false,
-                "id": 4625,
+                "id": 4746,
                 "mutability": "mutable",
                 "name": "prev",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4628,
+                "scope": 4749,
                 "src": "709:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -285,7 +285,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4624,
+                  "id": 4745,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "709:7:18",
@@ -299,12 +299,12 @@
               },
               {
                 "constant": false,
-                "id": 4627,
+                "id": 4748,
                 "mutability": "mutable",
                 "name": "next",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4628,
+                "scope": 4749,
                 "src": "748:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -313,7 +313,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4626,
+                  "id": 4747,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "748:7:18",
@@ -328,22 +328,22 @@
             ],
             "name": "Bytes32Elmt",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "680:104:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Bytes32List",
-            "id": 4639,
+            "id": 4760,
             "members": [
               {
                 "constant": false,
-                "id": 4630,
+                "id": 4751,
                 "mutability": "mutable",
                 "name": "count",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "864:13:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -352,7 +352,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4629,
+                  "id": 4750,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "864:7:18",
@@ -366,12 +366,12 @@
               },
               {
                 "constant": false,
-                "id": 4632,
+                "id": 4753,
                 "mutability": "mutable",
                 "name": "head",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "911:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -380,7 +380,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4631,
+                  "id": 4752,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "911:7:18",
@@ -394,12 +394,12 @@
               },
               {
                 "constant": false,
-                "id": 4634,
+                "id": 4755,
                 "mutability": "mutable",
                 "name": "tail",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "953:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -408,7 +408,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4633,
+                  "id": 4754,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "953:7:18",
@@ -422,23 +422,23 @@
               },
               {
                 "constant": false,
-                "id": 4638,
+                "id": 4759,
                 "mutability": "mutable",
                 "name": "map",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "995:35:18",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4628_storage_$",
+                  "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4749_storage_$",
                   "typeString": "mapping(bytes32 => struct Typedef.Bytes32Elmt)"
                 },
                 "typeName": {
-                  "id": 4637,
+                  "id": 4758,
                   "keyType": {
-                    "id": 4635,
+                    "id": 4756,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1003:7:18",
@@ -450,18 +450,18 @@
                   "nodeType": "Mapping",
                   "src": "995:31:18",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4628_storage_$",
+                    "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4749_storage_$",
                     "typeString": "mapping(bytes32 => struct Typedef.Bytes32Elmt)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4636,
+                    "id": 4757,
                     "name": "Bytes32Elmt",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4628,
+                    "referencedDeclaration": 4749,
                     "src": "1014:11:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Bytes32Elmt_$4628_storage_ptr",
+                      "typeIdentifier": "t_struct$_Bytes32Elmt_$4749_storage_ptr",
                       "typeString": "struct Typedef.Bytes32Elmt"
                     }
                   }
@@ -472,22 +472,22 @@
             ],
             "name": "Bytes32List",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "835:243:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Uint64Elmt",
-            "id": 4644,
+            "id": 4765,
             "members": [
               {
                 "constant": false,
-                "id": 4641,
+                "id": 4762,
                 "mutability": "mutable",
                 "name": "prev",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4644,
+                "scope": 4765,
                 "src": "1157:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -496,7 +496,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4640,
+                  "id": 4761,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1157:6:18",
@@ -510,12 +510,12 @@
               },
               {
                 "constant": false,
-                "id": 4643,
+                "id": 4764,
                 "mutability": "mutable",
                 "name": "next",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4644,
+                "scope": 4765,
                 "src": "1195:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -524,7 +524,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4642,
+                  "id": 4763,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1195:6:18",
@@ -539,22 +539,22 @@
             ],
             "name": "Uint64Elmt",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "1129:101:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Uint64List",
-            "id": 4655,
+            "id": 4776,
             "members": [
               {
                 "constant": false,
-                "id": 4646,
+                "id": 4767,
                 "mutability": "mutable",
                 "name": "count",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1308:13:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -563,7 +563,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4645,
+                  "id": 4766,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "1308:7:18",
@@ -577,12 +577,12 @@
               },
               {
                 "constant": false,
-                "id": 4648,
+                "id": 4769,
                 "mutability": "mutable",
                 "name": "head",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1355:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -591,7 +591,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4647,
+                  "id": 4768,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1355:6:18",
@@ -605,12 +605,12 @@
               },
               {
                 "constant": false,
-                "id": 4650,
+                "id": 4771,
                 "mutability": "mutable",
                 "name": "tail",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1396:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -619,7 +619,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4649,
+                  "id": 4770,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1396:6:18",
@@ -633,23 +633,23 @@
               },
               {
                 "constant": false,
-                "id": 4654,
+                "id": 4775,
                 "mutability": "mutable",
                 "name": "map",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1437:33:18",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4644_storage_$",
+                  "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4765_storage_$",
                   "typeString": "mapping(uint64 => struct Typedef.Uint64Elmt)"
                 },
                 "typeName": {
-                  "id": 4653,
+                  "id": 4774,
                   "keyType": {
-                    "id": 4651,
+                    "id": 4772,
                     "name": "uint64",
                     "nodeType": "ElementaryTypeName",
                     "src": "1445:6:18",
@@ -661,18 +661,18 @@
                   "nodeType": "Mapping",
                   "src": "1437:29:18",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4644_storage_$",
+                    "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4765_storage_$",
                     "typeString": "mapping(uint64 => struct Typedef.Uint64Elmt)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4652,
+                    "id": 4773,
                     "name": "Uint64Elmt",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4644,
+                    "referencedDeclaration": 4765,
                     "src": "1455:10:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Uint64Elmt_$4644_storage_ptr",
+                      "typeIdentifier": "t_struct$_Uint64Elmt_$4765_storage_ptr",
                       "typeString": "struct Typedef.Uint64Elmt"
                     }
                   }
@@ -683,12 +683,12 @@
             ],
             "name": "Uint64List",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "1280:238:18",
             "visibility": "public"
           }
         ],
-        "scope": 4657,
+        "scope": 4778,
         "src": "161:1359:18"
       }
     ],
@@ -698,15 +698,15 @@
     "absolutePath": "/home/jhhong/work/renewal/dkargo-scm/contracts/libs/chain/Typedef.sol",
     "exportedSymbols": {
       "Typedef": [
-        4656
+        4777
       ]
     },
-    "id": 4657,
+    "id": 4778,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4606,
+        "id": 4727,
         "literals": [
           "solidity",
           ">=",
@@ -722,31 +722,31 @@
         "contractDependencies": [],
         "contractKind": "library",
         "documentation": {
-          "id": 4607,
+          "id": 4728,
           "nodeType": "StructuredDocumentation",
           "src": "58:103:18",
           "text": "@title Typedef\n @dev 각 Chain 라이브러리에서 다룰 data type 정의\n @author jhhong"
         },
         "fullyImplemented": true,
-        "id": 4656,
+        "id": 4777,
         "linearizedBaseContracts": [
-          4656
+          4777
         ],
         "name": "Typedef",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Typedef.AddressElmt",
-            "id": 4612,
+            "id": 4733,
             "members": [
               {
                 "constant": false,
-                "id": 4609,
+                "id": 4730,
                 "mutability": "mutable",
                 "name": "prev",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4612,
+                "scope": 4733,
                 "src": "259:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -755,7 +755,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4608,
+                  "id": 4729,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "259:7:18",
@@ -770,12 +770,12 @@
               },
               {
                 "constant": false,
-                "id": 4611,
+                "id": 4732,
                 "mutability": "mutable",
                 "name": "next",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4612,
+                "scope": 4733,
                 "src": "298:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -784,7 +784,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4610,
+                  "id": 4731,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "298:7:18",
@@ -800,22 +800,22 @@
             ],
             "name": "AddressElmt",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "230:104:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.AddressList",
-            "id": 4623,
+            "id": 4744,
             "members": [
               {
                 "constant": false,
-                "id": 4614,
+                "id": 4735,
                 "mutability": "mutable",
                 "name": "count",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "414:13:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -824,7 +824,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4613,
+                  "id": 4734,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "414:7:18",
@@ -838,12 +838,12 @@
               },
               {
                 "constant": false,
-                "id": 4616,
+                "id": 4737,
                 "mutability": "mutable",
                 "name": "head",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "461:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -852,7 +852,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4615,
+                  "id": 4736,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "461:7:18",
@@ -867,12 +867,12 @@
               },
               {
                 "constant": false,
-                "id": 4618,
+                "id": 4739,
                 "mutability": "mutable",
                 "name": "tail",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "503:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -881,7 +881,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4617,
+                  "id": 4738,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "503:7:18",
@@ -896,23 +896,23 @@
               },
               {
                 "constant": false,
-                "id": 4622,
+                "id": 4743,
                 "mutability": "mutable",
                 "name": "map",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4623,
+                "scope": 4744,
                 "src": "545:35:18",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4612_storage_$",
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4733_storage_$",
                   "typeString": "mapping(address => struct Typedef.AddressElmt)"
                 },
                 "typeName": {
-                  "id": 4621,
+                  "id": 4742,
                   "keyType": {
-                    "id": 4619,
+                    "id": 4740,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "553:7:18",
@@ -924,18 +924,18 @@
                   "nodeType": "Mapping",
                   "src": "545:31:18",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4612_storage_$",
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_AddressElmt_$4733_storage_$",
                     "typeString": "mapping(address => struct Typedef.AddressElmt)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4620,
+                    "id": 4741,
                     "name": "AddressElmt",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4612,
+                    "referencedDeclaration": 4733,
                     "src": "564:11:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_AddressElmt_$4612_storage_ptr",
+                      "typeIdentifier": "t_struct$_AddressElmt_$4733_storage_ptr",
                       "typeString": "struct Typedef.AddressElmt"
                     }
                   }
@@ -946,22 +946,22 @@
             ],
             "name": "AddressList",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "385:243:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Bytes32Elmt",
-            "id": 4628,
+            "id": 4749,
             "members": [
               {
                 "constant": false,
-                "id": 4625,
+                "id": 4746,
                 "mutability": "mutable",
                 "name": "prev",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4628,
+                "scope": 4749,
                 "src": "709:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -970,7 +970,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4624,
+                  "id": 4745,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "709:7:18",
@@ -984,12 +984,12 @@
               },
               {
                 "constant": false,
-                "id": 4627,
+                "id": 4748,
                 "mutability": "mutable",
                 "name": "next",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4628,
+                "scope": 4749,
                 "src": "748:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -998,7 +998,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4626,
+                  "id": 4747,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "748:7:18",
@@ -1013,22 +1013,22 @@
             ],
             "name": "Bytes32Elmt",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "680:104:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Bytes32List",
-            "id": 4639,
+            "id": 4760,
             "members": [
               {
                 "constant": false,
-                "id": 4630,
+                "id": 4751,
                 "mutability": "mutable",
                 "name": "count",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "864:13:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1037,7 +1037,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4629,
+                  "id": 4750,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "864:7:18",
@@ -1051,12 +1051,12 @@
               },
               {
                 "constant": false,
-                "id": 4632,
+                "id": 4753,
                 "mutability": "mutable",
                 "name": "head",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "911:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1065,7 +1065,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4631,
+                  "id": 4752,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "911:7:18",
@@ -1079,12 +1079,12 @@
               },
               {
                 "constant": false,
-                "id": 4634,
+                "id": 4755,
                 "mutability": "mutable",
                 "name": "tail",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "953:12:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1093,7 +1093,7 @@
                   "typeString": "bytes32"
                 },
                 "typeName": {
-                  "id": 4633,
+                  "id": 4754,
                   "name": "bytes32",
                   "nodeType": "ElementaryTypeName",
                   "src": "953:7:18",
@@ -1107,23 +1107,23 @@
               },
               {
                 "constant": false,
-                "id": 4638,
+                "id": 4759,
                 "mutability": "mutable",
                 "name": "map",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4639,
+                "scope": 4760,
                 "src": "995:35:18",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4628_storage_$",
+                  "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4749_storage_$",
                   "typeString": "mapping(bytes32 => struct Typedef.Bytes32Elmt)"
                 },
                 "typeName": {
-                  "id": 4637,
+                  "id": 4758,
                   "keyType": {
-                    "id": 4635,
+                    "id": 4756,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "1003:7:18",
@@ -1135,18 +1135,18 @@
                   "nodeType": "Mapping",
                   "src": "995:31:18",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4628_storage_$",
+                    "typeIdentifier": "t_mapping$_t_bytes32_$_t_struct$_Bytes32Elmt_$4749_storage_$",
                     "typeString": "mapping(bytes32 => struct Typedef.Bytes32Elmt)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4636,
+                    "id": 4757,
                     "name": "Bytes32Elmt",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4628,
+                    "referencedDeclaration": 4749,
                     "src": "1014:11:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Bytes32Elmt_$4628_storage_ptr",
+                      "typeIdentifier": "t_struct$_Bytes32Elmt_$4749_storage_ptr",
                       "typeString": "struct Typedef.Bytes32Elmt"
                     }
                   }
@@ -1157,22 +1157,22 @@
             ],
             "name": "Bytes32List",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "835:243:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Uint64Elmt",
-            "id": 4644,
+            "id": 4765,
             "members": [
               {
                 "constant": false,
-                "id": 4641,
+                "id": 4762,
                 "mutability": "mutable",
                 "name": "prev",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4644,
+                "scope": 4765,
                 "src": "1157:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1181,7 +1181,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4640,
+                  "id": 4761,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1157:6:18",
@@ -1195,12 +1195,12 @@
               },
               {
                 "constant": false,
-                "id": 4643,
+                "id": 4764,
                 "mutability": "mutable",
                 "name": "next",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4644,
+                "scope": 4765,
                 "src": "1195:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1209,7 +1209,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4642,
+                  "id": 4763,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1195:6:18",
@@ -1224,22 +1224,22 @@
             ],
             "name": "Uint64Elmt",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "1129:101:18",
             "visibility": "public"
           },
           {
             "canonicalName": "Typedef.Uint64List",
-            "id": 4655,
+            "id": 4776,
             "members": [
               {
                 "constant": false,
-                "id": 4646,
+                "id": 4767,
                 "mutability": "mutable",
                 "name": "count",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1308:13:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1248,7 +1248,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4645,
+                  "id": 4766,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "1308:7:18",
@@ -1262,12 +1262,12 @@
               },
               {
                 "constant": false,
-                "id": 4648,
+                "id": 4769,
                 "mutability": "mutable",
                 "name": "head",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1355:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1276,7 +1276,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4647,
+                  "id": 4768,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1355:6:18",
@@ -1290,12 +1290,12 @@
               },
               {
                 "constant": false,
-                "id": 4650,
+                "id": 4771,
                 "mutability": "mutable",
                 "name": "tail",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1396:11:18",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -1304,7 +1304,7 @@
                   "typeString": "uint64"
                 },
                 "typeName": {
-                  "id": 4649,
+                  "id": 4770,
                   "name": "uint64",
                   "nodeType": "ElementaryTypeName",
                   "src": "1396:6:18",
@@ -1318,23 +1318,23 @@
               },
               {
                 "constant": false,
-                "id": 4654,
+                "id": 4775,
                 "mutability": "mutable",
                 "name": "map",
                 "nodeType": "VariableDeclaration",
                 "overrides": null,
-                "scope": 4655,
+                "scope": 4776,
                 "src": "1437:33:18",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4644_storage_$",
+                  "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4765_storage_$",
                   "typeString": "mapping(uint64 => struct Typedef.Uint64Elmt)"
                 },
                 "typeName": {
-                  "id": 4653,
+                  "id": 4774,
                   "keyType": {
-                    "id": 4651,
+                    "id": 4772,
                     "name": "uint64",
                     "nodeType": "ElementaryTypeName",
                     "src": "1445:6:18",
@@ -1346,18 +1346,18 @@
                   "nodeType": "Mapping",
                   "src": "1437:29:18",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4644_storage_$",
+                    "typeIdentifier": "t_mapping$_t_uint64_$_t_struct$_Uint64Elmt_$4765_storage_$",
                     "typeString": "mapping(uint64 => struct Typedef.Uint64Elmt)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4652,
+                    "id": 4773,
                     "name": "Uint64Elmt",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4644,
+                    "referencedDeclaration": 4765,
                     "src": "1455:10:18",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_Uint64Elmt_$4644_storage_ptr",
+                      "typeIdentifier": "t_struct$_Uint64Elmt_$4765_storage_ptr",
                       "typeString": "struct Typedef.Uint64Elmt"
                     }
                   }
@@ -1368,12 +1368,12 @@
             ],
             "name": "Uint64List",
             "nodeType": "StructDefinition",
-            "scope": 4656,
+            "scope": 4777,
             "src": "1280:238:18",
             "visibility": "public"
           }
         ],
-        "scope": 4657,
+        "scope": 4778,
         "src": "161:1359:18"
       }
     ],
@@ -1385,7 +1385,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-09-08T02:08:21.939Z",
+  "updatedAt": "2020-10-15T10:01:28.677Z",
   "devdoc": {
     "author": "jhhong",
     "details": "각 Chain 라이브러리에서 다룰 data type 정의",

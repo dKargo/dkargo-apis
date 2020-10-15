@@ -25,7 +25,6 @@ const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep �
 //// LIBs (libDkargoService)
 const register       = require('../../libs/libDkargoService.js').register; // register: 물류사 등록 함수
 const unregister     = require('../../libs/libDkargoService.js').unregister; // unregister: 물류사 등록해제 함수
-const markOrderPayed = require('../../libs/libDkargoService.js').markOrderPayed; // markOrderPayed: 주문 결제확인 함수
 const settle         = require('../../libs/libDkargoService.js').settle; // settle: 인센티브 정산 함수
 const firstRecipient = require('../../libs/libDkargoService.js').firstRecipient; // firstRecipient: 첫번째 인센티브 수령자 주소 획득함수
 const incentives     = require('../../libs/libDkargoService.js').incentives; // incentives: 인센티브 보유량 획득함수
@@ -37,12 +36,12 @@ const transfer = require('../../libs/libDkargoToken.js').transfer; // transfer: 
 
 /**
  * @notice 물류사를 등록한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminRegisterCompanies.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminRegisterCompanies.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -87,7 +86,6 @@ module.exports.procAdminRegisterCompanies = async function(keystore, passwd, par
         }
         Promise.all(promises).then(async () => {
             alldone = true;
-            console.log(cmder);
             if(cbptrPost != undefined && cbptrPost != null) {
                 await cbptrPost(cmder);
             }
@@ -105,12 +103,12 @@ module.exports.procAdminRegisterCompanies = async function(keystore, passwd, par
 
 /**
  * @notice 물류사를 등록해제한다.
- * @param {string}  keystore keystore object(json format)
- * @param {string}  passwd keystore password
- * @param {object}  params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminUnregisterCompanies.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminUnregisterCompanies.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number}  gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -171,79 +169,12 @@ module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, p
 }
 
 /**
- * @notice 결제된 주문리스트들을 "결제됨"으로 표시한다.
- * @param {string}  keystore keystore object(json format)
- * @param {string}  passwd keystore password
- * @param {object}  params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminMarkOrderPayments.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number}  gasprice GAS 가격 (wei단위), 디폴트 = 0
- * @return bool (true: 정상처리 / false: 비정상수행)
- * @author jhhong
- */
-module.exports.procAdminMarkOrderPayments = async function(keystore, passwd, params, cbptrPre, cbptrPost, gasprice = 0) {
-    try {
-        if(params.operation != 'procAdminMarkOrderPayments') {
-            throw new Error('params: Invalid Operation');
-        }
-        if(params.data == undefined || params.data == null || params.data == 'none') {
-            Log('WARN', `Not found Data to MarkOrderPayed!`);
-            return true;
-        }
-        let service = params.data.service;
-        let orders = params.data.orders;
-        let count = params.data.count;
-        if(orders.length != count) {
-            throw new Error('params: Invalid Data: Count');
-        }
-        let account = await web3.eth.accounts.decrypt(keystore, passwd);
-        let cmder = account.address;
-        let privkey = account.privateKey.split('0x')[1];
-        let nonce = await web3.eth.getTransactionCount(cmder);
-        //// 흐름제어 코드
-        let alldone = true; // 초기값 = true, libs function 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리 코드
-        if(count > 0) { // libs function 호출이 일어날 경우
-            alldone = false; // alldone값을 false로 세팅
-            if(cbptrPre != undefined && cbptrPre != null) {
-                await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
-            }
-        }
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
-        for(let i = 0; i < count; i++, nonce++) {
-            let promise = markOrderPayed(service, cmder, privkey, orders[i].addr, nonce, gasprice).then(async (ret) => {
-                if(ret != null) { // 정상수행: ret == transaction hash
-                    let action = `MARK-ORDER-PAYED done!\n` +
-                    `- [ORDER]:  [${BLUE(orders[i].addr)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
-                    Log('DEBUG', `${action}`);
-                }
-            });
-            promises.push(promise);
-        }
-        Promise.all(promises).then(async () => {
-            alldone = true;
-            if(cbptrPost != undefined && cbptrPost != null) {
-                await cbptrPost(cmder);
-            }
-        });
-        while(alldone == false) {
-            await msleep(10);
-        }
-        return true;
-    } catch(error) {
-        let action = `Action: procAdminMarkOrderPayments`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-        return false;
-    }
-}
-
-/**
  * @notice 계정별 정산되어야 할 인센티브 값을 구하여 TOKENNET에서 실제 DKA를 해당 계정으로 전송한다.
- * @param {string} service 서비스 컨트랙트 주소
- * @param {string} token 토큰 컨트랙트 주소
- * @param {string} from 인센티브 정산자 (디카르고 관리자)
- * @param {string} privkey from의 privkey
- * @param {number} nonce from의 nonce값 (TOKENNET에서의 NONCE)
+ * @param {string} service  서비스 컨트랙트 주소
+ * @param {string} token    토큰 컨트랙트 주소
+ * @param {string} from     인센티브 정산자 (디카르고 관리자)
+ * @param {string} privkey  from의 privkey
+ * @param {number} nonce    from의 nonce값 (TOKENNET에서의 NONCE)
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return "인센티브 정산" 수행되어야 할 계정 리스트 (settle() 호출이 일어나야 할 계정 리스트), 예외상황 발생시 null 반환
  * @author jhhong
@@ -286,12 +217,12 @@ let transferIncentives = async function(service, token, from, privkey, nonce, ga
 
 /**
  * @notice LOGISTICSNET에서 "인센티브 정산" 수행 결과를 갱신한다.
- * @param {string} service 서비스 컨트랙트 주소
- * @param {string} from 인센티브 정산자 (디카르고 관리자)
- * @param {string} privkey from의 privkey
+ * @param {string} service    서비스 컨트랙트 주소
+ * @param {string} from       인센티브 정산자 (디카르고 관리자)
+ * @param {string} privkey    from의 privkey
  * @param {array}  recipients 인센티브 수신 리스트
- * @param {number} nonce from의 nonce값 (LOGISTICSNET에서의 NONCE)
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number} nonce      from의 nonce값 (LOGISTICSNET에서의 NONCE)
+ * @param {number} gasprice   GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -319,12 +250,12 @@ let settlement = async function(service, from, privkey, recipients, nonce, gaspr
 
 /**
  * @notice 인센티브를 정산한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {object} params parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminSettle.json )
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {object}  params    parameters ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminSettle.json )
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
@@ -376,11 +307,11 @@ module.exports.procAdminSettlement = async function(keystore, passwd, params, cb
 
 /**
  * @notice 서비스 컨트랙트 디플로이를 수행한다.
- * @param {string} keystore keystore object(json format)
- * @param {string} passwd keystore password
- * @param {pointer} cbptrPre 프로시져 완료 시 호출될 콜백함수 포인터
+ * @param {string}  keystore  keystore object(json format)
+ * @param {string}  passwd    keystore password
+ * @param {pointer} cbptrPre  프로시져 시작 시 호출될 콜백함수 포인터
  * @param {pointer} cbptrPost 프로시져 완료 시 호출될 콜백함수 포인터
- * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
+ * @param {number}  gasprice  GAS 가격 (wei단위), 디폴트 = 0
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */

@@ -69,7 +69,7 @@ let getDkargoPrefix = async function(ca) {
 
 /**
  * @notice 블록에 service 컨트랙트가 실제로 존재하는지 확인한다.
- * @param {String} addr service 컨트랙트 주소
+ * @param {String} addr    service 컨트랙트 주소
  * @param {Number} genesis service 컨트랙트가 deploy된 블록넘버
  * @return boolean (true: 존재함, false: 존재하지 않음)
  * @author jhhong
@@ -104,7 +104,7 @@ let checkValidGenesis = async function(addr, genesis) {
 
 /**
  * @notice 모니터링 시작 블록넘버를 구한다.
- * @param {String} addr service 컨트랙트 주소
+ * @param {String} addr         service 컨트랙트 주소
  * @param {Number} defaultblock service 컨트랙트가 deploy된 블록넘버 (process.argv[3])
  * @return 모니터링 시작 블록넘버(Number)
  * @author jhhong
@@ -176,8 +176,8 @@ let createEventParseTable = async function() {
 /**
  * @notice 이벤트의 아규먼트 정보를 획득한다.
  * @param {String} eventname 이벤트 이름
- * @param {Object} table EventLog Parsing 테이블
- * @param {Object} receipt getTransactionReceipt 결과물
+ * @param {Object} table     EventLog Parsing 테이블
+ * @param {Object} receipt   getTransactionReceipt 결과물
  * @author jhhong
  */
 let getEventArguments = async function(eventname, table, receipt) {
@@ -211,8 +211,8 @@ let getEventArguments = async function(eventname, table, receipt) {
 /**
  * @notice 이벤트를 파싱한다.
  * @dev 트랜젝션이 디카르고 tx인지 판별, 디카르고 tx에 한해서 txtype에 맞는 schema로 데이터를 가공
- * @param {Object} table Event Log Parsing 테이블 (이벤트 이름 / inputs / signature 조합)
- * @param {Object} txdata 트랜젝션 정보 (eth.getTransaction)
+ * @param {Object} table   Event Log Parsing 테이블 (이벤트 이름 / inputs / signature 조합)
+ * @param {Object} txdata  트랜젝션 정보 (eth.getTransaction)
  * @param {Object} receipt Receipt 정보 (eth.getTransactionReceipt)
  * @author jhhong
  */
@@ -355,7 +355,7 @@ let parseEvents = async function(table, txdata, receipt) {
 /**
  * @notice 과거의 블록정보에 대한 파싱작업을 수행한다.
  * @param {Number} startblock 스타트 블럭넘버
- * @param {Object} table Event Log Parsing 테이블
+ * @param {Object} table      Event Log Parsing 테이블
  * @author jhhong
  */
 let syncPastBlocks = async function(startblock, table) {

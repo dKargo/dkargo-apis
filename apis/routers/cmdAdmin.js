@@ -30,7 +30,7 @@ module.exports.cmdAdminAddAccounts = async function(params) {
         }
         let counts = params.data.count;
         let accounts = params.data.accounts;
-        if(counts != accounts.length) { // params 가용성 체크: COUNT
+        if (counts != accounts.length) { // params 가용성 체크: COUNT
             throw new Error(`Invalid Params! Count missmatch:[${counts}]`);
         }
         for(let i = 0; i < counts; i++) { // address에 해당하는 KEYSTORE 파일이 API Server에 존재하는지 확인
@@ -77,7 +77,7 @@ module.exports.cmdAdminRemoveAccounts = async function(params) {
         }
         let counts = params.data.count;
         let accounts = params.data.accounts;
-        if(counts != accounts.length) { // params 가용성 체크: COUNT
+        if (counts != accounts.length) { // params 가용성 체크: COUNT
             throw new Error(`Invalid Params! Count missmatch:[${counts}]`);
         }
         for(let i = 0; i < counts; i++) { // address에 해당하는 KEYSTORE 파일이 API Server에 존재하는지 확인
@@ -112,7 +112,7 @@ module.exports.cmdAdminRemoveAccounts = async function(params) {
 
 /**
  * @notice 물류사를 등록한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminRegisterCompanies.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -124,14 +124,14 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
             throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
         }
         let exists = await Account.countDocuments({account: addr});
-        if(exists > 1) {
+        if (exists > 1) {
             throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
         }
-        if(exists == 0) {
+        if (exists == 0) {
             throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
         }
         let account = await Account.findOne({account: addr});
-        if(account.status != 'idle') {
+        if (account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
         if(params.operation != 'procAdminRegisterCompanies') { // params 가용성 체크: OPERATION
@@ -161,7 +161,7 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
 
 /**
  * @notice 물류사를 등록해제한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminUnregisterCompanies.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -173,14 +173,14 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
             throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
         }
         let exists = await Account.countDocuments({account: addr});
-        if(exists > 1) {
+        if (exists > 1) {
             throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
         }
-        if(exists == 0) {
+        if (exists == 0) {
             throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
         }
         let account = await Account.findOne({account: addr});
-        if(account.status != 'idle') {
+        if (account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
         if(params.operation != 'procAdminUnregisterCompanies') { // params 가용성 체크: OPERATION
@@ -210,56 +210,7 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
 
 /**
  * @notice 주문이 결제완료 되었음을 기록한다.
- * @param {String} addr 커맨드 수행 주소
- * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminMarkOrderPayments.json )
- * @return JSON type (ok: 필드로 성공, 실패 구분)
- * @author jhhong
- */
-module.exports.cmdAdminMarkOrderPayments = async function(addr, params) {
-    try {
-        let keystore = await getKeystore(addr);
-        if (keystore == null) {
-            throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
-        }
-        let exists = await Account.countDocuments({account: addr});
-        if(exists > 1) {
-            throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
-        }
-        if(exists == 0) {
-            throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
-        }
-        let account = await Account.findOne({account: addr});
-        if(account.status != 'idle') {
-            throw new Error(`Account is busy! ADDR:[${addr}]`);
-        }
-        if(params.operation != 'procAdminMarkOrderPayments') { // params 가용성 체크: OPERATION
-            throw new Error('params: Invalid Operation');
-        }
-        let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (CHECK PAYMENTS)`);
-        }
-        let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (CHECK PAYMENTS)`);
-        }
-        ApiAdmin.procAdminMarkOrderPayments(keystore, account.passwd, params, cbptrPre, cbptrPost);
-        let ret = new Object(); // 응답 생성: SUCCESS
-        ret.ok = true;
-        return JSON.stringify(ret);
-    } catch(error) {
-        let action = `Action: cmdAdminMarkOrderPayments`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-        let ret = new Object(); // 응답 생성: FAILED
-        ret.ok = false;
-        ret.reason = error.message;
-        return JSON.stringify(ret);
-    }
-}
-
-/**
- * @notice 주문이 결제완료 되었음을 기록한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminSettle.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -271,14 +222,14 @@ module.exports.cmdAdminSettleIncentives = async function(addr, params) {
             throw new Error(`Keystore File does not exist! ADDR:[${addr}]`);
         }
         let exists = await Account.countDocuments({account: addr});
-        if(exists > 1) {
+        if (exists > 1) {
             throw new Error(`DB Error! Account Duplicated! ADDR:[${addr}], COUNT:[${exists}]`);
         }
-        if(exists == 0) {
+        if (exists == 0) {
             throw new Error(`Unlisted! \"AddAccounts\" need! ADDR:[${addr}]`);
         }
         let account = await Account.findOne({account: addr});
-        if(account.status != 'idle') {
+        if (account.status != 'idle') {
             throw new Error(`Account is busy! ADDR:[${addr}]`);
         }
         if(params.operation != 'procAdminSettle') { // params 가용성 체크: OPERATION

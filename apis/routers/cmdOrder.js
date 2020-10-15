@@ -19,7 +19,7 @@ const getKeystore = require('../libs/libApiCommon.js').getKeystore; // keystore 
 
 /**
  * @notice 주문 컨트랙트 DEPLOY를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -68,7 +68,7 @@ module.exports.cmdOrdersDeploy = async function(addr, params) {
 
 /**
  * @notice 주문 등록요청 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSubmit.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong
@@ -117,7 +117,7 @@ module.exports.cmdOrdersSubmit = async function(addr, params) {
 
 /**
  * @notice 주문 상세정보 변경 프로시져를 수행한다.
- * @param {String} addr 커맨드 수행 주소
+ * @param {String} addr   커맨드 수행 주소
  * @param {object} params 파라메터 ( @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderSetInfo.json )
  * @return JSON type (ok: 필드로 성공, 실패 구분)
  * @author jhhong

@@ -19,8 +19,8 @@ const CYAN = require('./libLog.js').consoleCyan; // 콘솔 컬러 출력: CYAN
 
 /**
  * @notice holder가 spender에게 할당한 위임 통화량을 반환한다.
- * @param {string} ca 컨트랙트 주소
- * @param {string} holder 토큰 보유자의 계좌 주소
+ * @param {string} ca      컨트랙트 주소
+ * @param {string} holder  토큰 보유자의 계좌 주소
  * @param {string} spender 토큰 위임자의 계좌 주소
  * @return 위임 통화량(uint256)
  * @author jhhong
@@ -40,7 +40,7 @@ module.exports.allowance = async function(ca, holder, spender) {
 
 /**
  * @notice 유저의 토탈 밸런스를 반환한다.
- * @param {string} ca 컨트랙트 주소
+ * @param {string} ca   컨트랙트 주소
  * @param {string} user 유저 계좌 주소
  * @return 유저가 보유한 토탈 밸런스(uint256)
  * @author jhhong
@@ -110,7 +110,7 @@ module.exports.head = async function(ca) {
 
 /**
  * @notice 유저에 대한 토큰 홀더 리스트에서의 링크상태 여부를 반환한다.
- * @param {string} ca 컨트랙트 주소
+ * @param {string} ca   컨트랙트 주소
  * @param {string} user 유저 계좌 주소
  * @return 유저에 대한 토큰 홀더 리스트에서의 링크상태 여부(boolean)
  * @author jhhong
@@ -146,7 +146,7 @@ module.exports.name = async function(ca) {
 
 /**
  * @notice 토큰 홀더 리스트에서 유저 다음 토큰 보유자의 주소를 반환한다.
- * @param {string} ca 컨트랙트 주소
+ * @param {string} ca   컨트랙트 주소
  * @param {string} user 유저 계좌 주소
  * @return 다음 토큰 보유자 주소(string)
  * @author jhhong
@@ -165,7 +165,7 @@ module.exports.nextOf = async function(ca, user) {
 
 /**
  * @notice 토큰 홀더 리스트에서 유저 이전 토큰 보유자 주소를 반환한다.
- * @param {string} ca 컨트랙트 주소
+ * @param {string} ca   컨트랙트 주소
  * @param {string} user 유저 계좌 주소
  * @return 이전 토큰 보유자 주소(string)
  * @author jhhong
@@ -235,12 +235,12 @@ module.exports.totalSupply = async function(ca) {
 
 /**
  * @notice 토큰을 위임한다.
- * @param {string} ca 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} spender spender(토큰 위임자) 계좌 주소
- * @param {string} amount 토큰 위임양
- * @param {number} nonce NONCE값
+ * @param {string} ca       컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} spender  spender(토큰 위임자) 계좌 주소
+ * @param {string} amount   토큰 위임양
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -272,11 +272,11 @@ module.exports.approve = async function(ca, cmder, privkey, spender, amount, non
 
 /**
  * @notice 토큰을 소각한다.
- * @param {string} ca 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} amount 토큰 소각양
- * @param {number} nonce NONCE값
+ * @param {string} ca       컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} amount   토큰 소각양
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -307,12 +307,12 @@ module.exports.burn = async function(ca, cmder, privkey, amount, nonce, gasprice
 
 /**
  * @notice 토큰을 전송한다.
- * @param {string} ca 토큰 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} to to 계좌 주소
- * @param {string} amount 토큰 송금양
- * @param {number} nonce NONCE값
+ * @param {string} ca       토큰 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} to       to 계좌 주소
+ * @param {string} amount   토큰 송금양
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -344,13 +344,13 @@ module.exports.transfer = async function(ca, cmder, privkey, to, amount, nonce, 
 
 /**
  * @notice 토큰을 위임 전송한다.
- * @param {string} ca 토큰 컨트랙트 주소
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} from from 계좌 주소
- * @param {string} to to 계좌 주소
- * @param {string} amount 토큰 송금양
- * @param {number} nonce NONCE값
+ * @param {string} ca       토큰 컨트랙트 주소
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} from     from 계좌 주소
+ * @param {string} to       to 계좌 주소
+ * @param {string} amount   토큰 송금양
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 txhash, 실패 시 null
  * @author jhhong
@@ -383,12 +383,12 @@ module.exports.transferFrom = async function(ca, cmder, privkey, from, to, amoun
 
 /**
  * @notice DkargoToken deploy를 수행한다.
- * @param {string} cmder 명령 수행자의 주소
- * @param {string} privkey 명령 수행자의 private key
- * @param {string} name 토큰 네임
- * @param {string} symbol 토큰 심볼
- * @param {string} supply 초기 발행량
- * @param {number} nonce NONCE값
+ * @param {string} cmder    명령 수행자의 주소
+ * @param {string} privkey  명령 수행자의 private key
+ * @param {string} name     토큰 네임
+ * @param {string} symbol   토큰 심볼
+ * @param {string} supply   초기 발행량
+ * @param {number} nonce    NONCE값
  * @param {number} gasprice GAS 가격 (wei단위), 디폴트 = 0
  * @return 성공 시 컨트랙트 주소, 실패 시 null
  * @author jhhong

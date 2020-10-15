@@ -22,14 +22,11 @@ const cmdCompanyRemoveOperators   = require('./routers/cmdCompany.js').cmdCompan
 const cmdCompanysetInfos          = require('./routers/cmdCompany.js').cmdCompanysetInfos; // 물류사 CMD API: 물류사 정보설정
 const cmdAdminRegisterCompanies   = require('./routers/cmdAdmin.js').cmdAdminRegisterCompanies; // 관리자 CMD API: 물류사 등록
 const cmdAdminUnregisterCompanies = require('./routers/cmdAdmin.js').cmdAdminUnregisterCompanies; // 관리자 CMD API: 물류사 등록해제
-const cmdAdminMarkOrderPayments   = require('./routers/cmdAdmin.js').cmdAdminMarkOrderPayments; // 관리자 CMD API: 주문 결제확인
 const cmdAdminSettleIncentives    = require('./routers/cmdAdmin.js').cmdAdminSettleIncentives; // 관리자 CMD API: 인센티브 정산
 const cmdAdminAddAccounts         = require('./routers/cmdAdmin.js').cmdAdminAddAccounts; // 관리자 CMD API: 계정추가
 const cmdAdminRemoveAccounts      = require('./routers/cmdAdmin.js').cmdAdminRemoveAccounts; // 관리자 CMD API: 계정해지
+const getAccountStatus            = require('./routers/getAccount.js').getAccountStatus; // 계정 GET API: 계정의 상태정보 획득
 const getCompanyWorks             = require('./routers/getCompany.js').getCompanyWorks; // 물류사 GET API: 물류사가 배송해야 할 업무 리스트 획득
-
-//// LOGs
-const Log = require('../libs/libLog.js').Log; // 로그 출력
 
 /**
  * @notice API routing 수행 함수
@@ -37,6 +34,15 @@ const Log = require('../libs/libLog.js').Log; // 로그 출력
  * @author jhhong
  */
 module.exports = function(app) {
+    /**
+     * @notice 계정의 상태를 얻어온다.
+     * @dev 수행주체: any
+     * @author jhhong
+     */
+    app.get('/getAccountStatus/:address', async function(req, res) {
+        let ret = await getAccountStatus(req.params.address);
+        res.end(ret);
+    });
     /**
      * @notice 물류사 담당 구간-배송 리스트를 얻어온다.
      * @dev 수행주체: any
@@ -184,16 +190,6 @@ module.exports = function(app) {
      */
     app.post('/cmdAdminUnregisterCompanies/:address', async function(req, res) {
         let ret = await cmdAdminUnregisterCompanies(req.params.address, req.body);
-        res.json(ret);
-    });
-    /**
-     * @notice 물류사 주문 결제확인 프로시져
-     * @dev 수행주체: ADMIN
-     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procAdminMarkOrderPayments.json
-     * @author jhhong
-     */
-    app.post('/cmdAdminMarkOrderPayments/:address', async function(req, res) {
-        let ret = await cmdAdminMarkOrderPayments(req.params.address, req.body);
         res.json(ret);
     });
     /**
