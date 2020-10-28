@@ -77,8 +77,8 @@ module.exports.procAdminRegisterCompanies = async function(keystore, passwd, par
             let promise = register(service, cmder, privkey, companies[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `REGISTER done!\n` +
-                    `- [COMPANY]: [${BLUE(companies[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${GREEN(ret)}]`;
+                    `- [COMPANY]: ['${BLUE(companies[i].addr)}'],\n` +
+                    `=>[TXHASH]:  ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -144,8 +144,8 @@ module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, p
             let promise = unregister(service, cmder, privkey, companies[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `UNREGISTER done!\n` +
-                    `- [COMPANY]: [${BLUE(companies[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${GREEN(ret)}]`;
+                    `- [COMPANY]: ['${BLUE(companies[i].addr)}'],\n` +
+                    `=>[TXHASH]:  ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -315,8 +315,9 @@ module.exports.procAdminSettlement = async function(keystore, passwd, params, cb
  * @return bool (true: 정상처리 / false: 비정상수행)
  * @author jhhong
  */
-module.exports.procDeployService = async function(keystore, passwd, cbptrPre, cbptrPost, gasprice = 0) {
+module.exports.procServiceDeploy = async function(keystore, passwd, cbptrPre, cbptrPost, gasprice = 0) {
     try {
+        let result  = null; // deploy된 service contract 정보를 담을 변수
         let account = await web3.eth.accounts.decrypt(keystore, passwd);
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
@@ -329,10 +330,12 @@ module.exports.procDeployService = async function(keystore, passwd, cbptrPre, cb
         for(let i = 0; i < 1; i++, nonce++) {
             let promise = deployService(cmder, privkey, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
-                    let action = `SERVICE DEPLOY done!\n` +
-                    `=>[ADDRESS]:     [${GREEN(ret[0])}]\n` +
-                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
-                    Log('DEBUG', `${action}`);
+                    result = new Object();
+                    result.address  = ret[0];
+                    result.blocknum = ret[1];
+                    Log('DEBUG', `SERVICE DEPLOY done!`);
+                    Log('DEBUG', `=>[ADDRESS]:     ['${GREEN(ret[0])}'],`);
+                    Log('DEBUG', `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`);
                 }
             });
             promises.push(promise);
@@ -340,7 +343,7 @@ module.exports.procDeployService = async function(keystore, passwd, cbptrPre, cb
         Promise.all(promises).then(async () => {
             alldone = true;
             if(cbptrPost != undefined && cbptrPost != null) {
-                await cbptrPost(cmder);
+                await cbptrPost(cmder, result);
             }
         });
         while(alldone == false) {
@@ -348,7 +351,7 @@ module.exports.procDeployService = async function(keystore, passwd, cbptrPre, cb
         }
         return true;
     } catch(error) {
-        let action = `Action: procDeployService`;
+        let action = `Action: procServiceDeploy`;
         Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
         return false;
     }

@@ -72,11 +72,10 @@ module.exports.procCompanyLaunchOrders = async function(keystore, passwd, params
         for(let i = 0; i < count; i++, nonce++) {
             let promise = launch(company, cmder, privkey, orders[i].addr, orders[i].transportid, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
-                    let action = `LAUNCH done!\n` +
-                    `- [ORDER]:  [${BLUE(orders[i].addr)}],\n` +
-                    `- [TID]:    [${BLUE(orders[i].transportid)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
-                    Log('DEBUG', `${action}`);
+                    Log('DEBUG', `LAUNCH done!`);
+                    Log('DEBUG', `- [ORDER]:  ['${BLUE(orders[i].addr)}'],`);
+                    Log('DEBUG', `- [TID]:    [${BLUE(orders[i].transportid)}],`);
+                    Log('DEBUG', `=>[TXHASH]: ['${GREEN(ret)}']`);
                 }
             });
             promises.push(promise);
@@ -136,6 +135,7 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
                 await cbptrPre(cmder); // 콜백함수 포인터가 정상적일 경우, 호출
             }
         }
+        let idmapper = new Array(); // For Demo (주문 컨트랙트 주소 <-> 물류플랫폼사 주문번호 mapping을 위한 테이블)
         let promises = new Array(); // 프로미스 병렬처리를 위한 배열
         for(let i = 0; i < count; i++, nonce++) {
             let addr = orders[i].addr;
@@ -143,12 +143,15 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
             let code = orders[i].code
             let promise = updateOrder(company, cmder, privkey, addr, transportid, code, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
-                    let action = `UPDATE done!\n` +
-                    `- [ORDER]:  [${BLUE(addr)}],\n` +
-                    `- [TID]:    [${BLUE(transportid)}],\n` +
-                    `- [CODE]:   [${BLUE(code)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
-                    Log('DEBUG', `${action}`);
+                    Log('DEBUG', `UPDATE done!`);
+                    Log('DEBUG', `- [ORDER]:  ['${BLUE(addr)}'],`);
+                    Log('DEBUG', `- [TID]:    [${BLUE(transportid)}],`);
+                    Log('DEBUG', `- [CODE]:   [${BLUE(code)}],`);
+                    Log('DEBUG', `=>[TXHASH]: ['${GREEN(ret)}']`);
+                    let idelmt = new Object();
+                    idelmt.address = addr; // 주문 컨트랙트 주소
+                    idelmt.latest = code; // 마지막 주문배송 코드
+                    idmapper.push(idelmt);
                 }
             });
             promises.push(promise);
@@ -156,7 +159,7 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
         Promise.all(promises).then(async () => {
             alldone = true;
             if(cbptrPost != undefined && cbptrPost != null) {
-                await cbptrPost(cmder);
+                await cbptrPost(cmder, idmapper);
             }
         });
         while(alldone == false) {
@@ -213,8 +216,8 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
             let promise = addOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `ADD-OPERATOR done!\n` +
-                    `- [ADDRESS]: [${BLUE(operators[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${GREEN(ret)}]`;
+                    `- [ADDRESS]: ['${BLUE(operators[i].addr)}'],\n` +
+                    `=>[TXHASH]:  ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -280,8 +283,8 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
             let promise = removeOperator(company, cmder, privkey, operators[i].addr, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `REMOVE-OPERATOR done!\n` +
-                    `- [ADDRESS]: [${BLUE(operators[i].addr)}],\n` +
-                    `=>[TXHASH]:  [${GREEN(ret)}]`;
+                    `- [ADDRESS]: ['${BLUE(operators[i].addr)}'],\n` +
+                    `=>[TXHASH]:  ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -347,7 +350,7 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-NAME done!\n` +
                     `- [NAME]:   [${BLUE(name)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
+                    `=>[TXHASH]: ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -358,8 +361,8 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             let promise = setUrl(company, cmder, privkey, url, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-URL done!\n` +
-                    `- [URL]:    [${BLUE(url)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
+                    `- [URL]:    ['${BLUE(url)}'],\n` +
+                    `=>[TXHASH]: ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -370,8 +373,8 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             let promise = setRecipient(company, cmder, privkey, recipient, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `SET-RECIPIENT done!\n` +
-                    `- [RECIPIENT]: [${BLUE(recipient)}],\n` +
-                    `=>[TXHASH]:    [${GREEN(ret)}]`;
+                    `- [RECIPIENT]: ['${BLUE(recipient)}'],\n` +
+                    `=>[TXHASH]:    ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -414,6 +417,7 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
             Log('WARN', `Not found Data to DeployCompany!`);
             return true;
         }
+        let result  = null; // deploy된 company contract 정보를 담을 변수
         let service = params.data.service;
         let name = params.data.name;
         let url = params.data.url;
@@ -430,11 +434,13 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
         for(let i = 0; i < 1; i++, nonce++) {
             let promise = deployCompany(cmder, privkey, name, url, recipient, service, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
-                    let action = `COMPANY DEPLOY done!\n` +
-                    `- [COMPANY]:     [${BLUE(name)}],\n` +
-                    `=>[ADDRESS]:     [${GREEN(ret[0])}],\n` +
-                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
-                    Log('DEBUG', `${action}`);
+                    result = new Object();
+                    result.address  = ret[0];
+                    result.blocknum = ret[1];
+                    Log('DEBUG', `COMPANY DEPLOY done!`);
+                    Log('DEBUG', `- [COMPANY]:     ['${BLUE(name)}'],`);
+                    Log('DEBUG', `=>[ADDRESS]:     ['${GREEN(ret[0])}'],`);
+                    Log('DEBUG', `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`);
                 }
             });
             promises.push(promise);
@@ -442,7 +448,7 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
         Promise.all(promises).then(async () => {
             alldone = true;
             if(cbptrPost != undefined && cbptrPost != null) {
-                await cbptrPost(cmder);
+                await cbptrPost(cmder, result);
             }
         });
         while(alldone == false) {

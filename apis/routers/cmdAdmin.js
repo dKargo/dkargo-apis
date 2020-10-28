@@ -138,12 +138,12 @@ module.exports.cmdAdminRegisterCompanies = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (REGISTER COMPANIES)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (REGISTER COMPANIES) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (REGISTER COMPANIES)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (REGISTER COMPANIES) Account:['${addr.toLowerCase()}']`);
         }
         ApiAdmin.procAdminRegisterCompanies(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -187,12 +187,12 @@ module.exports.cmdAdminUnregisterCompanies = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (UNREGISTER COMPANIES)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (UNREGISTER COMPANIES) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (UNREGISTER COMPANIES)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (UNREGISTER COMPANIES) Account:['${addr.toLowerCase()}']`);
         }
         ApiAdmin.procAdminUnregisterCompanies(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -236,12 +236,12 @@ module.exports.cmdAdminSettleIncentives = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (SETTLE INCENTIVES)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (SETTLE INCENTIVES) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (SETTLE INCENTIVES)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (SETTLE INCENTIVES) Account:['${addr.toLowerCase()}']`);
         }
         ApiAdmin.procAdminSettlement(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS

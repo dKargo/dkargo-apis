@@ -8,6 +8,7 @@
 require('../db.js'); // for mongoose schema import
 const mongoose = require('mongoose');
 const Account  = mongoose.model('ApiAccount'); // Account Schema
+const OrderMap = mongoose.model('ApiOrderMap'); // OrderMap Schema
 //// LOGs
 const Log = require('../../libs/libLog.js').Log; // 로그 출력
 //// LOG COLOR (console)
@@ -45,12 +46,12 @@ module.exports.cmdCompanyDeploy = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (DEPLOY COMPANY)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (DEPLOY COMPANY) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (DEPLOY COMPANY)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (DEPLOY COMPANY) Account:['${addr.toLowerCase()}']`);
         }
         ApiCompany.procCompanyDeploy(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -94,12 +95,12 @@ module.exports.cmdCompanyLaunchOrders = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (LAUNCH ORDERS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (LAUNCH ORDERS) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (LAUNCH ORDERS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (LAUNCH ORDERS) Account:['${addr.toLowerCase()}']`);
         }
         ApiCompany.procCompanyLaunchOrders(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -143,12 +144,18 @@ module.exports.cmdCompanyUpdateOrders = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (UPDATE ORDERS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (UPDATE ORDERS) Account:['${addr.toLowerCase()}']`);
         }
-        let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (UPDATE ORDERS)`);
+        let cbptrPost = async function(addr, idmapper) {
+            for(let i = 0; i < idmapper.length; i++) {
+                if(await OrderMap.countDocuments({address: idmapper[i].address}) != 1) {
+                    Log('ERROR', `Error! Need to check OrderMap {{address: ${idmapper[i].address}}}`);
+                }
+                await OrderMap.collection.updateOne({address: idmapper[i].address}, {$set: {latest: idmapper[i].latest}});
+            }
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (UPDATE ORDERS) Account:['${addr.toLowerCase()}']`);
         }
         ApiCompany.procCompanyUpdateOrders(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -192,12 +199,12 @@ module.exports.cmdCompanyAddOperators = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (ADD OPERATORS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (ADD OPERATORS) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (ADD OPERATORS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (ADD OPERATORS) Account:['${addr.toLowerCase()}']`);
         }
         ApiCompany.procCompanyAddOperator(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -241,12 +248,12 @@ module.exports.cmdCompanyRemoveOperators = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (REMOVE OPERATORS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (REMOVE OPERATORS) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (REMOVE OPERATORS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (REMOVE OPERATORS) Account:['${addr.toLowerCase()}']`);
         }
         ApiCompany.procCompanyRemoveOperators(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -290,12 +297,12 @@ module.exports.cmdCompanysetInfos = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (SET COMPANY INFORMATIONS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (SET COMPANY INFORMATIONS) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (SET COMPANY INFORMATIONS)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (SET COMPANY INFORMATIONS) Account:['${addr.toLowerCase()}']`);
         }
         ApiCompany.procCompanySetInfo(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS

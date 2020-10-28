@@ -35,15 +35,34 @@ const ApiAccount = new mongoose.Schema({
   'cmdName':   String, // 가장 최근에 처리된 혹은 처리중인 COMMAND 이름
   'status':    String, // 현재 상태 (IDLE: 대기 / PROCEEDING: 처리중)
   }, {collection: 'ApiAccount'},);
+/**
+ * @notice 주문번호 <-> 주문 컨트랙트 주소 매핑 Schema
+ * @dev 물류 플랫폼사에서 관리되는 주문번호와 주문 컨트랙트 주소와의 매핑
+ * @dev DEMO 버전
+ * @author jhhong
+ */
+const ApiOrderMap = new mongoose.Schema({
+  'originId': {type: String, index: {unique: true}}, // 각 물류 플랫폼사에서 관리되는 주문번호
+  'address':   String, // 주문 컨트랙트 주소
+  'latest':    String, // 주문의 마지막 상태 (배송코드)
+  'code10':    Number, // 배송코드(10)의 운송번호
+  'code20':    Number, // 배송코드(20)의 운송번호
+  'code30':    Number, // 배송코드(30)의 운송번호
+  'code40':    Number, // 배송코드(40)의 운송번호
+  'code60':    Number, // 배송코드(60)의 운송번호
+  'code70':    Number, // 배송코드(70)의 운송번호
+  }, {collection: 'ApiOrderMap'},);
 
 mongoose.set('useCreateIndex', true); // warning 제거:DeprecationWarning: collection.ensureIndex is deprecated. ...
 mongoose.set('useFindAndModify', false); // warning 제거:DeprecationWarning: Mongoose: `findOneAndUpdate()` and `findOneAndDelete()` ...
 mongoose.model('ApiBlock', ApiBlock); // 스키마 등록 (ApiLogisticsBlock)
 mongoose.model('ApiWork', ApiWork); // 스키마 등록 (ApiWork)
 mongoose.model('ApiAccount', ApiAccount); // 스키마 등록 (ApiAccount)
-module.exports.ApiBlock   = mongoose.model('ApiBlock'); // module.exports
-module.exports.ApiWork    = mongoose.model('ApiWork'); // module.exports
-module.exports.ApiAccount = mongoose.model('ApiAccount'); // module.exports
+mongoose.model('ApiOrderMap', ApiOrderMap); // 스키마 등록 (ApiOrderMap)
+module.exports.ApiBlock        = mongoose.model('ApiBlock'); // module.exports
+module.exports.ApiWork         = mongoose.model('ApiWork'); // module.exports
+module.exports.ApiAccount      = mongoose.model('ApiAccount'); // module.exports
+module.exports.ApiOrderMap     = mongoose.model('ApiOrderMap'); // module.exports
 mongoose.Promise = global.Promise; // nodejs의 기본 프로미스 (global.Promise)를 사용
 
 /**

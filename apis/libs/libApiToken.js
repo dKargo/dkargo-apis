@@ -70,7 +70,7 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
                     let action = `APPROVE done!\n` +
                     `- [TO]:     [${BLUE(approvals[i].addr)}],\n` +
                     `- [AMOUNT]: [${BLUE(approvals[i].amount)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
+                    `=>[TXHASH]: ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -129,7 +129,7 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
                 if(ret != null) { // 정상수행: ret == transaction hash
                     let action = `BURN done!\n` +
                     `- [AMOUNT]: [${BLUE(amount)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
+                    `=>[TXHASH]: ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -197,7 +197,7 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
                     let action = `TRANSFER done!\n` +
                     `- [TO]:     [${BLUE(remittances[i].addr)}],\n` +
                     `- [AMOUNT]: [${BLUE(remittances[i].amount)}],\n` +
-                    `=>[TXHASH]: [${GREEN(ret)}]`;
+                    `=>[TXHASH]: ['${GREEN(ret)}']`;
                     Log('DEBUG', `${action}`);
                 }
             });
@@ -237,6 +237,7 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
             Log('WARN', `Not found Data to DeployToken!`);
             return true;
         }
+        let result  = null; // deploy된 token contract 정보를 담을 변수
         let account = await web3.eth.accounts.decrypt(keystore, passwd);
         let cmder = account.address;
         let privkey = account.privateKey.split('0x')[1];
@@ -252,10 +253,12 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
         for(let i = 0; i < 1; i++, nonce++) {
             let promise = deployToken(cmder, privkey, name, symbol, supply, nonce, gasprice).then(async (ret) => {
                 if(ret != null) { // 정상수행: ret == contract address
-                    let action = `TOKEN DEPLOY done!\n` +
-                    `=>[ADDRESS]:     [${GREEN(ret[0])}]\n` +
-                    `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`;
-                    Log('DEBUG', `${action}`);
+                    result = new Object();
+                    result.address  = ret[0];
+                    result.blocknum = ret[1];
+                    Log('DEBUG', `TOKEN DEPLOY done!`);
+                    Log('DEBUG', `=>[ADDRESS]:     ['${GREEN(ret[0])}'],`);
+                    Log('DEBUG', `=>[BLOCKNUMBER]: [${GREEN(ret[1])}]`);
                 }
             });
             promises.push(promise);
@@ -263,7 +266,7 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
         Promise.all(promises).then(async () => {
             alldone = true;
             if(cbptrPost != undefined && cbptrPost != null) {
-                await cbptrPost(cmder);
+                await cbptrPost(cmder, result);
             }
         });
         while(alldone == false) {

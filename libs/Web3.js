@@ -97,7 +97,7 @@ module.exports.prov1SendTx = async function(privkey, rawtx) {
         const rawdata = '0x' + serialized.toString('hex'); // Raw data 생성
         let receipt = await prov1.eth.sendSignedTransaction(rawdata)
         .on('transactionHash', async function(txhash) {
-            Log('DEBUG', `TX:[${GREEN(txhash)}] Created!`);
+            Log('DEBUG', `TX:['${GREEN(txhash)}'] Created!`);
         }); // 서명된 Transaction 전송
         return receipt; // receipt 정보 반환
     } catch(error) {
@@ -128,7 +128,7 @@ module.exports.prov2SendTx = async function(privkey, rawtx) {
         const rawdata = '0x' + serialized.toString('hex'); // Raw data 생성
         let receipt = await prov2.eth.sendSignedTransaction(rawdata)
         .on('transactionHash', async function(txhash) {
-            Log('DEBUG', `TX:[${GREEN(txhash)}] Created!`);
+            Log('DEBUG', `TX:['${GREEN(txhash)}'] Created!`);
         }); // 서명된 Transaction 전송
         return receipt; // receipt 정보 반환
     } catch(error) {

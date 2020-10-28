@@ -45,12 +45,12 @@ module.exports.cmdTokenApprove = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (APPROVE DKA)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (APPROVE DKA) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (APPROVE DKA)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (APPROVE DKA) Account:['${addr.toLowerCase()}']`);
         }
         ApiToken.procTokenApprove(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -94,12 +94,12 @@ module.exports.cmdTokenBurn = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (BURN DKA)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (BURN DKA) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (BURN DKA)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (BURN DKA) Account:['${addr.toLowerCase()}']`);
         }
         ApiToken.procTokenBurn(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS
@@ -143,12 +143,12 @@ module.exports.cmdTokenTransfer = async function(addr, params) {
             throw new Error('params: Invalid Operation');
         }
         let cbptrPre = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'proceeding'}});
-            Log('DEBUG', `Start Procedure.... (TRANSFER DKA)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'proceeding'}});
+            Log('DEBUG', `Start Procedure.... (TRANSFER DKA) Account:['${addr.toLowerCase()}']`);
         }
         let cbptrPost = async function(addr) {
-            await Account.collection.updateOne({account: addr}, {$set: {status: 'idle'}});
-            Log('DEBUG', `End Procedure...... (TRANSFER DKA)`);
+            await Account.collection.updateOne({account: addr.toLowerCase()}, {$set: {status: 'idle'}});
+            Log('DEBUG', `End Procedure...... (TRANSFER DKA) Account:['${addr.toLowerCase()}']`);
         }
         ApiToken.procTokenTransfer(keystore, account.passwd, params, cbptrPre, cbptrPost);
         let ret = new Object(); // 응답 생성: SUCCESS

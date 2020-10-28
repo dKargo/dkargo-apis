@@ -13,6 +13,7 @@ const cmdTokenApprove             = require('./routers/cmdToken.js').cmdTokenApp
 const cmdTokenBurn                = require('./routers/cmdToken.js').cmdTokenBurn; // 토큰 CMD API: 토큰소각
 const cmdOrdersDeploy             = require('./routers/cmdOrder.js').cmdOrdersDeploy; // 화주 CMD API: 주문 컨트랙트 DEPLOY
 const cmdOrdersSubmit             = require('./routers/cmdOrder.js').cmdOrdersSubmit; // 화주 CMD API: 주문 등록요청
+const cmdOrdersCreate             = require('./routers/cmdOrder.js').cmdOrdersCreate; // 화주 CMD API: 주문 생성 (주문 컨트랙트 DEPLOY + 주문 등록요청)
 const cmdOrderSetInfos            = require('./routers/cmdOrder.js').cmdOrderSetInfos; // 화주 CMD API: 주문 정보설정
 const cmdCompanyDeploy            = require('./routers/cmdCompany.js').cmdCompanyDeploy; // 물류사 CMD API: 물류사 컨트랙트 DEPLOY
 const cmdCompanyLaunchOrders      = require('./routers/cmdCompany.js').cmdCompanyLaunchOrders; // 물류사 CMD API: 주문 접수
@@ -27,6 +28,8 @@ const cmdAdminAddAccounts         = require('./routers/cmdAdmin.js').cmdAdminAdd
 const cmdAdminRemoveAccounts      = require('./routers/cmdAdmin.js').cmdAdminRemoveAccounts; // 관리자 CMD API: 계정해지
 const getAccountStatus            = require('./routers/getAccount.js').getAccountStatus; // 계정 GET API: 계정의 상태정보 획득
 const getCompanyWorks             = require('./routers/getCompany.js').getCompanyWorks; // 물류사 GET API: 물류사가 배송해야 할 업무 리스트 획득
+const findOrderById               = require('./routers/getOrders.js').findOrderById; // 주문 GET API: 주문번호에 해당하는 주문의 정보 획득
+const findOrderByAddress          = require('./routers/getOrders.js').findOrderByAddress; // 주문 GET API: 주문 컨트랙트 주소에 해당하는 주문의 정보 획득
 
 /**
  * @notice API routing 수행 함수
@@ -50,6 +53,24 @@ module.exports = function(app) {
      */
     app.get('/getCompanyWorks/:address', async function(req, res) {
         let ret = await getCompanyWorks(req.params.address);
+        res.end(ret);
+    });
+    /**
+     * @notice 물류플랫폼사의 주문번호에 대응되는 주문 컨트랙트 주소를 얻어온다.
+     * @dev 수행주체: any, For Demo:
+     * @author jhhong
+     */
+    app.get('/findOrderById/:originId', async function(req, res) {
+        let ret = await findOrderById(req.params.originId);
+        res.end(ret);
+    });
+    /**
+     * @notice 물류플랫폼사의 주문번호에 대응되는 주문 컨트랙트 주소를 얻어온다.
+     * @dev 수행주체: any, For Demo:
+     * @author jhhong
+     */
+    app.get('/findOrderByAddress/:originId', async function(req, res) {
+        let ret = await findOrderByAddress(req.params.originId);
         res.end(ret);
     });
     /**
@@ -100,6 +121,18 @@ module.exports = function(app) {
      */
     app.post('/cmdOrdersSubmit/:address', async function(req, res) {
         let ret = await cmdOrdersSubmit(req.params.address, req.body);
+        res.json(ret);
+    });
+    /**
+     * @notice 주문 생성 프로시져
+     * @dev 수행주체: 화주
+     * @dev cmdOrdersDeploy + cmdOrdersSubmit의 기능 수행
+     * @dev params format은 cmdOrdersDeploy와 동일함
+     * @see https://github.com/dKargo/dkargo-apis/tree/master/docs/protocols/procOrderDeploy.json
+     * @author jhhong
+     */
+    app.post('/cmdOrdersCreate/:address', async function(req, res) {
+        let ret = await cmdOrdersCreate(req.params.address, req.body);
         res.json(ret);
     });
     /**

@@ -125,10 +125,7 @@ let getStartBlock = async function(addr, defaultblock) {
             if(latest.blockNumber >= defaultblock) { // 마지막 처리된 이벤트 내용을 Work Schema에서 삭제 (중복저장 방지)
                 let ret = await Work.deleteMany({blocknumber: latest.blockNumber});
                 if(ret != null) {
-                    let action = `Work.deleteMany done!\n` +
-                    `- [Matched]:      [${GREEN(ret.n)}],\n` +
-                    `- [Successful]:   [${GREEN(ret.ok)}],\n` +
-                    `- [DeletedCount]: [${GREEN(ret.deletedCount)}]`;
+                    let action = `Delete done! (Work) count:[${GREEN(ret.deletedCount)}]`;
                     Log('DEBUG', `${action}`);
                 }
                 return latest.blockNumber;
@@ -227,7 +224,7 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN('CompanyRegistered')}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- address....: [${GREEN(ret[idx].company)}]`);
+                            Log('DEBUG', `- address....: ['${GREEN(ret[idx].company)}']`);
                         }
                     }
                     break;
@@ -237,7 +234,7 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN('CompanyUnregistered')}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- address....: [${GREEN(ret[idx].company)}]`);
+                            Log('DEBUG', `- address....: ['${GREEN(ret[idx].company)}']`);
                         }
                     }
                     break;
@@ -247,7 +244,7 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN(`Settled`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- addr.....: [${GREEN(ret[idx].addr)}]`);
+                            Log('DEBUG', `- addr.....: ['${GREEN(ret[idx].addr)}']`);
                             Log('DEBUG', `- value....: [${GREEN(ret[idx].value)}] DKA`);
                             Log('DEBUG', `- rests....: [${GREEN(ret[idx].rests)}] DKA`);
                         }
@@ -259,9 +256,9 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN(`OrderTransferred`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- order..........: [${GREEN(ret[idx].order)}]`);
-                            Log('DEBUG', `- from...........: [${GREEN(ret[idx].from)}]`);
-                            Log('DEBUG', `- to.............: [${GREEN(ret[idx].to)}]`);
+                            Log('DEBUG', `- order..........: ['${GREEN(ret[idx].order)}']`);
+                            Log('DEBUG', `- from...........: ['${GREEN(ret[idx].from)}']`);
+                            Log('DEBUG', `- to.............: ['${GREEN(ret[idx].to)}']`);
                             Log('DEBUG', `- transportid....: [${GREEN(ret[idx].transportid)}]`);
                             if(ret[idx].transportid != 1) { // 주문의 최초상태변경이 아닌 경우, 이전 상태변경 이벤트가 반드시 존재함 -> 해당 이벤트의 execute 필드를 true로 변경해야 함
                                 let lasttid = ret[idx].transportid - 1;
@@ -271,8 +268,8 @@ let parseEvents = async function(table, txdata, receipt) {
                                     {new: true});
                                 if(data == null) {
                                     let action = `Not Found Previous Event!\n` +
-                                    `- [ORDER]:       [${BLUE(ret[idx].order)}]\n` +
-                                    `- [COMPANY]:     [${BLUE(ret[idx].from)}]\n` +
+                                    `- [ORDER]:       ['${BLUE(ret[idx].order)}']\n` +
+                                    `- [COMPANY]:     ['${BLUE(ret[idx].from)}']\n` +
                                     `- [TRANSPORTID]: [${BLUE(lasttid)}]`;
                                     Log('DEBUG', `ERROR: ${action}`);
                                 }
@@ -293,7 +290,7 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN(`IncentiveUpdated`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- addr.....: [${GREEN(ret[idx].addr)}]`);
+                            Log('DEBUG', `- addr.....: ['${GREEN(ret[idx].addr)}']`);
                             Log('DEBUG', `- value....: [${GREEN(ret[idx].value)}]`);
                         }
                     }
@@ -304,7 +301,7 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN(`OrderCreated`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- address....: [${GREEN(ret[idx].order)}]`);
+                            Log('DEBUG', `- address....: ['${GREEN(ret[idx].order)}']`);
                             Log('DEBUG', `- id.........: [${GREEN(ret[idx].id)}]`);
                         }
                     }
@@ -312,9 +309,9 @@ let parseEvents = async function(table, txdata, receipt) {
                     if (ret != null) {
                         for(let idx = 0; idx < ret.length; idx++) {
                             Log('INFO',  `EVENT:[${CYAN(`OrderTransferred`)}], BLOCK:[${BLUE(txdata.blockNumber)}]`);
-                            Log('DEBUG', `- order..........: [${GREEN(ret[idx].order)}]`);
-                            Log('DEBUG', `- from...........: [${GREEN(ret[idx].from)}]`);
-                            Log('DEBUG', `- to.............: [${GREEN(ret[idx].to)}]`);
+                            Log('DEBUG', `- order..........: ['${GREEN(ret[idx].order)}']`);
+                            Log('DEBUG', `- from...........: ['${GREEN(ret[idx].from)}']`);
+                            Log('DEBUG', `- to.............: ['${GREEN(ret[idx].to)}']`);
                             Log('DEBUG', `- transportid....: [${GREEN(ret[idx].transportid)}]`);
                             if(ret[idx].transportid != 1) { // 주문의 최초상태변경이 아닌 경우, 이전 상태변경 이벤트가 반드시 존재함 -> 해당 이벤트의 execute 필드를 true로 변경해야 함
                                 let lasttid = ret[idx].transportid - 1;
@@ -324,8 +321,8 @@ let parseEvents = async function(table, txdata, receipt) {
                                     {new: true});
                                 if(data == null) {
                                     let action = `Not Found Previous Event!\n` +
-                                    `- [ORDER]:       [${BLUE(ret[idx].order)}]\n` +
-                                    `- [COMPANY]:     [${BLUE(ret[idx].from)}]\n` +
+                                    `- [ORDER]:       ['${BLUE(ret[idx].order)}']\n` +
+                                    `- [COMPANY]:     ['${BLUE(ret[idx].from)}']\n` +
                                     `- [TRANSPORTID]: [${BLUE(lasttid)}]`;
                                     Log('DEBUG', `ERROR: ${action}`);
                                 }
