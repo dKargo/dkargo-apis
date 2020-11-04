@@ -21,51 +21,12 @@ const GREEN = require('../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력
 const BLUE  = require('../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
 const GRAY  = require('../libs/libLog.js').consoleGray; // 콘솔 컬러 출력: GRAY
 const CYAN  = require('../libs/libLog.js').consoleCyan; // 콘솔 컬러 출력: CYAN
-//// ABIs & LIBs
-const abiERC165  = require('../build/contracts/ERC165.json').abi; // 컨트랙트 ABI
-const abiPrefix  = require('../build/contracts/DkargoPrefix.json').abi; // 컨트랙트 ABI
+//// CONSTANTs
 const abiService = require('../build/contracts/DkargoService.json').abi; // Service Contract ABI
 const ZEROADDR   = require('../libs/libCommon.js').ZEROADDR; // ZERO-ADDRESS 상수
-
-/**
- * @notice ca가 디카르고 컨트랙트 증명을 위한 인터페이스를 지원하는지 확인한다.
- * @param {string} ca 컨트랙트 주소
- * @return boolean (true: 지원(O), false: 지원(X))
- * @author jhhong
- */
-let isDkargoContract = async function(ca) {
-    try {
-        let ERC165 = new web3.eth.Contract(abiERC165, ca);
-        if(await ERC165.methods.supportsInterface('0x01ffc9a7').call() != true) {
-            throw new Error(`<supportsInterface> Not Supported!`);
-        }
-        if(await ERC165.methods.supportsInterface('0x946edbed').call() != true) {
-            throw new Error(`<getDkargoPrefix> Not Supported!`);
-        }
-        return true;
-    } catch(error) {
-        let action = `Action: isDkargoContract`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-        return false;
-    }
-}
-
-/**
- * @notice 디카르고 컨트랙트의 Prefix를 읽어온다.
- * @param {string} ca 컨트랙트 주소
- * @return Prefix(String:정상수행) / null(오류발생)
- * @author jhhong
- */
-let getDkargoPrefix = async function(ca) {
-    try {
-        let DkargoPrefix = new web3.eth.Contract(abiPrefix, ca);
-        return await DkargoPrefix.methods.getDkargoPrefix().call();
-    } catch(error) {
-        let action = `Action: getDkargoPrefix`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-        return false;
-    }
-}
+//// LIBs
+const isDkargoContract = require('../libs/libCommon.js').isDkargoContract; // 디카르고에서 발행한 컨트랙트 주소인지 확인하는 함수
+const getDkargoPrefix  = require('../libs/libCommon.js').getDkargoPrefix;  // 디카르고 컨트랙트의 Prefix를 확인하는 함수
 
 /**
  * @notice 블록에 service 컨트랙트가 실제로 존재하는지 확인한다.

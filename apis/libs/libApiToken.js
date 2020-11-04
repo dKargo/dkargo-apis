@@ -16,13 +16,13 @@ const Log = require('../../libs/libLog.js').Log; // 로그 출력
 const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 const GREEN = require('../../libs/libLog.js').consoleGreen;
 const BLUE  = require('../../libs/libLog.js').consoleBlue;
-//// LIBs (libCommon)
-const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 //// LIBs (libDkargoToken)
 const approve     = require('../../libs/libDkargoToken.js').approve; // approve: 토큰 위임 함수
 const burn        = require('../../libs/libDkargoToken.js').burn; // burn: 토큰 소각 함수
 const transfer    = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 송금 함수
 const deployToken = require('../../libs/libDkargoToken.js').deployToken; // deployToken: 토큰 컨트랙트 deploy 함수
+//// LIBs (etc)
+const libCommon = require('../../libs/libCommon.js'); // Common Libarary
 
 
 /**
@@ -83,7 +83,7 @@ module.exports.procTokenApprove = async function(keystore, passwd, params, cbptr
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -142,7 +142,7 @@ module.exports.procTokenBurn = async function(keystore, passwd, params, cbptrPre
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -210,7 +210,7 @@ module.exports.procTokenTransfer = async function(keystore, passwd, params, cbpt
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -270,7 +270,7 @@ module.exports.procTokenDeploy = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {

@@ -18,8 +18,6 @@ const Log = require('../../libs/libLog.js').Log; // 로그 출력
 const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 const GREEN = require('../../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
 const BLUE  = require('../../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
-//// LIBs (libCommon)
-const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 //// LIBs (libDkargoCompany)
 const launch         = require('../../libs/libDkargoCompany.js').launch; // launch: 주문 접수 함수
 const updateOrder    = require('../../libs/libDkargoCompany.js').updateOrderCode; // updateOrder: 주문 상태갱신 함수
@@ -29,6 +27,8 @@ const setName        = require('../../libs/libDkargoCompany.js').setName; // set
 const setUrl         = require('../../libs/libDkargoCompany.js').setUrl; // setUrl: 물류사 URL 설정 함수
 const setRecipient   = require('../../libs/libDkargoCompany.js').setRecipient; // setRecipient: 물류사 수취인주소 설정 함수
 const deployCompany  = require('../../libs/libDkargoCompany.js').deployCompany; // deployCompany: 물류사 컨트랙트 deploy 함수
+//// LIBs (etc)
+const libCommon = require('../../libs/libCommon.js'); // Common Libarary
 
 /**
  * @notice 주문을 접수한다.
@@ -87,7 +87,7 @@ module.exports.procCompanyLaunchOrders = async function(keystore, passwd, params
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -163,7 +163,7 @@ module.exports.procCompanyUpdateOrders = async function(keystore, passwd, params
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -230,7 +230,7 @@ module.exports.procCompanyAddOperator = async function(keystore, passwd, params,
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -297,7 +297,7 @@ module.exports.procCompanyRemoveOperators = async function(keystore, passwd, par
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -387,7 +387,7 @@ module.exports.procCompanySetInfo = async function(keystore, passwd, params, cbp
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -452,7 +452,7 @@ module.exports.procCompanyDeploy = async function(keystore, passwd, params, cbpt
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {

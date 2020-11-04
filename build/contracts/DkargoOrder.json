@@ -361,7 +361,7 @@
         "id": 737,
         "nodeType": "ImportDirective",
         "scope": 1602,
-        "sourceUnit": 3448,
+        "sourceUnit": 3442,
         "src": "87:43:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -372,7 +372,7 @@
         "id": 738,
         "nodeType": "ImportDirective",
         "scope": 1602,
-        "sourceUnit": 3576,
+        "sourceUnit": 3570,
         "src": "131:28:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -383,7 +383,7 @@
         "id": 739,
         "nodeType": "ImportDirective",
         "scope": 1602,
-        "sourceUnit": 4936,
+        "sourceUnit": 4930,
         "src": "160:37:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -398,10 +398,10 @@
               "id": 741,
               "name": "ERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3447,
+              "referencedDeclaration": 3441,
               "src": "800:6:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC165_$3447",
+                "typeIdentifier": "t_contract$_ERC165_$3441",
                 "typeString": "contract ERC165"
               }
             },
@@ -430,8 +430,8 @@
         ],
         "contractDependencies": [
           1628,
-          3447,
-          3458
+          3441,
+          3452
         ],
         "contractKind": "contract",
         "documentation": {
@@ -445,8 +445,8 @@
         "linearizedBaseContracts": [
           1601,
           1628,
-          3447,
-          3458
+          3441,
+          3452
         ],
         "name": "DkargoOrder",
         "nodeType": "ContractDefinition",
@@ -458,10 +458,10 @@
               "id": 745,
               "name": "Address",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3575,
+              "referencedDeclaration": 3569,
               "src": "833:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Address_$3575",
+                "typeIdentifier": "t_contract$_Address_$3569",
                 "typeString": "library Address"
               }
             },
@@ -486,10 +486,10 @@
               "id": 748,
               "name": "SafeMath256",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4935,
+              "referencedDeclaration": 4929,
               "src": "864:11:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath256_$4935",
+                "typeIdentifier": "t_contract$_SafeMath256_$4929",
                 "typeString": "library SafeMath256"
               }
             },
@@ -1545,7 +1545,7 @@
                             "lValueRequested": false,
                             "memberName": "isContract",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 3478,
+                            "referencedDeclaration": 3472,
                             "src": "3225:18:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$bound_to$_t_address_$",
@@ -2331,7 +2331,7 @@
                       "name": "_registerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3446,
+                      "referencedDeclaration": 3440,
                       "src": "3689:18:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes4_$returns$__$",
@@ -2813,7 +2813,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 4806,
+                        "referencedDeclaration": 4800,
                         "src": "4022:20:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -3200,7 +3200,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4806,
+                              "referencedDeclaration": 4800,
                               "src": "4309:20:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -4867,7 +4867,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 4806,
+                        "referencedDeclaration": 4800,
                         "src": "5736:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -5720,7 +5720,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4806,
+                              "referencedDeclaration": 4800,
                               "src": "6816:12:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -9705,7 +9705,7 @@
                       "lValueRequested": false,
                       "memberName": "_vcall",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3574,
+                      "referencedDeclaration": 3568,
                       "src": "11359:23:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -10131,7 +10131,7 @@
                       "lValueRequested": false,
                       "memberName": "_vcall",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3574,
+                      "referencedDeclaration": 3568,
                       "src": "11717:24:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -10626,7 +10626,7 @@
                       "lValueRequested": false,
                       "memberName": "_call",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3510,
+                      "referencedDeclaration": 3504,
                       "src": "12166:23:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -11022,7 +11022,7 @@
                       "lValueRequested": false,
                       "memberName": "_call",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3510,
+                      "referencedDeclaration": 3504,
                       "src": "12763:23:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -11964,7 +11964,7 @@
         "id": 737,
         "nodeType": "ImportDirective",
         "scope": 1602,
-        "sourceUnit": 3448,
+        "sourceUnit": 3442,
         "src": "87:43:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -11975,7 +11975,7 @@
         "id": 738,
         "nodeType": "ImportDirective",
         "scope": 1602,
-        "sourceUnit": 3576,
+        "sourceUnit": 3570,
         "src": "131:28:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -11986,7 +11986,7 @@
         "id": 739,
         "nodeType": "ImportDirective",
         "scope": 1602,
-        "sourceUnit": 4936,
+        "sourceUnit": 4930,
         "src": "160:37:2",
         "symbolAliases": [],
         "unitAlias": ""
@@ -12001,10 +12001,10 @@
               "id": 741,
               "name": "ERC165",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3447,
+              "referencedDeclaration": 3441,
               "src": "800:6:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC165_$3447",
+                "typeIdentifier": "t_contract$_ERC165_$3441",
                 "typeString": "contract ERC165"
               }
             },
@@ -12033,8 +12033,8 @@
         ],
         "contractDependencies": [
           1628,
-          3447,
-          3458
+          3441,
+          3452
         ],
         "contractKind": "contract",
         "documentation": {
@@ -12048,8 +12048,8 @@
         "linearizedBaseContracts": [
           1601,
           1628,
-          3447,
-          3458
+          3441,
+          3452
         ],
         "name": "DkargoOrder",
         "nodeType": "ContractDefinition",
@@ -12061,10 +12061,10 @@
               "id": 745,
               "name": "Address",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3575,
+              "referencedDeclaration": 3569,
               "src": "833:7:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Address_$3575",
+                "typeIdentifier": "t_contract$_Address_$3569",
                 "typeString": "library Address"
               }
             },
@@ -12089,10 +12089,10 @@
               "id": 748,
               "name": "SafeMath256",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4935,
+              "referencedDeclaration": 4929,
               "src": "864:11:2",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_SafeMath256_$4935",
+                "typeIdentifier": "t_contract$_SafeMath256_$4929",
                 "typeString": "library SafeMath256"
               }
             },
@@ -13148,7 +13148,7 @@
                             "lValueRequested": false,
                             "memberName": "isContract",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 3478,
+                            "referencedDeclaration": 3472,
                             "src": "3225:18:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$bound_to$_t_address_$",
@@ -13934,7 +13934,7 @@
                       "name": "_registerInterface",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 3446,
+                      "referencedDeclaration": 3440,
                       "src": "3689:18:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_bytes4_$returns$__$",
@@ -14416,7 +14416,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 4806,
+                        "referencedDeclaration": 4800,
                         "src": "4022:20:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -14803,7 +14803,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4806,
+                              "referencedDeclaration": 4800,
                               "src": "4309:20:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -16470,7 +16470,7 @@
                         "lValueRequested": false,
                         "memberName": "add",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 4806,
+                        "referencedDeclaration": 4800,
                         "src": "5736:12:2",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -17323,7 +17323,7 @@
                               "lValueRequested": false,
                               "memberName": "add",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 4806,
+                              "referencedDeclaration": 4800,
                               "src": "6816:12:2",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_internal_pure$_t_uint256_$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -21308,7 +21308,7 @@
                       "lValueRequested": false,
                       "memberName": "_vcall",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3574,
+                      "referencedDeclaration": 3568,
                       "src": "11359:23:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -21734,7 +21734,7 @@
                       "lValueRequested": false,
                       "memberName": "_vcall",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3574,
+                      "referencedDeclaration": 3568,
                       "src": "11717:24:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_view$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -22229,7 +22229,7 @@
                       "lValueRequested": false,
                       "memberName": "_call",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3510,
+                      "referencedDeclaration": 3504,
                       "src": "12166:23:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -22625,7 +22625,7 @@
                       "lValueRequested": false,
                       "memberName": "_call",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 3510,
+                      "referencedDeclaration": 3504,
                       "src": "12763:23:2",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_bytes_memory_ptr_$returns$_t_bytes_memory_ptr_$bound_to$_t_address_$",
@@ -23534,7 +23534,7 @@
   },
   "networks": {},
   "schemaVersion": "3.2.3",
-  "updatedAt": "2020-10-15T10:01:28.570Z",
+  "updatedAt": "2020-11-04T09:32:53.789Z",
   "devdoc": {
     "author": "jhhong",
     "details": "to-do.list 1. 주문 취소 기능 구현 필요 여부 확인 / 구현 방안 (어느단계까지 취소 가능 / 취소 시 반품은 어떻게 할지) 2. 배송 트래킹 추가 시 multi-signature 필요 여부 확인 (현재는 넘겨주는 쪽에서 단독으로 트래킹 추가, 물건을 받는 쪽에서의 multi-signature가 필요해 보임) 3. 트래킹 정보 수정 기능 추가 필요 여부 확인 (수정을 해도 그 내역은 블록체인에 기록됨)",

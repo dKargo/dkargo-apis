@@ -15,12 +15,12 @@ const Log = require('../../libs/libLog.js').Log; // 로그 출력
 const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 const GREEN = require('../../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
 const BLUE  = require('../../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
-//// LIBs (libCommon)
-const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 //// LIBs (libDkargoOrder)
 const submitOrder = require('../../libs/libDkargoOrder.js').submitOrderCreate; // submitOrderCreate: 주문 요청 함수
 const setUrl      = require('../../libs/libDkargoOrder.js').setUrl; // setUrl: 주문 상세정보가 저장된 URL 설정 함수
 const deployOrder = require('../../libs/libDkargoOrder.js').deployOrder; // deployOrder: 주문 컨트랙트 deploy 함수
+//// LIBs (etc)
+const libCommon = require('../../libs/libCommon.js'); // Common Libarary
 
 /**
  * @notice 주문을 요청한다.
@@ -78,7 +78,7 @@ module.exports.procOrderSubmit = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -143,7 +143,7 @@ module.exports.procOrderSetInfo = async function(keystore, passwd, params, cbptr
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -238,7 +238,7 @@ module.exports.procOrderDeploy = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -343,7 +343,7 @@ module.exports.procOrderCreate = async function(keystore, passwd, params, cbptrP
             alldone = true;
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         alldone  = false;
         promises = [];
@@ -365,7 +365,7 @@ module.exports.procOrderCreate = async function(keystore, passwd, params, cbptrP
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {

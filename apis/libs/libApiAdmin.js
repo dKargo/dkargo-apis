@@ -20,8 +20,6 @@ const Log = require('../../libs/libLog.js').Log; // 로그 출력
 const RED   = require('../../libs/libLog.js').consoleRed; // 콘솔 컬러 출력: RED
 const GREEN = require('../../libs/libLog.js').consoleGreen; // 콘솔 컬러 출력: GREEN
 const BLUE  = require('../../libs/libLog.js').consoleBlue; // 콘솔 컬러 출력: BLUE
-//// LIBs (libCommon)
-const msleep = require('../../libs/libCommon.js').delay; // milli-second sleep 함수 (promise 수행완료 대기용)
 //// LIBs (libDkargoService)
 const register       = require('../../libs/libDkargoService.js').register; // register: 물류사 등록 함수
 const unregister     = require('../../libs/libDkargoService.js').unregister; // unregister: 물류사 등록해제 함수
@@ -31,8 +29,10 @@ const incentives     = require('../../libs/libDkargoService.js').incentives; // 
 const nextRecipient  = require('../../libs/libDkargoService.js').nextRecipient; // nextRecipient: 다음 인센티브 수령자 주소 획득함수
 const recipientCount = require('../../libs/libDkargoService.js').recipientCount; // recipientCount: 인센티브 수령자 총 카운트 획득함수
 const deployService  = require('../../libs/libDkargoService.js').deployService; // deployService: 서비스 컨트랙트 deploy 함수
-//// LIBs (libDkargoToken)
-const transfer = require('../../libs/libDkargoToken.js').transfer; // transfer: 토큰 전송 함수
+//// LIBs (etc)
+const libCommon        = require('../../libs/libCommon.js'); // Common Libarary
+const libDkargoCompany = require('../../libs/libDkargoCompany.js'); // 물류사 컨트랙트 관련 Library
+const libDkargoToken   = require('../../libs/libDkargoToken.js'); // 토큰 컨트랙트 관련 Library
 
 /**
  * @notice 물류사를 등록한다.
@@ -91,7 +91,7 @@ module.exports.procAdminRegisterCompanies = async function(keystore, passwd, par
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -158,7 +158,7 @@ module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, p
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -181,31 +181,45 @@ module.exports.procAdminUnregisterCompanies = async function(keystore, passwd, p
  */
 let transferIncentives = async function(service, token, from, privkey, nonce, gasprice = 0) {
     try {
-        let settles  = new Array(); // 반환값(계정 리스트)이 담길 배열
-        let promises = new Array(); // 프로미스 병렬처리를 위한 배열
-        let alldone  = true; // 흐름제어용 변수, 초기값 = 0: transfer 호출이 일어나지 않아 alldone값 변경이 일어나지 않을 경우에 대한 예외처리
+        let settles   = new Array(); // 정산될 계정 리스트가 담길 배열
+        let promises  = new Array(); // 프로미스 병렬처리를 위한 배열
+        let transfers = new Array(); // 인센티브 송금이 일어날 계정 리스트가 담길 배열
         for(let addr = await firstRecipient(service); addr != ZEROADDR; addr = await nextRecipient(service, addr)) {
             let amount = (await incentives(service, addr))[1]; // "addr"가 정산받아야 할 인센티브 양
             if(amount == 0) { // 이번에 정산받아야 할 금액이 없는 경우
-                settles.push(addr); // 계정 리스트에 추가 (transfer()는 수행되지 않음)
+                settles.push(addr); // 정산될 계정 리스트에 추가한다.(transfer()는 수행되지 않음)
             } else { // 이번에 정산받아야 할 금액이 있는 경우
-                if (alldone == true) {
-                    alldone = false; // transfer 호출이 일어남, alldone을 false로 두어 아래의 Waiting Code를 활성화 시킨다.
-                }
-                let promise = transfer(token, from, privkey, addr, amount, nonce, gasprice).then(async (hash) => {
-                    if(hash != null) { // transfer가 정상 처리되었을 경우
-                        settles.push(addr); // 반환값 배열에 계정주소를 추가한다.
+                let recipient = undefined;
+                if(await web3.eth.getCode(addr) > 3) { // CA (EOA 판정조건--> geth: 0x, ganache: 0x0)
+                    if((await libCommon.isDkargoContract(addr) != true) || (await libCommon.getDkargoPrefix(addr) != 'company')) {
+                        throw new Error(`Invalid CA:[${addr}]! not "company"!`);
                     }
-                });
-                promises.push(promise); // PROMISE 처리 완료를 감지하기 위해 promises 배열에 추가한다.
-                nonce++
+                    recipient = libDkargoCompany.recipient(addr); // 물류사 컨트랙트의 수취인 주소 (실제 인센티브를 수령할 주소)
+                } else {
+                    recipient = addr;
+                }
+                let elmt = new Object();
+                elmt.addr = recipient;
+                elmt.amount = amount;
+                transfers.push(elmt); // 인센티브 송금 리스트에 추가한다.
+                settles.push(addr); // 정산될 계정 리스트에 추가한다.
             }
+        }
+        let alldone = (transfers.length > 0)? (false) : (true); // 흐름제어용 변수, 송금 리스트가 있을 경우 -> alldone=false -> 아래 Waiting Code를 활성화
+        for(let i = 0; i < transfers.length; i++) {
+            let promise = libDkargoToken.transfer(token, from, privkey, addr, amount, nonce, gasprice).then(async (hash) => {
+                if(hash != null) { // transfer가 정상 처리되었을 경우
+                    settles.push(addr); // 반환값 배열에 계정주소를 추가한다.
+                }
+            });
+            promises.push(promise); // PROMISE 처리 완료를 감지하기 위해 promises 배열에 추가한다.
+            nonce++
         }
         Promise.all(promises).then(async () => {
             alldone = true;
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return settles;
     } catch(error) {
@@ -238,7 +252,7 @@ let settlement = async function(service, from, privkey, recipients, nonce, gaspr
             alldone = true;
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
@@ -347,7 +361,7 @@ module.exports.procServiceDeploy = async function(keystore, passwd, cbptrPre, cb
             }
         });
         while(alldone == false) {
-            await msleep(10);
+            await libCommon.delay(10);
         }
         return true;
     } catch(error) {
