@@ -194,7 +194,7 @@ let transferIncentives = async function(service, token, from, privkey, nonce, ga
                     if((await libCommon.isDkargoContract(addr) != true) || (await libCommon.getDkargoPrefix(addr) != 'company')) {
                         throw new Error(`Invalid CA:[${addr}]! not "company"!`);
                     }
-                    recipient = libDkargoCompany.recipient(addr); // 물류사 컨트랙트의 수취인 주소 (실제 인센티브를 수령할 주소)
+                    recipient = await libDkargoCompany.recipient(addr); // 물류사 컨트랙트의 수취인 주소 (실제 인센티브를 수령할 주소)
                 } else {
                     recipient = addr;
                 }
@@ -207,11 +207,7 @@ let transferIncentives = async function(service, token, from, privkey, nonce, ga
         }
         let alldone = (transfers.length > 0)? (false) : (true); // 흐름제어용 변수, 송금 리스트가 있을 경우 -> alldone=false -> 아래 Waiting Code를 활성화
         for(let i = 0; i < transfers.length; i++) {
-            let promise = libDkargoToken.transfer(token, from, privkey, addr, amount, nonce, gasprice).then(async (hash) => {
-                if(hash != null) { // transfer가 정상 처리되었을 경우
-                    settles.push(addr); // 반환값 배열에 계정주소를 추가한다.
-                }
-            });
+            let promise = libDkargoToken.transfer(token, from, privkey, transfers[i].addr, transfers[i].amount, nonce, gasprice);
             promises.push(promise); // PROMISE 처리 완료를 감지하기 위해 promises 배열에 추가한다.
             nonce++
         }
