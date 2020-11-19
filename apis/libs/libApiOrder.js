@@ -331,9 +331,9 @@ module.exports.procOrderCreate = async function(keystore, passwd, params, cbptrP
                             case '30': idelmt.code30 = i; break;
                             case '40': idelmt.code40 = i; break;
                             case '60': idelmt.code60 = i; break;
+                            case '70': idelmt.code70 = i; break;
                         }
                     }
-                    idelmt.code70 = codes.length;
                     idmapper.push(idelmt);
                 }
             });

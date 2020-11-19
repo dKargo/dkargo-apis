@@ -35,44 +35,6 @@ module.exports.companyCount = async function(ca) {
 }
 
 /**
- * @notice 물류사가 배송완료한 주문의 개수를 반환한다.
- * @param {string} ca      서비스 컨트랙트 주소
- * @param {string} company 물류사 컨트랙트 주소
- * @return 물류사가 배송완료한 주문의 개수(number)
- * @author jhhong
- */
-module.exports.completeOrders = async function(ca, company) {
-    try {
-        let service = new web3.eth.Contract(abi, ca);
-        return await service.methods.completeOrders(company).call();
-    } catch(error) {
-        let action = `Action: completeOrders
-        - [ca]:      [${ca}],
-        - [company]: [${company}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-    }
-}
-
-/**
- * @notice 물류사가 담당한 주문의 총 개수를 반환한다.
- * @param {string} ca      서비스 컨트랙트 주소
- * @param {string} company 물류사 컨트랙트 주소
- * @return 물류사가 담당한 주문의 총 개수(number)
- * @author jhhong
- */
-module.exports.totalOrders = async function(ca, company) {
-    try {
-        let service = new web3.eth.Contract(abi, ca);
-        return await service.methods.totalOrders(company).call();
-    } catch(error) {
-        let action = `Action: totalOrders
-        - [ca]:      [${ca}],
-        - [company]: [${company}]`;
-        Log('ERROR', `exception occured!:\n${action}\n${RED(error.stack)}`);
-    }
-}
-
-/**
  * @notice 등록된 물류사 리스트에서 첫번째 엘리먼트를 반환한다.
  * @param {string} ca 서비스 컨트랙트 주소
  * @return 등록된 물류사 리스트의 첫번째 엘리먼트(address)
